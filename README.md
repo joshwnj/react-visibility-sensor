@@ -1,14 +1,12 @@
-React Plain Table
+React Visibility Sensor
 ====
 
-[![Build Status](https://secure.travis-ci.org/joshwnj/react-plain-table.png)](http://travis-ci.org/joshwnj/react-plain-table)
-
-General-purpose table presentation component for React.
+Sensor component for React that notifies you when it goes in or out of the window viewport.
 
 Install
 ----
 
-`npm install react-plain-table`
+`npm install react-visibility-sensor`
 
 Usage
 ----
