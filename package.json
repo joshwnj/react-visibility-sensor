@@ -16,6 +16,13 @@
   "dependencies": {
     "react": "^0.11.1"
   },
+  "devDependencies": {
+    "jsdom": "~0.10.5",
+    "node-jsx": "^0.11.0",
+    "react-addons": "^0.9.0",
+    "react-tools": "^0.11.1",
+    "tape": "^2.14.0"
+  },
   "browserify": {
     "transform": [
       [
