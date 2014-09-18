@@ -8,6 +8,7 @@ module.exports = React.createClass({
 
   propTypes: {
     onChange: React.PropTypes.func.isRequired,
+    active: React.PropTypes.bool,
     delay: React.PropTypes.number
   },
 
