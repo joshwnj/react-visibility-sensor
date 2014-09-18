@@ -22,6 +22,7 @@
     "karma": "^0.12.23",
     "karma-chrome-launcher": "^0.1.4",
     "karma-mocha": "^0.1.9",
+    "karma-phantomjs-launcher": "^0.1.4",
     "mocha": "^1.21.4",
     "react-addons": "^0.9.0",
     "react-tools": "^0.11.1",

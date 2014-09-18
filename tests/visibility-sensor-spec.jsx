@@ -1,5 +1,7 @@
 /** @jsx React.DOM */
 
+require('./function-bind-polyfill')();
+
 var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
 var assert = require('assert');
@@ -14,7 +16,7 @@ describe('VisibilitySensor', function () {
 
   afterEach(function () {
     React.unmountComponentAtNode(elem);
-    elem.remove();
+    document.body.removeChild(elem);
   });
 
   var VisibilitySensor = require('../visibility-sensor.jsx');
