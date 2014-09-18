@@ -4,7 +4,7 @@
   "description": "Sensor component for React that notifies you when it goes in or out of the window viewport.",
   "main": "visibility-sensor.jsx",
   "scripts": {
-    "build-test": "browserify -t reactify -o tests/bundle.js tests/visibility-sensor-spec.jsx",
+    "build-test": "./node_modules/.bin/browserify -t ./node_modules/reactify -o tests/bundle.js tests/visibility-sensor-spec.jsx",
     "test": "npm run build-test && ./node_modules/karma/bin/karma start --single-run"
   },
   "keywords": [
@@ -21,7 +21,6 @@
     "browserify": "^5.11.2",
     "karma": "^0.12.23",
     "karma-chrome-launcher": "^0.1.4",
-    "karma-jsx-preprocessor": "0.0.9",
     "karma-mocha": "^0.1.9",
     "mocha": "^1.21.4",
     "react-addons": "^0.9.0",
