@@ -10,10 +10,30 @@ Install
 
 `npm install react-visibility-sensor`
 
-Usage
+
+Example
 ----
 
-Coming soon...
+```
+function render () {
+  var VisibilitySensor = require('react-visibility-sensor');
+
+  var onChange = function (isVisible) {
+    console.log('Element is now %s', isVisible ? 'visible' : 'hidden');
+  };
+
+  return (
+    <VisibilitySensor onChange={onChange} />
+  );
+}
+```
+
+Props
+----
+
+- `onChange`: callback for whenever the element changes from being within the window viewport or not. Function is called with 1 argument `(isVisible: boolean)`
+- `active`: (default `true`) boolean flag for enabling / disabling the sensor.  When `active !== true` the sensor will not fire the `onChange` callback.
+- `delay`: (default `1000`) integer, number of milliseconds between checking the element's position in relation the the window viewport. Making this number too low will have a negative impact on performance.
 
 License
 ----
