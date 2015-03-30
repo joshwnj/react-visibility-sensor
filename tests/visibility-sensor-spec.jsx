@@ -3,7 +3,6 @@
 require('./function-bind-polyfill')();
 
 var React = require('react/addons');
-var TestUtils = React.addons.TestUtils;
 var assert = require('assert');
 
 describe('VisibilitySensor', function () {
