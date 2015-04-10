@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-require('./function-bind-polyfill')();
+require('es5-shim');
 
 var React = require('react/addons');
 var assert = require('assert');
