@@ -18,7 +18,7 @@ describe('VisibilitySensor', function () {
     document.body.removeChild(elem);
   });
 
-  var VisibilitySensor = require('../visibility-sensor.jsx');
+  var VisibilitySensor = require('../visibility-sensor.js');
 
   it('should notify of changes to visibility', function (done) {
     var component;
