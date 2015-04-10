@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "browserify": "^5.11.2",
+    "es5-shim": "^4.1.0",
     "karma": "^0.12.31",
     "karma-chrome-launcher": "^0.1.4",
     "karma-mocha": "^0.1.9",
