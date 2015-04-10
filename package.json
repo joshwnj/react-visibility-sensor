@@ -15,7 +15,7 @@
   "author": "joshwnj",
   "license": "MIT",
   "dependencies": {
-    "react": "^0.11.1"
+    "react": "^0.13.1"
   },
   "devDependencies": {
     "browserify": "^5.11.2",

@@ -18,7 +18,7 @@ describe('VisibilitySensor', function () {
     document.body.removeChild(elem);
   });
 
-  var VisibilitySensor = require('../visibility-sensor.js');
+  var VisibilitySensor = React.createFactory(require('../visibility-sensor.js'));
 
   it('should notify of changes to visibility', function (done) {
     var component;
@@ -41,7 +41,7 @@ describe('VisibilitySensor', function () {
       <VisibilitySensor delay={10} onChange={onChange} />
     );
 
-    React.renderComponent(component, elem);
+    React.render(component, elem);
   });
 
   it('should notify of changes to visibility', function (done) {
@@ -54,7 +54,7 @@ describe('VisibilitySensor', function () {
       <VisibilitySensor delay={1} onChange={onChange} />
     );
 
-    React.renderComponent(component, elem);
+    React.render(component, elem);
   });
 
   it('should not notify when deactivated', function (done) {
@@ -73,6 +73,6 @@ describe('VisibilitySensor', function () {
       <VisibilitySensor active={false} delay={1} onChange={onChange} />
     );
 
-    React.renderComponent(component, elem);
+    React.render(component, elem);
   });
 });
