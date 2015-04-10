@@ -14,6 +14,13 @@ Install
 Example
 ----
 
+To view the example:
+
+- `npm run build-example`
+- open `example/index.html` in a browser
+
+General usage goes something like:
+
 ```
 function render () {
   var VisibilitySensor = require('react-visibility-sensor');
@@ -27,6 +34,7 @@ function render () {
   );
 }
 ```
+
 
 Props
 ----

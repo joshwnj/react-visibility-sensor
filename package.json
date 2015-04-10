@@ -1,9 +1,10 @@
 {
   "name": "react-visibility-sensor",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Sensor component for React that notifies you when it goes in or out of the window viewport.",
   "main": "visibility-sensor.js",
   "scripts": {
+    "build-example": "browserify -t reactify -o example/dist/bundle.js example/main.js",
     "build-test": "browserify -t reactify -o tests/bundle.js tests/visibility-sensor-spec.jsx",
     "test": "npm run build-test && karma start --single-run"
   },
