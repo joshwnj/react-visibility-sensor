@@ -30,11 +30,4 @@ var Example = React.createClass({
   }
 });
 
-      // React.DOM.div([
-      //   React.DOM.p({ className: 'msg' }, this.state.msg),
-      //   React.DOM.div({ className: 'sensor' }, [
-      //     React.createElement(VisibilitySensor, { onChange: onChange })
-      //   ])
-      // ])
-
 React.render(React.createElement(Example), document.getElementById('example'));
