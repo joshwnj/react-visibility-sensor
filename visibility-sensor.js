@@ -8,13 +8,17 @@ module.exports = React.createClass({
   propTypes: {
     onChange: React.PropTypes.func.isRequired,
     active: React.PropTypes.bool,
-    delay: React.PropTypes.number
+    delay: React.PropTypes.number,
+    containment: React.PropTypes.instanceOf(Element),
+    className: React.PropTypes.string,
+    style: React.PropTypes.object
   },
 
   getDefaultProps: function () {
     return {
       active: true,
-      delay: 1000
+      delay: 1000,
+      containment: null
     };
   },
 
@@ -52,23 +56,44 @@ module.exports = React.createClass({
   check: function () {
     var el = this.getDOMNode();
     var rect = el.getBoundingClientRect();
+    var containmentRect;
+
+    if (this.props.containment) {
+      containmentRect = this.props.containment.getBoundingClientRect();
+    } else {
+      containmentRect = {
+        top: 0,
+        left: 0,
+        bottom: window.innerHeight || document.documentElement.clientHeight,
+        right: window.innerWidth || document.documentElement.clientWidth
+      };
+    }
+
+    var visibilityRect = {
+      top: rect.top >= containmentRect.top,
+      left: rect.left >= containmentRect.left,
+      bottom: rect.bottom <= containmentRect.bottom,
+      right: rect.right <= containmentRect.right
+    };
+
     var isVisible = (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+      visibilityRect.top &&
+      visibilityRect.left &&
+      visibilityRect.bottom &&
+      visibilityRect.right
     );
 
     // notify the parent when the value changes
     if (this.lastValue !== isVisible) {
       this.lastValue = isVisible;
-      this.props.onChange(isVisible);
+      this.props.onChange(isVisible, visibilityRect);
     }
   },
 
   render: function () {
-    return (
-      React.DOM.div(null, [this.props.children])
-    );
+    return React.createElement('div', {
+      className: this.props.className,
+      style: this.props.style
+    }, [this.props.children]);
   }
 });
