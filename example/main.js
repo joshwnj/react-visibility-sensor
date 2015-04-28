@@ -9,21 +9,21 @@ var Example = React.createClass({
     return { msg: '' };
   },
 
+  onChange: function (isVisible) {
+    this.setState({
+      msg: 'Element is now ' + (isVisible ? 'visible' : 'hidden')
+    });
+  },
+
   render: function () {
     var self = this;
-
-    var onChange = function (isVisible) {
-      self.setState({
-        msg: 'Element is now ' + (isVisible ? 'visible' : 'hidden')
-      });
-    };
 
     return (
       <div>
         <p className='msg'>{this.state.msg}</p>
         <div className='before'></div>
         <div className='sensor'>
-          <VisibilitySensor containment={this.props.containment} onChange={onChange} />
+          <VisibilitySensor containment={this.props.containment} onChange={this.onChange} />
         </div>
         <div className='after'></div>
       </div>
