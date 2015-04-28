@@ -2,26 +2,81 @@
 <html>
   <head>
     <style>
+     body {
+       min-height: 1000px;
+     }
+
      #example {
-       height: 1000px;
+       height: 100px;
      }
 
      .msg {
-         position: fixed;
-         top: 20px;
-         left: 10px;
+       position: fixed;
+       top: 20px;
+       left: 10px;
      }
 
      .sensor {
-         display: block;
-         width: 50px;
-         height: 10px;
-         background: red;
+       display: block;
+       width: 50px;
+       height: 10px;
+       background: red;
+     }
+
+     #example-container {
+       width: 200px;
+       height: 200px;
+       border: 1px solid #000;
+       overflow: auto;
+       position: relative;
+     }
+
+     #example-container .inner {
+       width: 800px;
+       height: 800px;
+     }
+
+     #example-container .sensor {
+       position: absolute;
+       left: 400px;
+       top: 400px;
+     }
+
+     #example-container .msg {
+       top: 40px;
+     }
+
+     #example-container .msg:before {
+       content: 'Contained ';
+     }
+
+     #info {
+       position: fixed;
+       z-index: 1;
+       top: 10px;
+       right: 10px;
+       width: 400px;
+     }
+
+     #foreground {
+       position: relative;
+       z-index: 2;
+       background: #FFF;
+       width: 300px;
      }
     </style>
   </head>
   <body>
-    <div id="example"></div>
+    <div id="info">
+      <p>In this example, the first element's visibility will change as you scroll the page. The second element uses the `containment` prop to tell whether it is within the visible part of the container. Scroll around to see it change.</p>
+      <p>Note that when using the `containment` prop, checking for visibility it means "fully visible". So even you scroll such that the sensor is partly outside the viewport, it will change to "hidden".</p>
+    </div>
+    <div id="foreground">
+      <div id="example"></div>
+      <div id="example-container">
+        <div class="inner"></div>
+      </div>
+    </div>
     <script src="dist/bundle.js"></script>
   </body>
 </html>
