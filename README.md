@@ -14,7 +14,9 @@ Install
 Example
 ----
 
-To view the example:
+[View the example](https://joshwnj.github.io/react-visibility-sensor/)
+
+To run the example locally:
 
 - `npm run build-example`
 - open `example/index.html` in a browser
@@ -45,6 +47,14 @@ Props
 - `containment`: (optional) element to use as a viewport when checking visibility. Default behaviour is to use the browser window as viewport.
 - `className`: (optional) className for the sensor element.
 - `style`: (optional) style object for the sensor element.
+
+Thanks
+----
+
+Special thanks to contributors:
+
+- [@B-Stefan](https://github.com/B-Stefan)
+- [@kof](https://github.com/kof)
 
 License
 ----
