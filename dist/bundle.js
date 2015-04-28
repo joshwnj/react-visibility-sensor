@@ -10,21 +10,21 @@ var Example = React.createClass({displayName: 'Example',
     return { msg: '' };
   },
 
+  onChange: function (isVisible) {
+    this.setState({
+      msg: 'Element is now ' + (isVisible ? 'visible' : 'hidden')
+    });
+  },
+
   render: function () {
     var self = this;
-
-    var onChange = function (isVisible) {
-      self.setState({
-        msg: 'Element is now ' + (isVisible ? 'visible' : 'hidden')
-      });
-    };
 
     return (
       React.DOM.div(null, 
         React.DOM.p({className: "msg"}, this.state.msg), 
         React.DOM.div({className: "before"}), 
         React.DOM.div({className: "sensor"}, 
-          VisibilitySensor({containment: this.props.containment, onChange: onChange})
+          VisibilitySensor({containment: this.props.containment, onChange: this.onChange})
         ), 
         React.DOM.div({className: "after"})
       )
@@ -19809,6 +19809,7 @@ module.exports = React.createClass({
   startWatching: function () {
     if (this.interval) { return; }
     this.interval = setInterval(this.check, this.props.delay);
+    this.check();
   },
 
   stopWatching: function () {
