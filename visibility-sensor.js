@@ -88,6 +88,11 @@ module.exports = React.createClass({
       this.lastValue = isVisible;
       this.props.onChange(isVisible, visibilityRect);
     }
+
+    return {
+      isVisible: isVisible,
+      visibilityRect: visibilityRect
+    };
   },
 
   render: function () {
