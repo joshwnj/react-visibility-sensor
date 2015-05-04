@@ -86,6 +86,7 @@ module.exports = React.createClass({
     // notify the parent when the value changes
     if (this.isVisible !== isVisible) {
       this.isVisible = isVisible;
+      this.visibilityRect = visibilityRect;
       this.props.onChange(isVisible, visibilityRect);
     }
 
