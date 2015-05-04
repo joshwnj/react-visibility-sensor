@@ -24,7 +24,7 @@ module.exports = React.createClass({
 
   getInitialState: function () {
     return {
-      isVisible: true,
+      isVisible: null,
       visibilityRect: {}
     };
   },
@@ -41,6 +41,7 @@ module.exports = React.createClass({
 
   componentWillReceiveProps: function (nextProps) {
     if (nextProps.active) {
+      this.setState(this.getInitialState());
       this.startWatching();
     } else {
       this.stopWatching();
