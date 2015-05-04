@@ -22,6 +22,13 @@ module.exports = React.createClass({
     };
   },
 
+  getInitialState: function () {
+    return {
+      isVisible: null,
+      visibilityRect: {}
+    };
+  },
+
   componentDidMount: function () {
     if (this.props.active) {
       this.startWatching();
@@ -34,7 +41,7 @@ module.exports = React.createClass({
 
   componentWillReceiveProps: function (nextProps) {
     if (nextProps.active) {
-      this.lastValue = null;
+      this.setState(this.getInitialState());
       this.startWatching();
     } else {
       this.stopWatching();
@@ -85,10 +92,15 @@ module.exports = React.createClass({
     );
 
     // notify the parent when the value changes
-    if (this.lastValue !== isVisible) {
-      this.lastValue = isVisible;
+    if (this.state.isVisible !== isVisible) {
+      this.setState({
+        isVisible: isVisible,
+        visibilityRect: visibilityRect
+      });
       this.props.onChange(isVisible, visibilityRect);
     }
+
+    return this.state;
   },
 
   render: function () {
