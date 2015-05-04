@@ -34,7 +34,7 @@ module.exports = React.createClass({
 
   componentWillReceiveProps: function (nextProps) {
     if (nextProps.active) {
-      this.lastValue = null;
+      this.isVisible = null;
       this.startWatching();
     } else {
       this.stopWatching();
@@ -84,8 +84,8 @@ module.exports = React.createClass({
     );
 
     // notify the parent when the value changes
-    if (this.lastValue !== isVisible) {
-      this.lastValue = isVisible;
+    if (this.isVisible !== isVisible) {
+      this.isVisible = isVisible;
       this.props.onChange(isVisible, visibilityRect);
     }
 
