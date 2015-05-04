@@ -41,7 +41,6 @@ module.exports = React.createClass({
 
   componentWillReceiveProps: function (nextProps) {
     if (nextProps.active) {
-      this.isVisible = null;
       this.startWatching();
     } else {
       this.stopWatching();
