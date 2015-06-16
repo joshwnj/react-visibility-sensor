@@ -6,29 +6,28 @@ var React = require('react/addons');
 var assert = require('assert');
 
 describe('VisibilitySensor', function () {
-  var elem;
+  var node;
 
   beforeEach(function () {
-    elem = document.createElement('div');
-    document.body.appendChild(elem);
+    node = document.createElement('div');
+    document.body.appendChild(node);
   });
 
   afterEach(function () {
-    React.unmountComponentAtNode(elem);
-    document.body.removeChild(elem);
+    React.unmountComponentAtNode(node);
+    document.body.removeChild(node);
   });
 
   var VisibilitySensor = React.createFactory(require('../visibility-sensor.js'));
 
-  it('should notify of changes to visibility', function (done) {
-    var component;
+  it('should notify of changes to visibility when parent moves', function (done) {
     var firstTime = true;
     var onChange = function (isVisible) {
       // by default we expect the sensor to be visible
       if (firstTime) {
         firstTime = false;
         assert.equal(isVisible, true, 'Component starts out visible');
-        elem.setAttribute('style', 'position:absolute; width:100px; left:-101px');
+        node.setAttribute('style', 'position:absolute; width:100px; left:-101px');
       }
       // after moving the sensor it should be not visible anymore
       else {
@@ -37,28 +36,60 @@ describe('VisibilitySensor', function () {
       }
     };
 
-    component = (
+    var element = (
       <VisibilitySensor delay={10} onChange={onChange} />
     );
 
-    React.render(component, elem);
+    React.render(element, node);
   });
 
+  it('should notify of changes to visibility when child moves', function (done) {
+    var firstTime = true;
+    var style = {};
+    var onChange = function (isVisible) {
+      // by default we expect the sensor to be visible
+      if (firstTime) {
+        firstTime = false;
+        assert.equal(isVisible, true, 'Component starts out visible');
+        style = {
+          position: 'absolute',
+          width: 100,
+          left: -101
+        };
+        React.render(getElement(style), node);
+      }
+      // after moving the sensor it should be not visible anymore
+      else {
+        assert.equal(isVisible, false, 'Component has moved out of the visible viewport');
+        done();
+      }
+    };
+
+    function getElement(style) {
+      return (
+        <VisibilitySensor delay={10} onChange={onChange}>
+          <div style={style} />
+        </VisibilitySensor>
+      );
+    }
+
+    React.render(getElement(), node);
+  });
+
+
   it('should notify of changes to visibility', function (done) {
-    var component;
     var onChange = function (isVisible) {
       assert.equal(isVisible, true, 'Component starts out visible');
       done();
     };
-    component = (
+    var element = (
       <VisibilitySensor delay={1} onChange={onChange} />
     );
 
-    React.render(component, elem);
+    React.render(element, node);
   });
 
   it('should not notify when deactivated', function (done) {
-    var component;
     var wasCallbackCalled = false;
     var onChange = function (isVisible) {
       wasCallbackCalled = true;
@@ -69,10 +100,10 @@ describe('VisibilitySensor', function () {
       done();
     }, 20);
 
-    component = (
+    var element = (
       <VisibilitySensor active={false} delay={1} onChange={onChange} />
     );
 
-    React.render(component, elem);
+    React.render(element, node);
   });
 });
