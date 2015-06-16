@@ -45,8 +45,6 @@ Props
 - `active`: (default `true`) boolean flag for enabling / disabling the sensor.  When `active !== true` the sensor will not fire the `onChange` callback.
 - `delay`: (default `1000`) integer, number of milliseconds between checking the element's position in relation the the window viewport. Making this number too low will have a negative impact on performance.
 - `containment`: (optional) element to use as a viewport when checking visibility. Default behaviour is to use the browser window as viewport.
-- `className`: (optional) className for the sensor element.
-- `style`: (optional) style object for the sensor element.
 
 Thanks
 ----
