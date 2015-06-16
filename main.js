@@ -22,9 +22,9 @@ var Example = React.createClass({
       <div>
         <p className='msg'>{this.state.msg}</p>
         <div className='before'></div>
-        <div className='sensor'>
-          <VisibilitySensor containment={this.props.containment} onChange={this.onChange} />
-        </div>
+        <VisibilitySensor containment={this.props.containment} onChange={this.onChange}>
+          <div className='sensor' />
+        </VisibilitySensor>
         <div className='after'></div>
       </div>
     );

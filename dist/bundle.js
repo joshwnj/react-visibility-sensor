@@ -23,8 +23,8 @@ var Example = React.createClass({displayName: 'Example',
       React.DOM.div(null, 
         React.DOM.p({className: "msg"}, this.state.msg), 
         React.DOM.div({className: "before"}), 
-        React.DOM.div({className: "sensor"}, 
-          VisibilitySensor({containment: this.props.containment, onChange: this.onChange})
+        VisibilitySensor({containment: this.props.containment, onChange: this.onChange}, 
+          React.DOM.div({className: "sensor"})
         ), 
         React.DOM.div({className: "after"})
       )
@@ -19775,15 +19775,15 @@ module.exports = React.createClass({
     active: React.PropTypes.bool,
     delay: React.PropTypes.number,
     containment: React.PropTypes.instanceOf(Element),
-    className: React.PropTypes.string,
-    style: React.PropTypes.object
+    children: React.PropTypes.element
   },
 
   getDefaultProps: function () {
     return {
       active: true,
       delay: 1000,
-      containment: null
+      containment: null,
+      children: React.createElement('span')
     };
   },
 
@@ -19869,10 +19869,7 @@ module.exports = React.createClass({
   },
 
   render: function () {
-    return React.createElement('div', {
-      className: this.props.className,
-      style: this.props.style
-    }, [this.props.children]);
+    return React.Children.only(this.props.children);
   }
 });
 
