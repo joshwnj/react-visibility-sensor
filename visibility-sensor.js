@@ -2,6 +2,12 @@
 
 var React = require('react');
 
+var containmentPropType = React.PropTypes.any;
+
+if (typeof window !== 'undefined') {
+  containmentPropType = React.PropTypes.instanceOf(Element);
+}
+
 module.exports = React.createClass({
   displayName: 'VisibilitySensor',
 
@@ -9,7 +15,7 @@ module.exports = React.createClass({
     onChange: React.PropTypes.func.isRequired,
     active: React.PropTypes.bool,
     delay: React.PropTypes.number,
-    containment: React.PropTypes.instanceOf(Element),
+    containment: containmentPropType,
     children: React.PropTypes.element
   },
 
