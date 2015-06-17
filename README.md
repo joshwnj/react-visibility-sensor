@@ -53,6 +53,8 @@ Special thanks to contributors:
 
 - [@B-Stefan](https://github.com/B-Stefan)
 - [@kof](https://github.com/kof)
+- [@gaearon](https://github.com/gaearon)
+- [@kompot](https://github.com/kompot)
 
 License
 ----
