@@ -14,6 +14,7 @@ module.exports = React.createClass({
   propTypes: {
     onChange: React.PropTypes.func.isRequired,
     active: React.PropTypes.bool,
+    partialVisibility: React.PropTypes.bool,
     delay: React.PropTypes.number,
     containment: containmentPropType,
     children: React.PropTypes.element
@@ -22,6 +23,7 @@ module.exports = React.createClass({
   getDefaultProps: function () {
     return {
       active: true,
+      partialVisibility: false,
       delay: 1000,
       containment: null,
       children: React.createElement('span')
@@ -90,12 +92,26 @@ module.exports = React.createClass({
       right: rect.right <= containmentRect.right
     };
 
-    var isVisible = (
-      visibilityRect.top &&
-      visibilityRect.left &&
-      visibilityRect.bottom &&
-      visibilityRect.right
+    var fullVisible = (
+        visibilityRect.top &&
+        visibilityRect.left &&
+        visibilityRect.bottom &&
+        visibilityRect.right
     );
+
+    var partialVertical =
+        (rect.top >= containmentRect.top && rect.top <= containmentRect.bottom)
+     || (rect.bottom >= containmentRect.top && rect.bottom <= containmentRect.bottom);
+
+    var partialHorizontal =
+        (rect.left >= containmentRect.left && rect.left <= containmentRect.right)
+     || (rect.right >= containmentRect.left && rect.right <= containmentRect.right);
+
+    var partialVisible = partialVertical && partialHorizontal;
+
+    var isVisible = this.props.partialVisibility
+      ? partialVisible
+      : fullVisible;
 
     // notify the parent when the value changes
     if (this.state.isVisible !== isVisible) {
