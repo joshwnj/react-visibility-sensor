@@ -2,7 +2,8 @@
 
 require('es5-shim');
 
-var React = require('react/addons');
+var React = require('react');
+var ReactDOM = require('react-dom');
 var assert = require('assert');
 
 describe('VisibilitySensor', function () {
@@ -14,7 +15,7 @@ describe('VisibilitySensor', function () {
   });
 
   afterEach(function () {
-    React.unmountComponentAtNode(node);
+    ReactDOM.unmountComponentAtNode(node);
     document.body.removeChild(node);
   });
 
@@ -40,7 +41,7 @@ describe('VisibilitySensor', function () {
       <VisibilitySensor delay={10} onChange={onChange} />
     );
 
-    React.render(element, node);
+    ReactDOM.render(element, node);
   });
 
   it('should notify of changes to visibility when child moves', function (done) {
@@ -56,7 +57,7 @@ describe('VisibilitySensor', function () {
           width: 100,
           left: -101
         };
-        React.render(getElement(style), node);
+        ReactDOM.render(getElement(style), node);
       }
       // after moving the sensor it should be not visible anymore
       else {
@@ -73,7 +74,7 @@ describe('VisibilitySensor', function () {
       );
     }
 
-    React.render(getElement(), node);
+    ReactDOM.render(getElement(), node);
   });
 
 
@@ -86,7 +87,7 @@ describe('VisibilitySensor', function () {
       <VisibilitySensor delay={1} onChange={onChange} />
     );
 
-    React.render(element, node);
+    ReactDOM.render(element, node);
   });
 
   it('should not notify when deactivated', function (done) {
@@ -104,6 +105,6 @@ describe('VisibilitySensor', function () {
       <VisibilitySensor active={false} delay={1} onChange={onChange} />
     );
 
-    React.render(element, node);
+    ReactDOM.render(element, node);
   });
 });
