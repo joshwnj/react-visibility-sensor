@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react');
+var ReactDOM = require('react-dom');
 
 var containmentPropType = React.PropTypes.any;
 
@@ -70,7 +71,7 @@ module.exports = React.createClass({
    * Check if the element is within the visible viewport
    */
   check: function () {
-    var el = this.getDOMNode();
+    var el = ReactDOM.findDOMNode(this);
     var rect = el.getBoundingClientRect();
     var containmentRect;
 
