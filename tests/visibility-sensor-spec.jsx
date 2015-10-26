@@ -19,7 +19,7 @@ describe('VisibilitySensor', function () {
     document.body.removeChild(node);
   });
 
-  var VisibilitySensor = React.createFactory(require('../visibility-sensor.js'));
+  var VisibilitySensor = require('../visibility-sensor.js');
 
   it('should notify of changes to visibility when parent moves', function (done) {
     var firstTime = true;
