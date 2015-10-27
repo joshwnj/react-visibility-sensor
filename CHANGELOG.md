@@ -1,6 +1,11 @@
 Changelog
 ====
 
+## 3.0.0
+
+- upgraded to react 0.14
+- removed the `package.browserify` field, which is no longer needed and was causing some conflicts ([#11](https://github.com/joshwnj/react-visibility-sensor/issues/11))
+
 ## 2.1.0
 
 - new optional prop `partialVisibility` changes the behaviour of the sensor, so that it considers an element to be visible if it is at least partially visible ([#15](https://github.com/joshwnj/react-visibility-sensor/pull/15))
