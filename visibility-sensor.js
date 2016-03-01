@@ -102,7 +102,8 @@ module.exports = React.createClass({
 
     var partialVertical =
         (rect.top >= containmentRect.top && rect.top <= containmentRect.bottom)
-     || (rect.bottom >= containmentRect.top && rect.bottom <= containmentRect.bottom);
+     || (rect.bottom >= containmentRect.top && rect.bottom <= containmentRect.bottom)
+     || (rect.top <= containmentRect.top && rect.bottom >= containmentRect.bottom);
 
     var partialHorizontal =
         (rect.left >= containmentRect.left && rect.left <= containmentRect.right)
