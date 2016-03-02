@@ -17,6 +17,7 @@ module.exports = React.createClass({
     active: React.PropTypes.bool,
     partialVisibility: React.PropTypes.bool,
     delay: React.PropTypes.number,
+    delayedCall: React.PropTypes.bool,
     containment: containmentPropType,
     children: React.PropTypes.element
   },
@@ -26,6 +27,7 @@ module.exports = React.createClass({
       active: true,
       partialVisibility: false,
       delay: 1000,
+      delayedCall: false,
       containment: null,
       children: React.createElement('span')
     };
@@ -60,7 +62,8 @@ module.exports = React.createClass({
   startWatching: function () {
     if (this.interval) { return; }
     this.interval = setInterval(this.check, this.props.delay);
-    this.check();
+    // if dont need delayed call, check on load ( before the first interval fires )
+    !this.props.delayedCall && this.check();
   },
 
   stopWatching: function () {
