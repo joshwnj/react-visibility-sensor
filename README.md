@@ -46,6 +46,7 @@ Props
 - `partialVisibility`: (default `false`) consider element visible if only part of it is visible.
 - `delay`: (default `1000`) integer, number of milliseconds between checking the element's position in relation the the window viewport. Making this number too low will have a negative impact on performance.
 - `containment`: (optional) element to use as a viewport when checking visibility. Default behaviour is to use the browser window as viewport.
+- `delayedCall`: (default `false`) if is set to true, wont execute on page load ( prevents react apps triggering elements as visible before styles are loaded )
 
 Thanks
 ----
