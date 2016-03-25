@@ -19,13 +19,15 @@ module.exports = React.createClass({
     delay: React.PropTypes.number,
     delayedCall: React.PropTypes.bool,
     containment: containmentPropType,
-    children: React.PropTypes.element
+    children: React.PropTypes.element,
+    minTopValue: React.PropTypes.number
   },
 
   getDefaultProps: function () {
     return {
       active: true,
       partialVisibility: false,
+      minTopValue: false,
       delay: 1000,
       delayedCall: false,
       containment: null,
@@ -97,26 +99,40 @@ module.exports = React.createClass({
     };
 
     var fullVisible = (
-        visibilityRect.top &&
-        visibilityRect.left &&
-        visibilityRect.bottom &&
-        visibilityRect.right
+      visibilityRect.top &&
+      visibilityRect.left &&
+      visibilityRect.bottom &&
+      visibilityRect.right
     );
 
     var partialVertical =
-        (rect.top >= containmentRect.top && rect.top <= containmentRect.bottom)
-     || (rect.bottom >= containmentRect.top && rect.bottom <= containmentRect.bottom)
-     || (rect.top <= containmentRect.top && rect.bottom >= containmentRect.bottom);
+      (rect.top >= containmentRect.top && rect.top <= containmentRect.bottom)
+      || (rect.bottom >= containmentRect.top && rect.bottom <= containmentRect.bottom)
+      || (rect.top <= containmentRect.top && rect.bottom >= containmentRect.bottom);
 
     var partialHorizontal =
-        (rect.left >= containmentRect.left && rect.left <= containmentRect.right)
-     || (rect.right >= containmentRect.left && rect.right <= containmentRect.right);
+      (rect.left >= containmentRect.left && rect.left <= containmentRect.right)
+      || (rect.right >= containmentRect.left && rect.right <= containmentRect.right);
 
     var partialVisible = partialVertical && partialHorizontal;
 
-    var isVisible = this.props.partialVisibility
-      ? partialVisible
-      : fullVisible;
+    var isVisible = false;
+
+    // if element is fully visible, why care about partial visibility??
+    if (fullVisible !== true && this.props.partialVisibility) {
+      // so, if partial visibility is observed
+      // if we have minimum top visibility set by props, lets check, if it meets the passed value
+      // so if for instance element is at least 200px in viewport, then show it.
+      if (this.props.partialVisibility && this.props.minTopValue && partialVisible) {
+        isVisible = rect.top <= (containmentRect.bottom - this.props.minTopValue);
+      } else {
+        // minTopValue was not passed, just give partial Result.
+        isVisible = partialVisible;
+      }
+    } else {
+      // Partial visibility is not required, just return fullVisibility value
+      isVisible = fullVisible;
+    }
 
     // notify the parent when the value changes
     if (this.state.isVisible !== isVisible) {
