@@ -114,16 +114,18 @@ module.exports = React.createClass({
       ? partialVisible
       : fullVisible;
 
+    var state = this.state
     // notify the parent when the value changes
     if (this.state.isVisible !== isVisible) {
-      this.setState({
+      state = {
         isVisible: isVisible,
         visibilityRect: visibilityRect
-      });
+      };
+      this.setState(state);
       this.props.onChange(isVisible, visibilityRect);
     }
 
-    return this.state;
+    return state;
   },
 
   render: function () {

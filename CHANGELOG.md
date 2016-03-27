@@ -1,6 +1,10 @@
 Changelog
 ====
 
+## 3.0.1
+
+- return the new state from .check method
+
 ## 3.0.0
 
 - upgraded to react 0.14
