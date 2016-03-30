@@ -4,10 +4,14 @@
   "description": "Sensor component for React that notifies you when it goes in or out of the window viewport.",
   "main": "visibility-sensor.js",
   "scripts": {
+    "clean": "rm -rf dist && mkdir dist",
+    "prebuild": "npm run clean",
+    "build": "browserify -t reactify -o dist/visibility-sensor.js visibility-sensor.js",
     "build-example": "mkdir -p example/dist && browserify -t reactify -o example/dist/bundle.js example/main.js",
     "build-test": "browserify -t reactify -o tests/bundle.js tests/visibility-sensor-spec.jsx",
     "publish-gh-pages": "npm run build-example && ./bin/publish-gh-pages",
-    "test": "npm run build-test && ./node_modules/karma/bin/karma start --single-run"
+    "test": "npm run build-test && ./node_modules/karma/bin/karma start --single-run",
+    "prepublish": "npm run build"
   },
   "keywords": [
     "react",
