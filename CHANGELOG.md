@@ -1,7 +1,7 @@
 Changelog
 ====
 
-## 3.1.0
+## 3.1.1
 
 - Removed dist file from git (as suggested in #18)
 - Added `npm run build`, which is also run on prepublish
