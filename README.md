@@ -10,6 +10,16 @@ Install
 
 `npm install react-visibility-sensor`
 
+### Including the script directly
+
+Useful if you want to use with bower, or in a plain old `<script>` tag.
+
+In this case, make sure that `React` and `ReactDOM` are already loaded and globally accessible.
+
+- Plain: <https://npmcdn.com/react-visibility-sensor@3.0.2/dist/visibility-sensor.js>
+- Minified <https://npmcdn.com/react-visibility-sensor@3.0.2/dist/visibility-sensor.min.js>
+
+Take a look at the [umd example](./example-umd/) to see this in action
 
 Example
 ----
