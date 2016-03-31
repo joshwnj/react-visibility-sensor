@@ -1,4 +1,5 @@
 node_modules/*
 tests/bundle.js
+dist
 example/dist
 .idea/
