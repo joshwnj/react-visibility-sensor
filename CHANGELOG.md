@@ -1,9 +1,16 @@
 Changelog
 ====
 
+## 3.1.0
+
+- Removed dist file from git (as suggested in #18)
+- Added `npm run build`, which is also run on prepublish
+- updated the build script so browserify produces a standalone umd script
+- added `example-umd` to show how to use it with plain `<script>` tags
+
 ## 3.0.1
 
-- return the new state from .check method
+- return the new state from `.check` method
 
 ## 3.0.0
 
