@@ -15,7 +15,10 @@ module.exports = React.createClass({
   propTypes: {
     onChange: React.PropTypes.func.isRequired,
     active: React.PropTypes.bool,
-    partialVisibility: React.PropTypes.bool,
+    partialVisibility: React.PropTypes.oneOfType([
+      React.PropTypes.bool,
+      React.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+    ]),
     delay: React.PropTypes.number,
     containment: containmentPropType,
     children: React.PropTypes.element
@@ -111,7 +114,7 @@ module.exports = React.createClass({
     var partialVisible = partialVertical && partialHorizontal;
 
     var isVisible = this.props.partialVisibility
-      ? partialVisible
+      ? (typeof partialVisible === 'string' ? visibilityRect[partialVisible] : partialVisible)
       : fullVisible;
 
     var state = this.state
