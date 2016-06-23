@@ -19,7 +19,7 @@
      .sensor {
        display: block;
        width: 50px;
-       height: 10px;
+       height: 50px;
        background: red;
      }
 
@@ -69,7 +69,7 @@
   <body>
     <div id="info">
       <p>In this example, the first element's visibility will change as you scroll the page. The second element uses the `containment` prop to tell whether it is within the visible part of the container. Scroll around to see it change.</p>
-      <p>Note that when using the `containment` prop, checking for visibility it means "fully visible". So even you scroll such that the sensor is partly outside the viewport, it will change to "hidden".</p>
+      <p>Note that the "Contained Element" in this example is also using the <code>`partialVisibility`</code> prop. So it will be considered "visible" if even part of it is within the viewport.</p>
     </div>
     <div id="foreground">
       <div id="example"></div>
