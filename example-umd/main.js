@@ -15,18 +15,19 @@ var Example = React.createClass({
     var self = this;
 
     return (
-      <div>
-        <p className='msg'>{this.state.msg}</p>
-        <div className='before'></div>
-        <VisibilitySensor
-          containment={this.props.containment}
-          onChange={this.onChange}
-          minTopValue={this.props.minTopValue}
-          partialVisibility={this.props.partialVisibility}>
-          <div className='sensor' />
-        </VisibilitySensor>
-        <div className='after'></div>
-      </div>
+      React.createElement("div", null,
+        React.createElement("p", {className: "msg"}, this.state.msg),
+        React.createElement("div", {className: "before"}),
+        React.createElement(VisibilitySensor, {
+          containment: this.props.containment,
+          onChange: this.onChange,
+          minTopValue: this.props.minTopValue,
+          partialVisibility: this.props.partialVisibility
+        },
+          React.createElement("div", {className: "sensor"})
+        ),
+        React.createElement("div", {className: "after"})
+      )
     );
   }
 });

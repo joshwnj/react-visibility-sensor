@@ -16,8 +16,8 @@ Useful if you want to use with bower, or in a plain old `<script>` tag.
 
 In this case, make sure that `React` and `ReactDOM` are already loaded and globally accessible.
 
-- Plain: <https://npmcdn.com/react-visibility-sensor@3.1.1/dist/visibility-sensor.js>
-- Minified <https://npmcdn.com/react-visibility-sensor@3.1.1/dist/visibility-sensor.min.js>
+- Plain: <https://npmcdn.com/react-visibility-sensor@3.2.0/dist/visibility-sensor.js>
+- Minified <https://npmcdn.com/react-visibility-sensor@3.2.0/dist/visibility-sensor.min.js>
 
 Take a look at the [umd example](./example-umd/) to see this in action
 
