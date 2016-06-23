@@ -1,6 +1,10 @@
 Changelog
 ====
 
+## 3.2.0
+
+- Added `minTopValue` and `delayedCall` props ([#30](https://github.com/joshwnj/react-visibility-sensor/pull/30))
+
 ## 3.1.1
 
 - Removed dist file from git (as suggested in #18)

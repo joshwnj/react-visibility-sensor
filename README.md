@@ -68,6 +68,7 @@ Special thanks to contributors:
 - [@kof](https://github.com/kof)
 - [@gaearon](https://github.com/gaearon)
 - [@kompot](https://github.com/kompot)
+- [@EugeneHlushko](https://github.com/EugeneHlushko)
 
 License
 ----
