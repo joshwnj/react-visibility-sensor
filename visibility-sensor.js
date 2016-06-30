@@ -77,8 +77,15 @@ module.exports = React.createClass({
    */
   check: function () {
     var el = ReactDOM.findDOMNode(this);
-    var rect = el.getBoundingClientRect();
+    var rect;
     var containmentRect;
+
+    // if the component has rendered to null, dont update visibility
+    if (!el) {
+      return this.state;
+    }
+
+    rect = el.getBoundingClientRect();
 
     if (this.props.containment) {
       containmentRect = this.props.containment.getBoundingClientRect();
