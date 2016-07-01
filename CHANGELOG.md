@@ -1,6 +1,10 @@
 Changelog
 ====
 
+## 3.2.1
+
+- Fixed error case where component can be null ([#38](https://github.com/joshwnj/react-visibility-sensor/pull/38))
+
 ## 3.2.0
 
 - Added `minTopValue` and `delayedCall` props ([#30](https://github.com/joshwnj/react-visibility-sensor/pull/30))
