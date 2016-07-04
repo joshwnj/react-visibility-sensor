@@ -134,7 +134,8 @@ module.exports = React.createClass({
         : partialVisible
     }
 
-    var state = this.state
+    var state = this.state;
+    var previousVisibilityState = state.isVisible;
     // notify the parent when the value changes
     if (this.state.isVisible !== isVisible) {
       state = {
@@ -142,7 +143,7 @@ module.exports = React.createClass({
         visibilityRect: visibilityRect
       };
       this.setState(state);
-      this.props.onChange(isVisible, visibilityRect);
+      this.props.onChange(isVisible, visibilityRect, previousVisibilityState);
     }
 
     return state;
