@@ -117,13 +117,15 @@ module.exports = React.createClass({
     // check for partial visibility
     if (this.props.partialVisibility) {
       var partialVertical =
-          (rect.top >= containmentRect.top && rect.top <= containmentRect.bottom)
-          || (rect.bottom >= containmentRect.top && rect.bottom <= containmentRect.bottom)
-          || (rect.top <= containmentRect.top && rect.bottom >= containmentRect.bottom);
+          (rect.top >= containmentRect.top && rect.top <= containmentRect.bottom)           // Top is visible
+          || (rect.bottom >= containmentRect.top && rect.bottom <= containmentRect.bottom)  // Bottom is visible
+          || (rect.top <= containmentRect.top && rect.bottom >= containmentRect.bottom);    // Center is visible
+
 
       var partialHorizontal =
-          (rect.left >= containmentRect.left && rect.left <= containmentRect.right)
-          || (rect.right >= containmentRect.left && rect.right <= containmentRect.right);
+          (rect.left >= containmentRect.left && rect.left <= containmentRect.right)         // Left side is visible
+          || (rect.right >= containmentRect.left && rect.right <= containmentRect.right)    // Right side is visible
+          || (rect.left <= containmentRect.left && rect.right >= containmentRect.right);    // Center is visible
 
       var partialVisible = partialVertical && partialHorizontal;
 
