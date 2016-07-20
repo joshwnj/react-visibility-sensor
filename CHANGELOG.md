@@ -1,6 +1,10 @@
 Changelog
 ====
 
+## 3.3.0
+
+- Mark partially visible when center is visible ([#40](https://github.com/joshwnj/react-visibility-sensor/pull/40))
+
 ## 3.2.1
 
 - Fixed error case where component can be null ([#38](https://github.com/joshwnj/react-visibility-sensor/pull/38))
