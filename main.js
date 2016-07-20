@@ -1,8 +1,8 @@
-/** @jsx React.DOM */
 'use strict';
 
 var React = require('react');
-var VisibilitySensor = React.createFactory(require('../'));
+var ReactDOM = require('react-dom')
+var VisibilitySensor = require('../');
 
 var Example = React.createClass({
   getInitialState: function () {
@@ -22,7 +22,11 @@ var Example = React.createClass({
       <div>
         <p className='msg'>{this.state.msg}</p>
         <div className='before'></div>
-        <VisibilitySensor containment={this.props.containment} onChange={this.onChange}>
+        <VisibilitySensor
+          containment={this.props.containment}
+          onChange={this.onChange}
+          minTopValue={this.props.minTopValue}
+          partialVisibility={this.props.partialVisibility}>
           <div className='sensor' />
         </VisibilitySensor>
         <div className='after'></div>
@@ -31,10 +35,14 @@ var Example = React.createClass({
   }
 });
 
-React.render(React.createElement(Example), document.getElementById('example'));
+ReactDOM.render(React.createElement(Example), document.getElementById('example'));
 
 var container = document.getElementById('example-container');
 var elem = container.querySelector('.inner');
 container.scrollTop = 320;
 container.scrollLeft = 320;
-React.render(React.createElement(Example, { containment: container }), elem);
+ReactDOM.render(React.createElement(Example, {
+  containment: container,
+  minTopValue: 10,
+  partialVisibility: true
+}), elem);
