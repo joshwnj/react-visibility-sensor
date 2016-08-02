@@ -15,7 +15,10 @@ module.exports = React.createClass({
   propTypes: {
     onChange: React.PropTypes.func.isRequired,
     active: React.PropTypes.bool,
-    partialVisibility: React.PropTypes.bool,
+    partialVisibility: React.PropTypes.oneOfType([
+      React.PropTypes.bool,
+      React.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+    ]),
     delay: React.PropTypes.number,
     delayedCall: React.PropTypes.bool,
     containment: containmentPropType,
@@ -128,6 +131,11 @@ module.exports = React.createClass({
           || (rect.left <= containmentRect.left && rect.right >= containmentRect.right);    // Center is visible
 
       var partialVisible = partialVertical && partialHorizontal;
+
+      // account for partial visibility on a single edge
+      if (typeof this.props.partialVisibility === 'string') {
+        partialVisible = visibilityRect[this.props.partialVisibility]
+      }
 
       // if we have minimum top visibility set by props, lets check, if it meets the passed value
       // so if for instance element is at least 200px in viewport, then show it.
