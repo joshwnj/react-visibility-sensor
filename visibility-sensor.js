@@ -114,7 +114,7 @@ module.exports = React.createClass({
     var partialVisible = partialVertical && partialHorizontal;
 
     var isVisible = this.props.partialVisibility
-      ? (typeof partialVisible === 'string' ? visibilityRect[partialVisible] : partialVisible)
+      ? (typeof this.props.partialVisibility === 'string' ? visibilityRect[this.props.partialVisibility] : partialVisible)
       : fullVisible;
 
     var state = this.state
