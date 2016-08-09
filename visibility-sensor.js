@@ -22,6 +22,7 @@ module.exports = React.createClass({
     delay: React.PropTypes.number,
     delayedCall: React.PropTypes.bool,
     containment: containmentPropType,
+    containmentPadding: React.PropTypes.number,
     children: React.PropTypes.element,
     minTopValue: React.PropTypes.number
   },
@@ -34,6 +35,7 @@ module.exports = React.createClass({
       delay: 1000,
       delayedCall: false,
       containment: null,
+      containmentPadding: 0,
       children: React.createElement('span')
     };
   },
@@ -100,6 +102,12 @@ module.exports = React.createClass({
         right: window.innerWidth || document.documentElement.clientWidth
       };
     }
+
+    // update containment bounds
+    containmentRect.top -= this.props.containmentPadding
+    containmentRect.left -= this.props.containmentPadding
+    containmentRect.bottom += this.props.containmentPadding
+    containmentRect.right += this.props.containmentPadding
 
     var visibilityRect = {
       top: rect.top >= containmentRect.top,
