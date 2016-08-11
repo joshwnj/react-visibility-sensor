@@ -33,7 +33,7 @@ To run the example locally:
 
 General usage goes something like:
 
-```
+```js
 function render () {
   var VisibilitySensor = require('react-visibility-sensor');
 
