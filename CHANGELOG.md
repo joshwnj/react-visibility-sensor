@@ -1,6 +1,10 @@
 Changelog
 ====
 
+## 3.5.0
+
+- simpler logic for `partialVisible` ([#41](https://github.com/joshwnj/react-visibility-sensor/pull/41))
+
 ## 3.4.0
 
 - `partialVisibility` prop can now either be a `boolean` (any edge can be visible) or a string of `top|right|bottom|left` to indicate which edge determines visibility ([#42](https://github.com/joshwnj/react-visibility-sensor/pull/42/files))
