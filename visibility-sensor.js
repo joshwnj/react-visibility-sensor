@@ -9,6 +9,19 @@ if (typeof window !== 'undefined') {
   containmentPropType = React.PropTypes.instanceOf(Element);
 }
 
+function debounce(func, wait) {
+  var timeout;
+  return function() {
+    var context = this, args = arguments;
+    var later = function() {
+      timeout = null;
+      func.apply(context, args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
 module.exports = React.createClass({
   displayName: 'VisibilitySensor',
 
@@ -21,6 +34,9 @@ module.exports = React.createClass({
     ]),
     delay: React.PropTypes.number,
     delayedCall: React.PropTypes.bool,
+    disableScrollCheck: React.PropTypes.bool,
+    intervalCheck: React.PropTypes.bool,
+    intervalDelay: React.PropTypes.number,
     containment: containmentPropType,
     children: React.PropTypes.element,
     minTopValue: React.PropTypes.number
@@ -31,7 +47,10 @@ module.exports = React.createClass({
       active: true,
       partialVisibility: false,
       minTopValue: 0,
-      delay: 1000,
+      delay: 250,
+      disableScrollCheck: false,
+      intervalCheck: false,
+      intervalDelay: 1500,
       delayedCall: false,
       containment: null,
       children: React.createElement('span')
@@ -65,14 +84,23 @@ module.exports = React.createClass({
   },
 
   startWatching: function () {
-    if (this.interval) { return; }
-    this.interval = setInterval(this.check, this.props.delay);
+    if (this.debounceCheck || this.interval) { return; }
+
+    if (this.props.intervalCheck) {
+      this.interval = setInterval(this.check, this.props.intervalDelay);
+    }
+    if (!this.props.disableScrollCheck) {
+      this.debounceCheck = debounce(this.check, this.props.delay);
+      window.addEventListener('scroll', this.debounceCheck);
+    }
+
     // if dont need delayed call, check on load ( before the first interval fires )
     !this.props.delayedCall && this.check();
   },
 
   stopWatching: function () {
-    this.interval = clearInterval(this.interval);
+    if (this.debounceCheck) { window.removeEventListener('scroll', this.debounceCheck); }
+    if (this.interval) { this.interval = clearInterval(this.interval); }
   },
 
   /**
@@ -108,14 +136,12 @@ module.exports = React.createClass({
       right: rect.right <= containmentRect.right
     };
 
-    var fullVisible = (
+    var isVisible = (
       visibilityRect.top &&
       visibilityRect.left &&
       visibilityRect.bottom &&
       visibilityRect.right
     );
-
-    var isVisible = fullVisible;
 
     // check for partial visibility
     if (this.props.partialVisibility) {
@@ -135,7 +161,7 @@ module.exports = React.createClass({
         : partialVisible
     }
 
-    var state = this.state
+    var state = this.state;
     // notify the parent when the value changes
     if (this.state.isVisible !== isVisible) {
       state = {
