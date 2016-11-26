@@ -86,7 +86,7 @@ module.exports = React.createClass({
   startWatching: function () {
     if (this.debounceCheck || this.interval) { return; }
 
-    if (this.props.intervalCheck) {
+    if (this.props.intervalCheck || this.props.disableScrollCheck) {
       this.interval = setInterval(this.check, this.props.intervalDelay);
     }
     if (!this.props.disableScrollCheck) {
