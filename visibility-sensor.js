@@ -32,9 +32,9 @@ module.exports = React.createClass({
       React.PropTypes.bool,
       React.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
     ]),
-    delay: React.PropTypes.number,
     delayedCall: React.PropTypes.bool,
-    disableScrollCheck: React.PropTypes.bool,
+    scrollCheck: React.PropTypes.bool,
+    scrollDelay: React.PropTypes.number,
     intervalCheck: React.PropTypes.bool,
     intervalDelay: React.PropTypes.number,
     containment: containmentPropType,
@@ -47,9 +47,9 @@ module.exports = React.createClass({
       active: true,
       partialVisibility: false,
       minTopValue: 0,
-      delay: 250,
-      disableScrollCheck: false,
-      intervalCheck: false,
+      scrollCheck: false,
+      scrollDelay: 250,
+      intervalCheck: true,
       intervalDelay: 1500,
       delayedCall: false,
       containment: null,
@@ -83,15 +83,20 @@ module.exports = React.createClass({
     }
   },
 
+  getContainer: function () {
+    return this.props.containment || window;
+  },
+
   startWatching: function () {
     if (this.debounceCheck || this.interval) { return; }
 
-    if (this.props.intervalCheck || this.props.disableScrollCheck) {
+    if (this.props.intervalCheck) {
       this.interval = setInterval(this.check, this.props.intervalDelay);
     }
-    if (!this.props.disableScrollCheck) {
+
+    if (this.props.scrollCheck) {
       this.debounceCheck = debounce(this.check, this.props.delay);
-      window.addEventListener('scroll', this.debounceCheck);
+      this.getContainer().addEventListener('scroll', this.debounceCheck);
     }
 
     // if dont need delayed call, check on load ( before the first interval fires )
@@ -99,7 +104,7 @@ module.exports = React.createClass({
   },
 
   stopWatching: function () {
-    if (this.debounceCheck) { window.removeEventListener('scroll', this.debounceCheck); }
+    if (this.debounceCheck) { this.getContainer().removeEventListener('scroll', this.debounceCheck); }
     if (this.interval) { this.interval = clearInterval(this.interval); }
   },
 

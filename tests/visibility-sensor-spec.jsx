@@ -38,7 +38,7 @@ describe('VisibilitySensor', function () {
     };
 
     var element = (
-      <VisibilitySensor delay={10} onChange={onChange} intervalCheck />
+      <VisibilitySensor onChange={onChange} intervalDelay={10} />
     );
 
     ReactDOM.render(element, node);
@@ -63,7 +63,7 @@ describe('VisibilitySensor', function () {
 
     var element = (
       <div style={{height: '5000px'}}>
-        <VisibilitySensor delay={10} onChange={onChange} />
+        <VisibilitySensor scrollCheck scrollDelay={10} onChange={onChange} intervalCheck={false} />
       </div>
     );
 
@@ -95,7 +95,7 @@ describe('VisibilitySensor', function () {
     // set interval must be one in order for this to work
     function getElement(style) {
       return (
-        <VisibilitySensor delay={10} onChange={onChange} intervalCheck>
+        <VisibilitySensor onChange={onChange} intervalDelay={10}>
           <div style={style} />
         </VisibilitySensor>
       );
@@ -111,7 +111,7 @@ describe('VisibilitySensor', function () {
       done();
     };
     var element = (
-      <VisibilitySensor delay={1} onChange={onChange} />
+      <VisibilitySensor onChange={onChange} />
     );
 
     ReactDOM.render(element, node);
@@ -129,7 +129,7 @@ describe('VisibilitySensor', function () {
     }, 20);
 
     var element = (
-      <VisibilitySensor active={false} intervalCheck intervalDelay={1} onChange={onChange} />
+      <VisibilitySensor active={false} onChange={onChange} intervalDelay={10} />
     );
 
     ReactDOM.render(element, node);
