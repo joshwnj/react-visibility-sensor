@@ -81,6 +81,7 @@ module.exports = React.createClass({
   check: function () {
     var el = ReactDOM.findDOMNode(this);
     var rect;
+    var isVisible;
     var containmentRect;
 
     // if the component has rendered to null, dont update visibility
@@ -90,52 +91,56 @@ module.exports = React.createClass({
 
     rect = el.getBoundingClientRect();
 
-    if (this.props.containment) {
-      containmentRect = this.props.containment.getBoundingClientRect();
+    if (rect.top + rect.right + rect.bottom + rect.left + rect.width === 0) {
+      isVisible = false;
     } else {
-      containmentRect = {
-        top: 0,
-        left: 0,
-        bottom: window.innerHeight || document.documentElement.clientHeight,
-        right: window.innerWidth || document.documentElement.clientWidth
-      };
-    }
-
-    var visibilityRect = {
-      top: rect.top >= containmentRect.top,
-      left: rect.left >= containmentRect.left,
-      bottom: rect.bottom <= containmentRect.bottom,
-      right: rect.right <= containmentRect.right
-    };
-
-    var fullVisible = (
-      visibilityRect.top &&
-      visibilityRect.left &&
-      visibilityRect.bottom &&
-      visibilityRect.right
-    );
-
-    var isVisible = fullVisible;
-
-    // check for partial visibility
-    if (this.props.partialVisibility) {
-      var partialVisible =
-          rect.top <= containmentRect.bottom && rect.bottom >= containmentRect.top &&
-          rect.left <= containmentRect.right && rect.right >= containmentRect.left;
-
-      // account for partial visibility on a single edge
-      if (typeof this.props.partialVisibility === 'string') {
-        partialVisible = visibilityRect[this.props.partialVisibility]
+      if (this.props.containment) {
+        containmentRect = this.props.containment.getBoundingClientRect();
+      } else {
+        containmentRect = {
+          top: 0,
+          left: 0,
+          bottom: window.innerHeight || document.documentElement.clientHeight,
+          right: window.innerWidth || document.documentElement.clientWidth
+        };
       }
 
-      // if we have minimum top visibility set by props, lets check, if it meets the passed value
-      // so if for instance element is at least 200px in viewport, then show it.
-      isVisible = this.props.minTopValue
-        ? partialVisible && rect.top <= (containmentRect.bottom - this.props.minTopValue)
-        : partialVisible
+      var visibilityRect = {
+        top: rect.top >= containmentRect.top,
+        left: rect.left >= containmentRect.left,
+        bottom: rect.bottom <= containmentRect.bottom,
+        right: rect.right <= containmentRect.right
+      };
+
+      var fullVisible = (
+        visibilityRect.top &&
+        visibilityRect.left &&
+        visibilityRect.bottom &&
+        visibilityRect.right
+      );
+
+      isVisible = fullVisible;
+
+      // check for partial visibility
+      if (this.props.partialVisibility) {
+        var partialVisible =
+            rect.top <= containmentRect.bottom && rect.bottom >= containmentRect.top &&
+            rect.left <= containmentRect.right && rect.right >= containmentRect.left;
+
+        // account for partial visibility on a single edge
+        if (typeof this.props.partialVisibility === 'string') {
+          partialVisible = visibilityRect[this.props.partialVisibility]
+        }
+
+        // if we have minimum top visibility set by props, lets check, if it meets the passed value
+        // so if for instance element is at least 200px in viewport, then show it.
+        isVisible = this.props.minTopValue
+          ? partialVisible && rect.top <= (containmentRect.bottom - this.props.minTopValue)
+          : partialVisible
+      }
     }
 
-    var state = this.state
+    var state = this.state;
     // notify the parent when the value changes
     if (this.state.isVisible !== isVisible) {
       state = {
