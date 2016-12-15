@@ -6,7 +6,7 @@ var ReactDOM = require('react-dom');
 var containmentPropType = React.PropTypes.any;
 
 if (typeof window !== 'undefined') {
-  containmentPropType = React.PropTypes.instanceOf(Element);
+  containmentPropType = React.PropTypes.instanceOf(window.Element);
 }
 
 module.exports = React.createClass({
