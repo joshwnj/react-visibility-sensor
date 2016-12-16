@@ -24,6 +24,9 @@ var Example = React.createClass({displayName: "Example",
         React.createElement("p", {className: "msg"}, this.state.msg), 
         React.createElement("div", {className: "before"}), 
         React.createElement(VisibilitySensor, {
+          scrollCheck: true, 
+          scrollDelay: 100, 
+          intervalDelay: 8000, 
           containment: this.props.containment, 
           onChange: this.onChange, 
           minTopValue: this.props.minTopValue, 
@@ -19393,7 +19396,20 @@ var ReactDOM = require('react-dom');
 var containmentPropType = React.PropTypes.any;
 
 if (typeof window !== 'undefined') {
-  containmentPropType = React.PropTypes.instanceOf(Element);
+  containmentPropType = React.PropTypes.instanceOf(window.Element);
+}
+
+function debounce(func, wait) {
+  var timeout;
+  return function() {
+    var context = this, args = arguments;
+    var later = function() {
+      timeout = null;
+      func.apply(context, args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
 }
 
 module.exports = React.createClass({
@@ -19402,9 +19418,15 @@ module.exports = React.createClass({
   propTypes: {
     onChange: React.PropTypes.func.isRequired,
     active: React.PropTypes.bool,
-    partialVisibility: React.PropTypes.bool,
-    delay: React.PropTypes.number,
+    partialVisibility: React.PropTypes.oneOfType([
+      React.PropTypes.bool,
+      React.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+    ]),
     delayedCall: React.PropTypes.bool,
+    scrollCheck: React.PropTypes.bool,
+    scrollDelay: React.PropTypes.number,
+    intervalCheck: React.PropTypes.bool,
+    intervalDelay: React.PropTypes.number,
     containment: containmentPropType,
     children: React.PropTypes.element,
     minTopValue: React.PropTypes.number
@@ -19415,7 +19437,10 @@ module.exports = React.createClass({
       active: true,
       partialVisibility: false,
       minTopValue: 0,
-      delay: 1000,
+      scrollCheck: false,
+      scrollDelay: 250,
+      intervalCheck: true,
+      intervalDelay: 1500,
       delayedCall: false,
       containment: null,
       children: React.createElement('span')
@@ -19448,15 +19473,29 @@ module.exports = React.createClass({
     }
   },
 
+  getContainer: function () {
+    return this.props.containment || window;
+  },
+
   startWatching: function () {
-    if (this.interval) { return; }
-    this.interval = setInterval(this.check, this.props.delay);
+    if (this.debounceCheck || this.interval) { return; }
+
+    if (this.props.intervalCheck) {
+      this.interval = setInterval(this.check, this.props.intervalDelay);
+    }
+
+    if (this.props.scrollCheck) {
+      this.debounceCheck = debounce(this.check, this.props.delay);
+      this.getContainer().addEventListener('scroll', this.debounceCheck);
+    }
+
     // if dont need delayed call, check on load ( before the first interval fires )
     !this.props.delayedCall && this.check();
   },
 
   stopWatching: function () {
-    this.interval = clearInterval(this.interval);
+    if (this.debounceCheck) { this.getContainer().removeEventListener('scroll', this.debounceCheck); }
+    if (this.interval) { this.interval = clearInterval(this.interval); }
   },
 
   /**
@@ -19492,29 +19531,23 @@ module.exports = React.createClass({
       right: rect.right <= containmentRect.right
     };
 
-    var fullVisible = (
+    var isVisible = (
       visibilityRect.top &&
       visibilityRect.left &&
       visibilityRect.bottom &&
       visibilityRect.right
     );
 
-    var isVisible = fullVisible;
-
     // check for partial visibility
     if (this.props.partialVisibility) {
-      var partialVertical =
-          (rect.top >= containmentRect.top && rect.top <= containmentRect.bottom)           // Top is visible
-          || (rect.bottom >= containmentRect.top && rect.bottom <= containmentRect.bottom)  // Bottom is visible
-          || (rect.top <= containmentRect.top && rect.bottom >= containmentRect.bottom);    // Center is visible
+      var partialVisible =
+          rect.top <= containmentRect.bottom && rect.bottom >= containmentRect.top &&
+          rect.left <= containmentRect.right && rect.right >= containmentRect.left;
 
-
-      var partialHorizontal =
-          (rect.left >= containmentRect.left && rect.left <= containmentRect.right)         // Left side is visible
-          || (rect.right >= containmentRect.left && rect.right <= containmentRect.right)    // Right side is visible
-          || (rect.left <= containmentRect.left && rect.right >= containmentRect.right);    // Center is visible
-
-      var partialVisible = partialVertical && partialHorizontal;
+      // account for partial visibility on a single edge
+      if (typeof this.props.partialVisibility === 'string') {
+        partialVisible = visibilityRect[this.props.partialVisibility]
+      }
 
       // if we have minimum top visibility set by props, lets check, if it meets the passed value
       // so if for instance element is at least 200px in viewport, then show it.
@@ -19523,7 +19556,7 @@ module.exports = React.createClass({
         : partialVisible
     }
 
-    var state = this.state
+    var state = this.state;
     // notify the parent when the value changes
     if (this.state.isVisible !== isVisible) {
       state = {
