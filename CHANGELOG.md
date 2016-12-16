@@ -1,6 +1,10 @@
 Changelog
 ====
 
+## 3.6.0
+
+- added support for "scrollCheck" as well as the default "intervalCheck" ([#54](https://github.com/joshwnj/react-visibility-sensor/pull/54)
+
 ## 3.5.0
 
 - simpler logic for `partialVisible` ([#41](https://github.com/joshwnj/react-visibility-sensor/pull/41))
