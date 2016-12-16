@@ -38,7 +38,33 @@ describe('VisibilitySensor', function () {
     };
 
     var element = (
-      <VisibilitySensor delay={10} onChange={onChange} />
+      <VisibilitySensor onChange={onChange} intervalDelay={10} />
+    );
+
+    ReactDOM.render(element, node);
+  });
+
+  it('should notify of changes to visibility when user scrolls', function (done) {
+    var firstTime = true;
+    var onChange = function (isVisible) {
+      // by default we expect the sensor to be visible
+      if (firstTime) {
+        firstTime = false;
+        assert.equal(isVisible, true, 'Component starts out visible');
+
+        window.scrollTo(0,1000);
+      }
+      // after moving the sensor it should be not visible anymore
+      else {
+        assert.equal(isVisible, false, 'Component has moved out of the visible viewport');
+        done();
+      }
+    };
+
+    var element = (
+      <div style={{height: '5000px'}}>
+        <VisibilitySensor scrollCheck scrollDelay={10} onChange={onChange} intervalCheck={false} />
+      </div>
     );
 
     ReactDOM.render(element, node);
@@ -66,9 +92,10 @@ describe('VisibilitySensor', function () {
       }
     };
 
+    // set interval must be one in order for this to work
     function getElement(style) {
       return (
-        <VisibilitySensor delay={10} onChange={onChange}>
+        <VisibilitySensor onChange={onChange} intervalDelay={10}>
           <div style={style} />
         </VisibilitySensor>
       );
@@ -84,7 +111,7 @@ describe('VisibilitySensor', function () {
       done();
     };
     var element = (
-      <VisibilitySensor delay={1} onChange={onChange} />
+      <VisibilitySensor onChange={onChange} />
     );
 
     ReactDOM.render(element, node);
@@ -102,7 +129,7 @@ describe('VisibilitySensor', function () {
     }, 20);
 
     var element = (
-      <VisibilitySensor active={false} delay={1} onChange={onChange} />
+      <VisibilitySensor active={false} onChange={onChange} intervalDelay={10} />
     );
 
     ReactDOM.render(element, node);

@@ -55,9 +55,14 @@ Props
 - `active`: (default `true`) boolean flag for enabling / disabling the sensor.  When `active !== true` the sensor will not fire the `onChange` callback.
 - `partialVisibility`: (default `false`) consider element visible if only part of it is visible. Also possible values are - 'top', 'right', 'bottom', 'left' - in case it's needed to detect when one of these become visible explicitly.
 - `minTopValue`: (default `false`) consider element visible if only part of it is visible and a minimum amount of pixels could be set, so if at least 100px are in viewport, we mark element as visible.
-- `delay`: (default `1000`) integer, number of milliseconds between checking the element's position in relation the the window viewport. Making this number too low will have a negative impact on performance.
+- `intervalCheck`: (default `true`) the default usage of Visibility Sensor is to trigger a check on user scrolling, by checking this as true, it gives you the possibility to check if the element is in view even if it wasn't because of a user scroll
+- `intervalDelay`: (default `1000`) integer, number of milliseconds between checking the element's position in relation the the window viewport. Making this number too low will have a negative impact on performance.
+- `scrollCheck`: (default: `false`) by making this true, the scroll listener is enabled.
+- `scrollDelay`: (default: `250`) is the debounce rate at which the check is triggered. Ex: 250ms after the user stopped scrolling.
 - `containment`: (optional) element to use as a viewport when checking visibility. Default behaviour is to use the browser window as viewport.
 - `delayedCall`: (default `false`) if is set to true, wont execute on page load ( prevents react apps triggering elements as visible before styles are loaded )
+
+It's possible to use both `intervalCheck` and `scrollCheck` together. This means you can detect most visibility changes quickly with `scrollCheck`, and an `intervalCheck` with a higher `intervalDelay` will act as a fallback for other visibility events, such as resize of a container.
 
 Thanks
 ----
@@ -69,6 +74,7 @@ Special thanks to contributors:
 - [@gaearon](https://github.com/gaearon)
 - [@kompot](https://github.com/kompot)
 - [@EugeneHlushko](https://github.com/EugeneHlushko)
+- [@eek](http://github.com/eek)
 
 License
 ----
