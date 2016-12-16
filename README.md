@@ -74,6 +74,7 @@ Special thanks to contributors:
 - [@gaearon](https://github.com/gaearon)
 - [@kompot](https://github.com/kompot)
 - [@EugeneHlushko](https://github.com/EugeneHlushko)
+- [@eek](http://github.com/eek)
 
 License
 ----
