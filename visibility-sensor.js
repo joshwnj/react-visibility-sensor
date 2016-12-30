@@ -95,7 +95,7 @@ module.exports = React.createClass({
     }
 
     if (this.props.scrollCheck) {
-      this.debounceCheck = debounce(this.check, this.props.delay);
+      this.debounceCheck = debounce(this.check, this.props.scrollDelay);
       this.getContainer().addEventListener('scroll', this.debounceCheck);
     }
 
