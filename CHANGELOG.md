@@ -1,9 +1,13 @@
 Changelog
 ====
 
+## 3.6.1
+
+- fixed typo from `delay` to `scrollDelay` ([#59](https://github.com/joshwnj/react-visibility-sensor/pull/59))
+
 ## 3.6.0
 
-- added support for "scrollCheck" as well as the default "intervalCheck" ([#54](https://github.com/joshwnj/react-visibility-sensor/pull/54)
+- added support for "scrollCheck" as well as the default "intervalCheck" ([#54](https://github.com/joshwnj/react-visibility-sensor/pull/54))
 
 ## 3.5.0
 
