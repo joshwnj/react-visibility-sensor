@@ -20,7 +20,7 @@
     "react-component",
     "visibility"
   ],
-  "author": "joshwnj",
+  "author": "Mole Wong <tszyeung@gmail.com",
   "license": "MIT",
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0",
