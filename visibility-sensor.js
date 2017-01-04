@@ -131,7 +131,7 @@ module.exports = React.createClass({
         return false;
     }
 
-    if(this.props.visibilityCheck && elStyle.display === 'none') {
+    if(this.props.visibilityCheck && elStyle.visibility === 'hidden') {
         return false;
     }
 
