@@ -134,4 +134,25 @@ describe('VisibilitySensor', function () {
 
     ReactDOM.render(element, node);
   });
+
+  it('should clear interval and debounceCheck when deactivated', function () {
+    var onChange = function () {};
+
+    var element1 = (
+      <VisibilitySensor active={true} onChange={onChange} scrollCheck />
+    );
+
+    var element2 = (
+      <VisibilitySensor active={false} onChange={onChange} scrollCheck />
+    );
+
+    var component1 = ReactDOM.render(element1, node);
+    assert(component1.interval, 'interval should be set');
+    assert(component1.debounceCheck, 'debounceCheck should be set');
+
+    var component2 = ReactDOM.render(element2, node);
+    assert(!component2.interval, 'interval should not be set');
+    assert(!component2.debounceCheck, 'debounceCheck should not be set');
+
+  });
 });
