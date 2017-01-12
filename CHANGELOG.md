@@ -1,6 +1,10 @@
 Changelog
 ====
 
+## 3.6.2
+
+- fixed a problem where `.debounceCheck` is not cleared properly ([#62](https://github.com/joshwnj/react-visibility-sensor/pull/62))
+
 ## 3.6.1
 
 - fixed typo from `delay` to `scrollDelay` ([#59](https://github.com/joshwnj/react-visibility-sensor/pull/59))
