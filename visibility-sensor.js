@@ -104,7 +104,10 @@ module.exports = React.createClass({
   },
 
   stopWatching: function () {
-    if (this.debounceCheck) { this.getContainer().removeEventListener('scroll', this.debounceCheck); }
+    if (this.debounceCheck) {
+      this.getContainer().removeEventListener('scroll', this.debounceCheck);
+      this.debounceCheck = null;
+    }
     if (this.interval) { this.interval = clearInterval(this.interval); }
   },
 
