@@ -48,11 +48,13 @@ module.exports = React.createClass({
     delayedCall: React.PropTypes.bool,
     scrollCheck: React.PropTypes.bool,
     scrollDelay: React.PropTypes.number,
+    throttleScroll: React.PropTypes.bool,
+    throttleLimit: React.PropTypes.number,
     intervalCheck: React.PropTypes.bool,
     intervalDelay: React.PropTypes.number,
     containment: containmentPropType,
     children: React.PropTypes.element,
-    minTopValue: React.PropTypes.number
+    minTopValue: React.PropTypes.number,
   },
 
   getDefaultProps: function () {
@@ -134,7 +136,6 @@ module.exports = React.createClass({
    * Check if the element is within the visible viewport
    */
   check: function () {
-    console.log(this.props)
     var el = this.node;
     var rect;
     var containmentRect;
