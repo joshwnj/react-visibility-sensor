@@ -9,6 +9,19 @@ if (typeof window !== 'undefined') {
   containmentPropType = React.PropTypes.instanceOf(window.Element);
 }
 
+function throttle (callback, limit) {
+    var wait = false;                 
+    return function () {              
+        if (!wait) {                  
+            wait = true;              
+            setTimeout(function () {
+                callback.call();
+                wait = false;
+            }, limit);
+        }
+    }
+}
+
 function debounce(func, wait) {
   var timeout;
   return function() {
@@ -49,8 +62,10 @@ module.exports = React.createClass({
       minTopValue: 0,
       scrollCheck: false,
       scrollDelay: 250,
+      throttleScroll: false,
+      throttleLimit: 50,
       intervalCheck: true,
-      intervalDelay: 1500,
+      intervalDelay: 100,
       delayedCall: false,
       containment: null,
       children: React.createElement('span')
@@ -65,6 +80,7 @@ module.exports = React.createClass({
   },
 
   componentDidMount: function () {
+    this.node = ReactDOM.findDOMNode(this);
     if (this.props.active) {
       this.startWatching();
     }
@@ -74,7 +90,7 @@ module.exports = React.createClass({
     this.stopWatching();
   },
 
-  componentWillReceiveProps: function (nextProps) {
+ componentWillReceiveProps: function (nextProps) {
     if (nextProps.active) {
       this.setState(this.getInitialState());
       this.startWatching();
@@ -94,7 +110,10 @@ module.exports = React.createClass({
       this.interval = setInterval(this.check, this.props.intervalDelay);
     }
 
-    if (this.props.scrollCheck) {
+    if (this.props.throttleScroll) {
+      this.debounceCheck = throttle(this.check, this.props.throttleLimit);
+      this.getContainer().addEventListener('scroll', this.debounceCheck);
+    } else if (this.props.scrollCheck) {
       this.debounceCheck = debounce(this.check, this.props.scrollDelay);
       this.getContainer().addEventListener('scroll', this.debounceCheck);
     }
@@ -115,10 +134,10 @@ module.exports = React.createClass({
    * Check if the element is within the visible viewport
    */
   check: function () {
-    var el = ReactDOM.findDOMNode(this);
+    console.log(this.props)
+    var el = this.node;
     var rect;
     var containmentRect;
-
     // if the component has rendered to null, dont update visibility
     if (!el) {
       return this.state;
