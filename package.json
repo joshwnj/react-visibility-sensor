@@ -22,6 +22,10 @@
   ],
   "author": "joshwnj",
   "license": "MIT",
+  "peerDependencies": {
+    "react": "^0.14.0 || ^15.0.0",
+    "react-dom": "^0.14.0 || ^15.0.0"
+  },
   "devDependencies": {
     "browserify": "^5.11.2",
     "browserify-shim": "^3.8.12",
@@ -32,10 +36,10 @@
     "karma-mocha": "^0.1.9",
     "karma-phantomjs-launcher": "^0.1.4",
     "mocha": "^1.21.4",
-    "reactify": "^1.1.1",
-    "uglifyjs": "^2.4.10",
     "react": "^0.14.0 || ^15.0.0",
-    "react-dom": "^0.14.0 || ^15.0.0"
+    "react-dom": "^0.14.0 || ^15.0.0",
+    "reactify": "^1.1.1",
+    "uglifyjs": "^2.4.10"
   },
   "repository": {
     "type": "git",

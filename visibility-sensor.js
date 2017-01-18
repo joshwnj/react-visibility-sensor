@@ -15,7 +15,7 @@ function throttle (callback, limit) {
         if (!wait) {                  
             wait = true;              
             setTimeout(function () {
-                callback.call();
+                callback();
                 wait = false;
             }, limit);
         }
