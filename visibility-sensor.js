@@ -33,6 +33,10 @@ module.exports = React.createClass({
       React.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
     ]),
     delayedCall: React.PropTypes.bool,
+    offset: React.PropTypes.shape({
+      direction: React.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+      value: React.PropTypes.number
+    }),
     scrollCheck: React.PropTypes.bool,
     scrollDelay: React.PropTypes.number,
     intervalCheck: React.PropTypes.bool,
@@ -52,6 +56,7 @@ module.exports = React.createClass({
       intervalCheck: true,
       intervalDelay: 1500,
       delayedCall: false,
+      offset: {},
       containment: null,
       children: React.createElement('span')
     };
@@ -167,6 +172,38 @@ module.exports = React.createClass({
       isVisible = this.props.minTopValue
         ? partialVisible && rect.top <= (containmentRect.bottom - this.props.minTopValue)
         : partialVisible
+    }
+
+    // Check if visibility is wanted via offset?
+    if (typeof this.props.offset === 'object' &&
+        typeof this.props.offset.direction === 'string' &&
+        typeof this.props.offset.value === 'number'
+      ) {
+      var offsetDir = this.props.offset.direction;
+      var offsetVal = Math.abs(this.props.offset.value);
+
+      // Rules for checking different kind of offsets. In example if the element is
+      // 90px below viewport and offsetTop is 100, it is considered visible.
+      var offsetVisibility = {
+        top: ((containmentRect.bottom + offsetVal) > rect.top) &&
+             (containmentRect.top < rect.bottom) &&
+             (containmentRect.left < rect.right) &&
+             (containmentRect.right > rect.left),
+        left: ((containmentRect.right + offsetVal) > rect.left) &&
+              (containmentRect.bottom > rect.top) &&
+              (containmentRect.top < rect.bottom) &&
+              (containmentRect.left < rect.right),
+        bottom: ((containmentRect.top - offsetVal) < rect.bottom) &&
+                (containmentRect.left < rect.right) &&
+                (containmentRect.right > rect.left) &&
+                (containmentRect.bottom > rect.top),
+        right: ((containmentRect.left - offsetVal) < rect.right) &&
+               (containmentRect.right > rect.left) &&
+               (containmentRect.top < rect.bottom) &&
+               (containmentRect.bottom > rect.top)
+      }
+
+      isVisible = offsetVisibility[offsetDir]
     }
 
     var state = this.state;
