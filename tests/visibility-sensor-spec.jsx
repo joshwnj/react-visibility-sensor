@@ -155,4 +155,47 @@ describe('VisibilitySensor', function () {
     assert(!component2.debounceCheck, 'debounceCheck should not be set');
 
   });
+
+  it('should work when using offset prop and moving to outside of viewport', function (done) {
+    var firstTime = true;
+    node.setAttribute('style', 'position:absolute; width:100px; left:-99px');
+    var onChange = function (isVisible) {
+      if(firstTime) {
+        firstTime = false;
+        assert.equal(isVisible, true, 'Component starts out visible');
+        node.setAttribute('style', 'position:absolute; width:100px; left:-101px');
+      } else {
+        assert.equal(isVisible, false, 'Component has moved out of visible viewport');
+        done();
+      }
+    }
+
+    var element = (
+      <VisibilitySensor onChange={onChange} offset={{direction: 'right', value:100}} intervalDelay={10} />
+    );
+
+    ReactDOM.render(element, node);
+  });
+
+  it('should work when using offset prop and moving to inside of viewport', function (done) {
+    var firstTime = true;
+    node.setAttribute('style', 'position:absolute; width:100px; left:-101px');
+    var onChange = function (isVisible) {
+      if(firstTime) {
+        firstTime = false;
+        assert.equal(isVisible, false, 'Component starts out invisible');
+        node.setAttribute('style', 'position:absolute; width:100px; left:-99px');
+      } else {
+        assert.equal(isVisible, true, 'Component has moved inside isible viewport');
+        done();
+      }
+    }
+
+    var element = (
+      <VisibilitySensor onChange={onChange} offset={{direction: 'right', value:100}} intervalDelay={10} />
+    );
+
+    ReactDOM.render(element, node);
+  });
+
 });
