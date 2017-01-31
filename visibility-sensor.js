@@ -180,7 +180,7 @@ module.exports = React.createClass({
         typeof this.props.offset.value === 'number'
       ) {
       var offsetDir = this.props.offset.direction;
-      var offsetVal = Math.abs(this.props.offset.value);
+      var offsetVal = this.props.offset.value;
 
       // Rules for checking different kind of offsets. In example if the element is
       // 90px below viewport and offsetTop is 100, it is considered visible.
