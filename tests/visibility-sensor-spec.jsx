@@ -156,43 +156,64 @@ describe('VisibilitySensor', function () {
 
   });
 
-  it('should work when using offset prop and moving to outside of viewport', function (done) {
+  it('should work when using offset prop and moving to outside of offset area', function (done) {
     var firstTime = true;
-    node.setAttribute('style', 'position:absolute; width:100px; left:-99px');
+    node.setAttribute('style', 'position:absolute; width:100px; height:100px; top:51px');
     var onChange = function (isVisible) {
       if(firstTime) {
         firstTime = false;
         assert.equal(isVisible, true, 'Component starts out visible');
-        node.setAttribute('style', 'position:absolute; width:100px; left:-101px');
+        node.setAttribute('style', 'position:absolute; width:100px; height:100px; top:49px');
       } else {
-        assert.equal(isVisible, false, 'Component has moved out of visible viewport');
+        assert.equal(isVisible, false, 'Component has moved out of offset area');
         done();
       }
     }
 
     var element = (
-      <VisibilitySensor onChange={onChange} offset={{direction: 'right', value:100}} intervalDelay={10} />
+      <VisibilitySensor onChange={onChange} offset={{direction: 'top', value:50}} intervalDelay={10} />
     );
 
     ReactDOM.render(element, node);
   });
 
-  it('should work when using offset prop and moving to inside of viewport', function (done) {
+  it('should work when using offset prop and moving to inside of offset area', function (done) {
     var firstTime = true;
-    node.setAttribute('style', 'position:absolute; width:100px; left:-101px');
+    node.setAttribute('style', 'position:absolute; width:100px; height:100px; top:49px');
     var onChange = function (isVisible) {
       if(firstTime) {
         firstTime = false;
         assert.equal(isVisible, false, 'Component starts out invisible');
-        node.setAttribute('style', 'position:absolute; width:100px; left:-99px');
+        node.setAttribute('style', 'position:absolute; width:100px; height:100px; top:51px');
       } else {
-        assert.equal(isVisible, true, 'Component has moved inside isible viewport');
+        assert.equal(isVisible, true, 'Component has moved inside of offset area');
         done();
       }
     }
 
     var element = (
-      <VisibilitySensor onChange={onChange} offset={{direction: 'right', value:100}} intervalDelay={10} />
+      <VisibilitySensor onChange={onChange} offset={{direction: 'top', value:50}} intervalDelay={10} />
+    );
+
+    ReactDOM.render(element, node);
+  });
+
+  it('should work when using negative offset prop and moving to outside of viewport', function (done) {
+    var firstTime = true;
+    node.setAttribute('style', 'position:absolute; width:100px; height:100px; top:-49px');
+    var onChange = function (isVisible) {
+      if(firstTime) {
+        firstTime = false;
+        assert.equal(isVisible, true, 'Component starts out visible');
+        node.setAttribute('style', 'position:absolute; width:100px; height:100px; top:-51px');
+      } else {
+        assert.equal(isVisible, false, 'Component has moved outside of viewport and visible area');
+        done();
+      }
+    }
+
+    var element = (
+      <VisibilitySensor onChange={onChange} offset={{direction: 'top', value:-50}} intervalDelay={10} />
     );
 
     ReactDOM.render(element, node);

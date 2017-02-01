@@ -185,22 +185,22 @@ module.exports = React.createClass({
       // Rules for checking different kind of offsets. In example if the element is
       // 90px below viewport and offsetTop is 100, it is considered visible.
       var offsetVisibility = {
-        top: ((containmentRect.bottom + offsetVal) > rect.top) &&
-             (containmentRect.top < rect.bottom) &&
-             (containmentRect.left < rect.right) &&
-             (containmentRect.right > rect.left),
-        left: ((containmentRect.right + offsetVal) > rect.left) &&
-              (containmentRect.bottom > rect.top) &&
-              (containmentRect.top < rect.bottom) &&
-              (containmentRect.left < rect.right),
-        bottom: ((containmentRect.top - offsetVal) < rect.bottom) &&
-                (containmentRect.left < rect.right) &&
-                (containmentRect.right > rect.left) &&
-                (containmentRect.bottom > rect.top),
-        right: ((containmentRect.left - offsetVal) < rect.right) &&
-               (containmentRect.right > rect.left) &&
-               (containmentRect.top < rect.bottom) &&
-               (containmentRect.bottom > rect.top)
+        top: ((containmentRect.top + offsetVal) < rect.top) &&
+             (containmentRect.bottom > rect.bottom) &&
+             (containmentRect.left < rect.left) &&
+             (containmentRect.right > rect.right),
+        left: ((containmentRect.left + offsetVal) < rect.left) &&
+              (containmentRect.bottom > rect.bottom) &&
+              (containmentRect.top < rect.top) &&
+              (containmentRect.right > rect.right),
+        bottom: ((containmentRect.bottom - offsetVal) > rect.bottom) &&
+                (containmentRect.left < rect.left) &&
+                (containmentRect.right > rect.right) &&
+                (containmentRect.top < rect.top),
+        right: ((containmentRect.right - offsetVal) > rect.right) &&
+               (containmentRect.left < rect.left) &&
+               (containmentRect.top < rect.top) &&
+               (containmentRect.bottom > rect.bottom)
       }
 
       isVisible = offsetVisibility[offsetDir]
