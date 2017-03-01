@@ -1,6 +1,10 @@
 Changelog
 ====
 
+## 3.7.0
+
+- added `offset` prop ([#64](https://github.com/joshwnj/react-visibility-sensor/pull/64))
+
 ## 3.6.2
 
 - fixed a problem where `.debounceCheck` is not cleared properly ([#62](https://github.com/joshwnj/react-visibility-sensor/pull/62))
