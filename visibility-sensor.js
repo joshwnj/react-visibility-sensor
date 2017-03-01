@@ -2,6 +2,7 @@
 
 var React = require('react');
 var ReactDOM = require('react-dom');
+var isVisibleWithOffset = require('./lib/is-visible-with-offset')
 
 var containmentPropType = React.PropTypes.any;
 
@@ -175,35 +176,12 @@ module.exports = React.createClass({
     }
 
     // Check if visibility is wanted via offset?
-    if (typeof this.props.offset === 'object' &&
-        typeof this.props.offset.direction === 'string' &&
-        typeof this.props.offset.value === 'number'
-      ) {
-      var offsetDir = this.props.offset.direction;
-      var offsetVal = this.props.offset.value;
-
-      // Rules for checking different kind of offsets. In example if the element is
-      // 90px below viewport and offsetTop is 100, it is considered visible.
-      var offsetVisibility = {
-        top: ((containmentRect.top + offsetVal) < rect.top) &&
-             (containmentRect.bottom > rect.bottom) &&
-             (containmentRect.left < rect.left) &&
-             (containmentRect.right > rect.right),
-        left: ((containmentRect.left + offsetVal) < rect.left) &&
-              (containmentRect.bottom > rect.bottom) &&
-              (containmentRect.top < rect.top) &&
-              (containmentRect.right > rect.right),
-        bottom: ((containmentRect.bottom - offsetVal) > rect.bottom) &&
-                (containmentRect.left < rect.left) &&
-                (containmentRect.right > rect.right) &&
-                (containmentRect.top < rect.top),
-        right: ((containmentRect.right - offsetVal) > rect.right) &&
-               (containmentRect.left < rect.left) &&
-               (containmentRect.top < rect.top) &&
-               (containmentRect.bottom > rect.bottom)
-      }
-
-      isVisible = offsetVisibility[offsetDir]
+    var offset = this.props.offset
+    var hasValidOffset = typeof offset === 'object' &&
+        typeof offset.direction === 'string' &&
+        typeof offset.value === 'number';
+    if (hasValidOffset) {
+      isVisible = isVisibleWithOffset(offset, rect, containmentRect);
     }
 
     var state = this.state;
