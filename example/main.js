@@ -29,7 +29,8 @@ var Example = React.createClass({
           containment={this.props.containment}
           onChange={this.onChange}
           minTopValue={this.props.minTopValue}
-          partialVisibility={this.props.partialVisibility}>
+          partialVisibility={this.props.partialVisibility}
+          offset={this.props.offset}>
           <div className='sensor' />
         </VisibilitySensor>
         <div className='after'></div>
