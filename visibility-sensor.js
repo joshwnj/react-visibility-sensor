@@ -2,7 +2,6 @@
 
 var React = require('react');
 var ReactDOM = require('react-dom');
-var isVisibleWithOffset = require('./lib/is-visible-with-offset')
 
 var containmentPropType = React.PropTypes.any;
 
@@ -133,7 +132,13 @@ module.exports = React.createClass({
     rect = el.getBoundingClientRect();
 
     if (this.props.containment) {
-      containmentRect = this.props.containment.getBoundingClientRect();
+      var containmentDOMRect = this.props.containment.getBoundingClientRect();
+      containmentRect = {
+        top: containmentDOMRect.top,
+        left: containmentDOMRect.left,
+        bottom: containmentDOMRect.bottom,
+        right: containmentDOMRect.right,
+      }
     } else {
       containmentRect = {
         top: 0,
@@ -141,6 +146,16 @@ module.exports = React.createClass({
         bottom: window.innerHeight || document.documentElement.clientHeight,
         right: window.innerWidth || document.documentElement.clientWidth
       };
+    }
+
+    // Check if visibility is wanted via offset?
+    var offset = this.props.offset || {};
+    var hasValidOffset = typeof offset === 'object';
+    if (hasValidOffset) {
+      containmentRect.top += offset.top || 0;
+      containmentRect.left += offset.left || 0;
+      containmentRect.bottom -= offset.bottom || 0;
+      containmentRect.right -= offset.right || 0;
     }
 
     var visibilityRect = {
@@ -173,15 +188,6 @@ module.exports = React.createClass({
       isVisible = this.props.minTopValue
         ? partialVisible && rect.top <= (containmentRect.bottom - this.props.minTopValue)
         : partialVisible
-    }
-
-    // Check if visibility is wanted via offset?
-    var offset = this.props.offset
-    var hasValidOffset = typeof offset === 'object' &&
-        typeof offset.direction === 'string' &&
-        typeof offset.value === 'number';
-    if (hasValidOffset) {
-      isVisible = isVisibleWithOffset(offset, rect, containmentRect);
     }
 
     var state = this.state;
