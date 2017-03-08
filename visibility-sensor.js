@@ -10,19 +10,6 @@ if (typeof window !== 'undefined') {
   containmentPropType = React.PropTypes.instanceOf(window.Element);
 }
 
-function debounce(func, wait) {
-  var timeout;
-  return function() {
-    var context = this, args = arguments;
-    var later = function() {
-      timeout = null;
-      func.apply(context, args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}
-
 module.exports = React.createClass({
   displayName: 'VisibilitySensor',
 
@@ -89,6 +76,21 @@ module.exports = React.createClass({
     }
   },
 
+  debounce: function (func, wait) {
+    var timeout;
+
+    return function() {
+      var context = this, args = arguments;
+      var later = function() {
+        timeout = null;
+        func.apply(context, args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      this.lastTimeout = timeout;
+    }.bind(this)
+  },
+
   getContainer: function () {
     return this.props.containment || window;
   },
@@ -101,7 +103,7 @@ module.exports = React.createClass({
     }
 
     if (this.props.scrollCheck) {
-      this.debounceCheck = debounce(this.check, this.props.scrollDelay);
+      this.debounceCheck = this.debounce(this.check, this.props.scrollDelay);
       this.getContainer().addEventListener('scroll', this.debounceCheck);
     }
 
@@ -113,6 +115,7 @@ module.exports = React.createClass({
     if (this.debounceCheck) {
       this.getContainer().removeEventListener('scroll', this.debounceCheck);
       this.debounceCheck = null;
+      clearTimeout(this.lastTimeout);
     }
     if (this.interval) { this.interval = clearInterval(this.interval); }
   },
