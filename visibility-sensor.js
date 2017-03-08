@@ -39,6 +39,8 @@ module.exports = React.createClass({
     }),
     scrollCheck: React.PropTypes.bool,
     scrollDelay: React.PropTypes.number,
+    resizeCheck: React.PropTypes.bool,
+    resizeDelay: React.PropTypes.number,
     intervalCheck: React.PropTypes.bool,
     intervalDelay: React.PropTypes.number,
     containment: containmentPropType,
@@ -53,6 +55,8 @@ module.exports = React.createClass({
       minTopValue: 0,
       scrollCheck: false,
       scrollDelay: 250,
+      resizeCheck: false,
+      resizeDelay: 250,
       intervalCheck: true,
       intervalDelay: 1500,
       delayedCall: false,
@@ -92,6 +96,20 @@ module.exports = React.createClass({
     return this.props.containment || window;
   },
 
+  addEventListenerWithDebounce: function (target, event, delay) {
+    if (!this.debounceCheck) {
+      this.debounceCheck = {};
+    }
+
+    var info = {
+      target: target,
+      fn: debounce(this.check, delay || 0),
+    };
+
+    target.addEventListener(event, info.fn);
+    this.debounceCheck[event] = info;
+  },
+
   startWatching: function () {
     if (this.debounceCheck || this.interval) { return; }
 
@@ -100,8 +118,15 @@ module.exports = React.createClass({
     }
 
     if (this.props.scrollCheck) {
-      this.debounceCheck = debounce(this.check, this.props.scrollDelay);
-      this.getContainer().addEventListener('scroll', this.debounceCheck);
+      this.addEventListenerWithDebounce(
+        this.getContainer(), 'scroll', this.props.scrollDelay
+      );
+    }
+
+    if (this.props.resizeCheck) {
+      this.addEventListenerWithDebounce(
+        window, 'resize', this.props.resizeDelay
+      );
     }
 
     // if dont need delayed call, check on load ( before the first interval fires )
@@ -110,9 +135,21 @@ module.exports = React.createClass({
 
   stopWatching: function () {
     if (this.debounceCheck) {
-      this.getContainer().removeEventListener('scroll', this.debounceCheck);
-      this.debounceCheck = null;
+      // clean up event listeners and their debounce callers
+      for (var debounceEvent in this.debounceCheck) {
+        if (this.debounceCheck.hasOwnProperty()) {
+          var debounceInfo = this.debounceCheck[debounceEvent];
+
+          debounceInfo.target.removeEventListener(
+            debounceEvent, debounceInfo.fn
+          );
+
+          this.debounceCheck[debounceEvent] = null;
+        }
+      }
     }
+    this.debounceCheck = null;
+
     if (this.interval) { this.interval = clearInterval(this.interval); }
   },
 

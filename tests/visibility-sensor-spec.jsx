@@ -139,21 +139,22 @@ describe('VisibilitySensor', function () {
     var onChange = function () {};
 
     var element1 = (
-      <VisibilitySensor active={true} onChange={onChange} scrollCheck />
+      <VisibilitySensor active={true} onChange={onChange} scrollCheck resizeCheck />
     );
 
     var element2 = (
-      <VisibilitySensor active={false} onChange={onChange} scrollCheck />
+      <VisibilitySensor active={false} onChange={onChange} scrollCheck resizeCheck />
     );
 
     var component1 = ReactDOM.render(element1, node);
     assert(component1.interval, 'interval should be set');
     assert(component1.debounceCheck, 'debounceCheck should be set');
+    assert(component1.debounceCheck.scroll, 'debounceCheck.scroll should be set');
+    assert(component1.debounceCheck.resize, 'debounceCheck.scroll should be set');
 
     var component2 = ReactDOM.render(element2, node);
     assert(!component2.interval, 'interval should not be set');
     assert(!component2.debounceCheck, 'debounceCheck should not be set');
-
   });
 
   it('should work when using offset prop and moving to outside of offset area', function (done) {
@@ -171,7 +172,7 @@ describe('VisibilitySensor', function () {
     }
 
     var element = (
-      <VisibilitySensor onChange={onChange} offset={{direction: 'top', value:50}} intervalDelay={10} />
+      <VisibilitySensor onChange={onChange} offset={{top:50}} intervalDelay={10} />
     );
 
     ReactDOM.render(element, node);
@@ -192,7 +193,7 @@ describe('VisibilitySensor', function () {
     }
 
     var element = (
-      <VisibilitySensor onChange={onChange} offset={{direction: 'top', value:50}} intervalDelay={10} />
+      <VisibilitySensor onChange={onChange} offset={{top:50}} intervalDelay={10} />
     );
 
     ReactDOM.render(element, node);
@@ -213,7 +214,7 @@ describe('VisibilitySensor', function () {
     }
 
     var element = (
-      <VisibilitySensor onChange={onChange} offset={{direction: 'top', value:-50}} intervalDelay={10} />
+      <VisibilitySensor onChange={onChange} offset={{top:-50}} intervalDelay={10} />
     );
 
     ReactDOM.render(element, node);
