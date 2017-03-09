@@ -79,21 +79,6 @@ module.exports = React.createClass({
     }
   },
 
-  debounce: function (func, wait) {
-    var timeout;
-
-    return function() {
-      var context = this, args = arguments;
-      var later = function() {
-        timeout = null;
-        func.apply(context, args);
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-      this.lastTimeout = timeout;
-    }.bind(this)
-  },
-
   getContainer: function () {
     return this.props.containment || window;
   },
