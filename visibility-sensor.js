@@ -152,7 +152,7 @@ module.exports = React.createClass({
     if (this.debounceCheck) {
       // clean up event listeners and their debounce callers
       for (var debounceEvent in this.debounceCheck) {
-        if (this.debounceCheck.hasOwnProperty()) {
+        if (this.debounceCheck.hasOwnProperty(debounceEvent)) {
           var debounceInfo = this.debounceCheck[debounceEvent];
 
           clearTimeout(debounceInfo.timeout);
