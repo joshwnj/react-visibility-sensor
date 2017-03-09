@@ -61,6 +61,7 @@ Props
 - `scrollCheck`: (default: `false`) by making this true, the scroll listener is enabled.
 - `scrollDelay`: (default: `250`) is the debounce rate at which the check is triggered. Ex: 250ms after the user stopped scrolling.
 - `containment`: (optional) element to use as a viewport when checking visibility. Default behaviour is to use the browser window as viewport.
+- `containmentPadding`: (default `0`) integer, padding to expand the containment / viewport. When offloading rich content for performance, this padding will allow you to expand the rendered region outside the visible region in order to maintain smooth scrolling. This padding does not require `containment` to be set, it will also default to the window as the viewport.
 - `delayedCall`: (default `false`) if is set to true, wont execute on page load ( prevents react apps triggering elements as visible before styles are loaded )
 
 It's possible to use both `intervalCheck` and `scrollCheck` together. This means you can detect most visibility changes quickly with `scrollCheck`, and an `intervalCheck` with a higher `intervalDelay` will act as a fallback for other visibility events, such as resize of a container.
