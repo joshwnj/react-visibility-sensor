@@ -60,8 +60,10 @@ Props
 - `intervalDelay`: (default `1500`) integer, number of milliseconds between checking the element's position in relation the the window viewport. Making this number too low will have a negative impact on performance.
 - `scrollCheck`: (default: `false`) by making this true, the scroll listener is enabled.
 - `scrollDelay`: (default: `250`) is the debounce rate at which the check is triggered. Ex: 250ms after the user stopped scrolling.
+- `scrollThrottle`: (default: `-1`) by specifying a value > -1, you are enabling throttle instead of the delay to trigger checks on scroll event. Throttle supercedes delay.
 - `resizeCheck`: (default: `false`) by making this true, the resize listener is enabled. Resize listener only listens to the window.
 - `resizeDelay`: (default: `250`) is the debounce rate at which the check is triggered. Ex: 250ms after the user stopped resizing.
+- `resizeThrottle`: (default: `-1`) by specifying a value > -1, you are enabling throttle instead of the delay to trigger checks on resize event. Throttle supercedes delay.
 - `containment`: (optional) element to use as a viewport when checking visibility. Default behaviour is to use the browser window as viewport.
 - `delayedCall`: (default `false`) if is set to true, wont execute on page load ( prevents react apps triggering elements as visible before styles are loaded )
 

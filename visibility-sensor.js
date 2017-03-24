@@ -9,6 +9,32 @@ if (typeof window !== 'undefined') {
   containmentPropType = React.PropTypes.instanceOf(window.Element);
 }
 
+function throttle (callback, limit) {
+    var wait = false;
+    return function () {
+        if (!wait) {
+            wait = true;
+            setTimeout(function () {
+                callback();
+                wait = false;
+            }, limit);
+        }
+    }
+}
+
+function debounce(func, wait) {
+  var timeout;
+  return function() {
+    var context = this, args = arguments;
+    var later = function() {
+      timeout = null;
+      func.apply(context, args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
 module.exports = React.createClass({
   displayName: 'VisibilitySensor',
 
@@ -26,13 +52,15 @@ module.exports = React.createClass({
     }),
     scrollCheck: React.PropTypes.bool,
     scrollDelay: React.PropTypes.number,
+    scrollThrottle: React.PropTypes.number,
     resizeCheck: React.PropTypes.bool,
     resizeDelay: React.PropTypes.number,
+    resizeThrottle: React.PropTypes.number,
     intervalCheck: React.PropTypes.bool,
     intervalDelay: React.PropTypes.number,
     containment: containmentPropType,
     children: React.PropTypes.element,
-    minTopValue: React.PropTypes.number
+    minTopValue: React.PropTypes.number,
   },
 
   getDefaultProps: function () {
@@ -42,10 +70,12 @@ module.exports = React.createClass({
       minTopValue: 0,
       scrollCheck: false,
       scrollDelay: 250,
+      scrollThrottle: -1,
       resizeCheck: false,
       resizeDelay: 250,
+      resizeThrottle: -1,
       intervalCheck: true,
-      intervalDelay: 1500,
+      intervalDelay: 100,
       delayedCall: false,
       offset: {},
       containment: null,
@@ -61,6 +91,7 @@ module.exports = React.createClass({
   },
 
   componentDidMount: function () {
+    this.node = ReactDOM.findDOMNode(this);
     if (this.props.active) {
       this.startWatching();
     }
@@ -70,7 +101,7 @@ module.exports = React.createClass({
     this.stopWatching();
   },
 
-  componentWillReceiveProps: function (nextProps) {
+ componentWillReceiveProps: function (nextProps) {
     if (nextProps.active) {
       this.setState(this.getInitialState());
       this.startWatching();
@@ -83,26 +114,35 @@ module.exports = React.createClass({
     return this.props.containment || window;
   },
 
-  addEventListenerWithDebounce: function (target, event, delay) {
+  addEventListener: function (target, event, delay, throttle) {
     if (!this.debounceCheck) {
       this.debounceCheck = {};
     }
 
     var timeout;
+    var func;
 
-    var debounce = function() {
-      var context = this, args = arguments;
-      var later = function() {
-        timeout = null;
-        context.check.apply(context, args);
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(later, delay || 0);
+    var later = function () {
+      timeout = null;
+      this.check();
     }.bind(this);
+
+    if (throttle > -1) {
+      func = function () {
+        if (!timeout) {
+          timeout = setTimeout(later, throttle || 0);
+        }
+      };
+    } else {
+      func = function () {
+        clearTimeout(timeout);
+        timeout = setTimeout(later, delay || 0);
+      };
+    }
 
     var info = {
       target: target,
-      fn: debounce,
+      fn: func,
       getLastTimeout: function () {
         return timeout;
       },
@@ -120,14 +160,20 @@ module.exports = React.createClass({
     }
 
     if (this.props.scrollCheck) {
-      this.addEventListenerWithDebounce(
-        this.getContainer(), 'scroll', this.props.scrollDelay
+      this.addEventListener(
+        this.getContainer(),
+        'scroll',
+        this.props.scrollDelay,
+        this.props.scrollThrottle
       );
     }
 
     if (this.props.resizeCheck) {
-      this.addEventListenerWithDebounce(
-        window, 'resize', this.props.resizeDelay
+      this.addEventListener(
+        window,
+        'resize',
+        this.props.resizeDelay,
+        this.props.resizeThrottle
       );
     }
 
@@ -160,10 +206,9 @@ module.exports = React.createClass({
    * Check if the element is within the visible viewport
    */
   check: function () {
-    var el = ReactDOM.findDOMNode(this);
+    var el = this.node;
     var rect;
     var containmentRect;
-
     // if the component has rendered to null, dont update visibility
     if (!el) {
       return this.state;

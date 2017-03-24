@@ -24,7 +24,7 @@ var Example = React.createClass({
         <div className='before'></div>
         <VisibilitySensor
           scrollCheck
-          scrollDelay={100}
+          scrollThrottle={100}
           intervalDelay={8000}
           containment={this.props.containment}
           onChange={this.onChange}
