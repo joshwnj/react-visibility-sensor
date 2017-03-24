@@ -101,7 +101,7 @@ module.exports = React.createClass({
     this.stopWatching();
   },
 
- componentWillReceiveProps: function (nextProps) {
+  componentWillReceiveProps: function (nextProps) {
     if (nextProps.active) {
       this.setState(this.getInitialState());
       this.startWatching();
