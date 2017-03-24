@@ -103,7 +103,9 @@ module.exports = React.createClass({
     var info = {
       target: target,
       fn: debounce,
-      timeout: timeout,
+      getLastTimeout: function () {
+        return timeout;
+      },
     };
 
     target.addEventListener(event, info.fn);
@@ -140,7 +142,7 @@ module.exports = React.createClass({
         if (this.debounceCheck.hasOwnProperty(debounceEvent)) {
           var debounceInfo = this.debounceCheck[debounceEvent];
 
-          clearTimeout(debounceInfo.timeout);
+          clearTimeout(debounceInfo.getLastTimeout());
           debounceInfo.target.removeEventListener(
             debounceEvent, debounceInfo.fn
           );
@@ -148,7 +150,6 @@ module.exports = React.createClass({
           this.debounceCheck[debounceEvent] = null;
         }
       }
-      clearTimeout(this.lastTimeout);
     }
     this.debounceCheck = null;
 
