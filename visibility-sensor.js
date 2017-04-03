@@ -5,21 +5,21 @@ var ReactDOM = require('react-dom');
 var isVisibleWithOffset = require('./lib/is-visible-with-offset')
 
 var containmentPropType = React.PropTypes.any;
+var debounceTimeout = null;
 
 if (typeof window !== 'undefined') {
   containmentPropType = React.PropTypes.instanceOf(window.Element);
 }
 
 function debounce(func, wait) {
-  var timeout;
   return function() {
     var context = this, args = arguments;
     var later = function() {
-      timeout = null;
+      debounceTimeout = null;
       func.apply(context, args);
     };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
+    clearTimeout(debounceTimeout);
+    debounceTimeout = setTimeout(later, wait);
   };
 }
 
@@ -111,6 +111,7 @@ module.exports = React.createClass({
 
   stopWatching: function () {
     if (this.debounceCheck) {
+      clearTimeout(debounceTimeout);
       this.getContainer().removeEventListener('scroll', this.debounceCheck);
       this.debounceCheck = null;
     }
