@@ -178,6 +178,27 @@ describe('VisibilitySensor', function () {
     ReactDOM.render(element, node);
   });
 
+  it('should be backwards-compatible with old offset config', function (done) {
+    var firstTime = true;
+    node.setAttribute('style', 'position:absolute; width:100px; height:100px; top:51px');
+    var onChange = function (isVisible) {
+      if(firstTime) {
+        firstTime = false;
+        assert.equal(isVisible, true, 'Component starts out visible');
+        node.setAttribute('style', 'position:absolute; width:100px; height:100px; top:49px');
+      } else {
+        assert.equal(isVisible, false, 'Component has moved out of offset area');
+        done();
+      }
+    }
+
+    var element = (
+      <VisibilitySensor onChange={onChange} offset={{direction: 'top', value: 50}} intervalDelay={10} />
+    );
+
+    ReactDOM.render(element, node);
+  });
+
   it('should work when using offset prop and moving to inside of offset area', function (done) {
     var firstTime = true;
     node.setAttribute('style', 'position:absolute; width:100px; height:100px; top:49px');

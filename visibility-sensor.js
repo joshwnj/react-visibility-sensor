@@ -2,6 +2,7 @@
 
 var React = require('react');
 var ReactDOM = require('react-dom');
+var isVisibleWithOffset = require('./lib/is-visible-with-offset')
 
 var containmentPropType = React.PropTypes.any;
 
@@ -46,10 +47,19 @@ module.exports = React.createClass({
       React.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
     ]),
     delayedCall: React.PropTypes.bool,
-    offset: React.PropTypes.shape({
-      direction: React.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
-      value: React.PropTypes.number
-    }),
+    offset: React.PropTypes.oneOfType([
+      React.PropTypes.shape({
+        top: React.PropTypes.number,
+        left: React.PropTypes.number,
+        bottom: React.PropTypes.number,
+        right: React.PropTypes.number
+      }),
+      // deprecated offset property
+      React.PropTypes.shape({
+        direction: React.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+        value: React.PropTypes.number
+      })
+    ]),
     scrollCheck: React.PropTypes.bool,
     scrollDelay: React.PropTypes.number,
     scrollThrottle: React.PropTypes.number,
@@ -273,6 +283,14 @@ module.exports = React.createClass({
       isVisible = this.props.minTopValue
         ? partialVisible && rect.top <= (containmentRect.bottom - this.props.minTopValue)
         : partialVisible
+    }
+
+    // Deprecated options for calculating offset.
+    if (typeof offset.direction === 'string' &&
+        typeof offset.value === 'number') {
+      console.warn('[notice] offset.direction and offset.value have been deprecated. They still work for now, but will be removed in next major version. Please upgrade to the new syntax: { %s: %d }', offset.direction, offset.value)
+
+      isVisible = isVisibleWithOffset(offset, rect, containmentRect);
     }
 
     var state = this.state;
