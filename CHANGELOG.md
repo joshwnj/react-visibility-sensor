@@ -1,6 +1,10 @@
 Changelog
 ====
 
+## 3.8.0
+
+- Improving offset and adding resize listener ([#69](https://github.com/joshwnj/react-visibility-sensor/pull/69))
+
 ## 3.7.0
 
 - added `offset` prop ([#64](https://github.com/joshwnj/react-visibility-sensor/pull/64))
