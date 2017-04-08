@@ -2,12 +2,14 @@
 
 var React = require('react');
 var ReactDOM = require('react-dom');
+var PropTypes = require('prop-types');
+var createReactClass = require('create-react-class');
 var isVisibleWithOffset = require('./lib/is-visible-with-offset')
 
-var containmentPropType = React.PropTypes.any;
+var containmentPropType = PropTypes.any;
 
 if (typeof window !== 'undefined') {
-  containmentPropType = React.PropTypes.instanceOf(window.Element);
+  containmentPropType = PropTypes.instanceOf(window.Element);
 }
 
 function throttle (callback, limit) {
@@ -36,41 +38,41 @@ function debounce(func, wait) {
   };
 }
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'VisibilitySensor',
 
   propTypes: {
-    onChange: React.PropTypes.func.isRequired,
-    active: React.PropTypes.bool,
-    partialVisibility: React.PropTypes.oneOfType([
-      React.PropTypes.bool,
-      React.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+    onChange: PropTypes.func.isRequired,
+    active: PropTypes.bool,
+    partialVisibility: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
     ]),
-    delayedCall: React.PropTypes.bool,
-    offset: React.PropTypes.oneOfType([
-      React.PropTypes.shape({
-        top: React.PropTypes.number,
-        left: React.PropTypes.number,
-        bottom: React.PropTypes.number,
-        right: React.PropTypes.number
+    delayedCall: PropTypes.bool,
+    offset: PropTypes.oneOfType([
+      PropTypes.shape({
+        top: PropTypes.number,
+        left: PropTypes.number,
+        bottom: PropTypes.number,
+        right: PropTypes.number
       }),
       // deprecated offset property
-      React.PropTypes.shape({
-        direction: React.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
-        value: React.PropTypes.number
+      PropTypes.shape({
+        direction: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+        value: PropTypes.number
       })
     ]),
-    scrollCheck: React.PropTypes.bool,
-    scrollDelay: React.PropTypes.number,
-    scrollThrottle: React.PropTypes.number,
-    resizeCheck: React.PropTypes.bool,
-    resizeDelay: React.PropTypes.number,
-    resizeThrottle: React.PropTypes.number,
-    intervalCheck: React.PropTypes.bool,
-    intervalDelay: React.PropTypes.number,
+    scrollCheck: PropTypes.bool,
+    scrollDelay: PropTypes.number,
+    scrollThrottle: PropTypes.number,
+    resizeCheck: PropTypes.bool,
+    resizeDelay: PropTypes.number,
+    resizeThrottle: PropTypes.number,
+    intervalCheck: PropTypes.bool,
+    intervalDelay: PropTypes.number,
     containment: containmentPropType,
-    children: React.PropTypes.element,
-    minTopValue: React.PropTypes.number,
+    children: PropTypes.element,
+    minTopValue: PropTypes.number,
   },
 
   getDefaultProps: function () {
