@@ -74,13 +74,26 @@ Thanks
 
 Special thanks to contributors:
 
-- [@B-Stefan](https://github.com/B-Stefan)
-- [@kof](https://github.com/kof)
-- [@gaearon](https://github.com/gaearon)
-- [@kompot](https://github.com/kompot)
-- [@EugeneHlushko](https://github.com/EugeneHlushko)
-- [@eek](http://github.com/eek)
-- [@falcon1kr](http://github.com/falcon1kr)
+- Andrew Hong
+- Oleg Slobodskoi
+- EugeneHlushko
+- Stefan B
+- Radu-Sebastian Amarie
+- Roope Merikukka
+- Christian Davis
+- Anton Fedchenko
+- Mateusz Burzyński
+- Zak Linder
+- Andarist
+- Andy Edwards
+- Bram Schulting
+- Dan Abramov
+- Daniel Stefanovic
+- Eric Bower
+- Julien Bachmann
+- Neehar Venugopal
+- Rubens Mariuzzo
+- Tim Tyrrell
 
 License
 ----

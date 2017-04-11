@@ -1,6 +1,10 @@
 Changelog
 ====
 
+## 3.9.0
+
+- Migrated deprecated React.PropTypes and React.createClass ([#73](https://github.com/joshwnj/react-visibility-sensor/pull/73))
+
 ## 3.8.0
 
 - Improving offset and adding resize listener ([#69](https://github.com/joshwnj/react-visibility-sensor/pull/69))
