@@ -48,5 +48,9 @@
   "browserify-shim": {
     "react": "global:React",
     "react-dom": "global:ReactDOM"
+  },
+  "dependencies": {
+    "create-react-class": "^15.5.1",
+    "prop-types": "^15.5.4"
   }
 }

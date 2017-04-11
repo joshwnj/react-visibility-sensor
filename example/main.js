@@ -2,9 +2,10 @@
 
 var React = require('react');
 var ReactDOM = require('react-dom')
+var createReactClass = require('create-react-class')
 var VisibilitySensor = require('../');
 
-var Example = React.createClass({
+var Example = createReactClass({
   getInitialState: function () {
     return { msg: '' };
   },
