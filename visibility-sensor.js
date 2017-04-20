@@ -71,7 +71,10 @@ module.exports = createReactClass({
     intervalCheck: PropTypes.bool,
     intervalDelay: PropTypes.number,
     containment: containmentPropType,
-    children: PropTypes.element,
+    children: PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.func,
+    ]),
     minTopValue: PropTypes.number,
   },
 
@@ -310,6 +313,7 @@ module.exports = createReactClass({
   },
 
   render: function () {
+    if (this.props.children instanceof Function) return this.props.children(this.state);
     return React.Children.only(this.props.children);
   }
 });
