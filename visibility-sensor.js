@@ -42,7 +42,7 @@ module.exports = createReactClass({
   displayName: 'VisibilitySensor',
 
   propTypes: {
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
     active: PropTypes.bool,
     partialVisibility: PropTypes.oneOfType([
       PropTypes.bool,
@@ -306,7 +306,7 @@ module.exports = createReactClass({
         visibilityRect: visibilityRect
       };
       this.setState(state);
-      this.props.onChange(isVisible, visibilityRect);
+      if (this.props.onChange) this.props.onChange(isVisible, visibilityRect);
     }
 
     return state;
