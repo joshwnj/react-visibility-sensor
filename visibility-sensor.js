@@ -313,7 +313,12 @@ module.exports = createReactClass({
   },
 
   render: function () {
-    if (this.props.children instanceof Function) return this.props.children(this.state);
+    if (this.props.children instanceof Function) {
+      return this.props.children({
+        isVisible: this.state.isVisible,
+        visibilityRect: this.state.visibilityRect,
+      });
+    }
     return React.Children.only(this.props.children);
   }
 });
