@@ -39,7 +39,7 @@
     "react": "^0.14.0 || ^15.0.0",
     "react-dom": "^0.14.0 || ^15.0.0",
     "reactify": "^1.1.1",
-    "uglifyjs": "^2.4.10"
+    "uglify-js": "^3.0.15"
   },
   "repository": {
     "type": "git",
