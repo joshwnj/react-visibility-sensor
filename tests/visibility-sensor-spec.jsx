@@ -241,4 +241,24 @@ describe('VisibilitySensor', function () {
     ReactDOM.render(element, node);
   });
 
+  it('should call child function with state', function (done) {
+    var wasChildrenCalled = false;
+    var children = function (props) {
+      wasChildrenCalled = true;
+      assert('isVisible' in props, 'children should be called with isVisible prop');
+      assert('visibilityRect' in props, 'children should be called with visibilityRect prop');
+      return <div />;
+    };
+
+    setTimeout(function () {
+      assert(wasChildrenCalled, 'children should be called');
+      done();
+    }, 200);
+
+    var element = (
+      <VisibilitySensor>{children}</VisibilitySensor>
+    );
+
+    ReactDOM.render(element, node);
+  });
 });

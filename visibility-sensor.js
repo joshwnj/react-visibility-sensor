@@ -42,7 +42,7 @@ module.exports = createReactClass({
   displayName: 'VisibilitySensor',
 
   propTypes: {
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
     active: PropTypes.bool,
     partialVisibility: PropTypes.oneOfType([
       PropTypes.bool,
@@ -71,7 +71,10 @@ module.exports = createReactClass({
     intervalCheck: PropTypes.bool,
     intervalDelay: PropTypes.number,
     containment: containmentPropType,
-    children: PropTypes.element,
+    children: PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.func,
+    ]),
     minTopValue: PropTypes.number,
   },
 
@@ -303,13 +306,19 @@ module.exports = createReactClass({
         visibilityRect: visibilityRect
       };
       this.setState(state);
-      this.props.onChange(isVisible, visibilityRect);
+      if (this.props.onChange) this.props.onChange(isVisible, visibilityRect);
     }
 
     return state;
   },
 
   render: function () {
+    if (this.props.children instanceof Function) {
+      return this.props.children({
+        isVisible: this.state.isVisible,
+        visibilityRect: this.state.visibilityRect,
+      });
+    }
     return React.Children.only(this.props.children);
   }
 });
