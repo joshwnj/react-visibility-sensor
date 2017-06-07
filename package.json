@@ -1,6 +1,6 @@
 {
   "name": "react-visibility-sensor",
-  "version": "3.9.0",
+  "version": "3.10.0",
   "description": "Sensor component for React that notifies you when it goes in or out of the window viewport.",
   "main": "visibility-sensor.js",
   "scripts": {
