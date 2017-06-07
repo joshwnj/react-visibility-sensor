@@ -1,6 +1,10 @@
 Changelog
 ====
 
+## 3.10.0
+
+- allow passing a children function that takes state and chooses what to render from it ([#76](https://github.com/joshwnj/react-visibility-sensor/pull/76#pullrequestreview-33850456))
+
 ## 3.9.0
 
 - Migrated deprecated React.PropTypes and React.createClass ([#73](https://github.com/joshwnj/react-visibility-sensor/pull/73))
