@@ -1,6 +1,10 @@
 Changelog
 ====
 
+## 3.10.1
+
+- prevent unnecessary rerendering ([#85](https://github.com/joshwnj/react-visibility-sensor/pull/85))
+
 ## 3.10.0
 
 - allow passing a children function that takes state and chooses what to render from it ([#76](https://github.com/joshwnj/react-visibility-sensor/pull/76#pullrequestreview-33850456))
