@@ -83,6 +83,7 @@ module.exports = createReactClass({
     intervalCheck: PropTypes.bool,
     intervalDelay: PropTypes.number,
     containment: containmentPropType,
+    scrollContainment: containmentPropType,
     children: PropTypes.oneOfType([
       PropTypes.element,
       PropTypes.func,
@@ -106,6 +107,7 @@ module.exports = createReactClass({
       delayedCall: false,
       offset: {},
       containment: null,
+      scrollContainment: null,
       children: React.createElement('span')
     };
   },
@@ -142,6 +144,10 @@ module.exports = createReactClass({
 
   getContainer: function () {
     return this.props.containment || window;
+  },
+
+  getScrollContainer: function () {
+      return this.props.scrollContainment || window;
   },
 
   addEventListener: function (target, event, delay, throttle) {
@@ -191,7 +197,7 @@ module.exports = createReactClass({
 
     if (this.props.scrollCheck) {
       this.addEventListener(
-        this.getContainer(),
+        this.getScrollContainer(),
         'scroll',
         this.props.scrollDelay,
         this.props.scrollThrottle
