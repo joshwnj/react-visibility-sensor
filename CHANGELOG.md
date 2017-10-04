@@ -1,6 +1,10 @@
 Changelog
 ====
 
+## 3.11.0
+
+- add react 16 as a peer dep ([#94](https://github.com/joshwnj/react-visibility-sensor/pull/94))
+
 ## 3.10.1
 
 - prevent unnecessary rerendering ([#85](https://github.com/joshwnj/react-visibility-sensor/pull/85))
