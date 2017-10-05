@@ -13,7 +13,7 @@
     "build-test": "browserify -t reactify -o tests/bundle.js tests/visibility-sensor-spec.jsx",
     "publish-gh-pages": "npm run build-example && ./bin/publish-gh-pages",
     "test": "npm run build-test && ./node_modules/karma/bin/karma start --single-run",
-    "prepublish": "npm run build"
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "react",
