@@ -125,6 +125,10 @@ module.exports = createReactClass({
     }
   },
 
+  componentDidUpdate: function (prevProps) {
+    this.node = ReactDOM.findDOMNode(this);
+  },
+
   getContainer: function () {
     return this.props.containment || window;
   },
