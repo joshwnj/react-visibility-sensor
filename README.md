@@ -68,7 +68,7 @@ Props
 - `offset`: (default `{}`) with offset you can define amount of px from one side when the visibility should already change. So in example setting `offset={{top:10}}` means that the visibility changes hidden when there is less than 10px to top of the viewport. Offset works along with `partialVisibility`
 - `minTopValue`: (default `0`) consider element visible if only part of it is visible and a minimum amount of pixels could be set, so if at least 100px are in viewport, we mark element as visible.
 - `intervalCheck`: (default `true`) the default usage of Visibility Sensor is to trigger a check on an interval, by leaving this as true, it checks if the element is in view even if it wasn't because of a user scroll
-- `intervalDelay`: (default `1500`) integer, number of milliseconds between checking the element's position in relation the the window viewport. Making this number too low will have a negative impact on performance.
+- `intervalDelay`: (default `100`) integer, number of milliseconds between checking the element's position in relation the the window viewport. Making this number too low will have a negative impact on performance.
 - `scrollCheck`: (default: `false`) by making this true, the scroll listener is enabled.
 - `scrollDelay`: (default: `250`) is the debounce rate at which the check is triggered. Ex: 250ms after the user stopped scrolling.
 - `scrollThrottle`: (default: `-1`) by specifying a value > -1, you are enabling throttle instead of the delay to trigger checks on scroll event. Throttle supercedes delay.
