@@ -265,7 +265,10 @@ module.exports = createReactClass({
       right: rect.right <= containmentRect.right
     };
 
+    var hasSize = rect.height > 0 && rect.width > 0;
+
     var isVisible = (
+      hasSize &&
       visibilityRect.top &&
       visibilityRect.left &&
       visibilityRect.bottom &&
@@ -273,7 +276,7 @@ module.exports = createReactClass({
     );
 
     // check for partial visibility
-    if (this.props.partialVisibility) {
+    if (hasSize && this.props.partialVisibility) {
       var partialVisible =
           rect.top <= containmentRect.bottom && rect.bottom >= containmentRect.top &&
           rect.left <= containmentRect.right && rect.right >= containmentRect.left;

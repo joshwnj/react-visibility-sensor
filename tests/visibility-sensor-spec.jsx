@@ -38,7 +38,9 @@ describe('VisibilitySensor', function () {
     };
 
     var element = (
-      <VisibilitySensor onChange={onChange} intervalDelay={10} />
+      <VisibilitySensor onChange={onChange} intervalDelay={10} >
+        <div style={{ height: '10px', width: '10px'}} />
+      </VisibilitySensor>
     );
 
     ReactDOM.render(element, node);
@@ -63,7 +65,9 @@ describe('VisibilitySensor', function () {
 
     var element = (
       <div style={{height: '5000px'}}>
-        <VisibilitySensor scrollCheck scrollDelay={10} onChange={onChange} intervalCheck={false} />
+        <VisibilitySensor scrollCheck scrollDelay={10} onChange={onChange} intervalCheck={false} >
+          <div style={{ height: '10px', width: '10px'}} />
+        </VisibilitySensor>
       </div>
     );
 
@@ -72,7 +76,10 @@ describe('VisibilitySensor', function () {
 
   it('should notify of changes to visibility when child moves', function (done) {
     var firstTime = true;
-    var style = {};
+    var initialStyle = {
+      height: '10px',
+      width: '10px',
+    };
     var onChange = function (isVisible) {
       // by default we expect the sensor to be visible
       if (firstTime) {
@@ -101,7 +108,7 @@ describe('VisibilitySensor', function () {
       );
     }
 
-    ReactDOM.render(getElement(), node);
+    ReactDOM.render(getElement(initialStyle), node);
   });
 
 
@@ -110,8 +117,11 @@ describe('VisibilitySensor', function () {
       assert.equal(isVisible, true, 'Component starts out visible');
       done();
     };
+
     var element = (
-      <VisibilitySensor onChange={onChange} />
+      <VisibilitySensor onChange={onChange} >
+        <div style={{ height: '10px', width: '10px'}} />
+      </VisibilitySensor>
     );
 
     ReactDOM.render(element, node);
@@ -159,12 +169,12 @@ describe('VisibilitySensor', function () {
 
   it('should work when using offset prop and moving to outside of offset area', function (done) {
     var firstTime = true;
-    node.setAttribute('style', 'position:absolute; width:100px; height:100px; top:51px');
+    node.setAttribute('style', 'position:absolute; top:51px');
     var onChange = function (isVisible) {
       if(firstTime) {
         firstTime = false;
         assert.equal(isVisible, true, 'Component starts out visible');
-        node.setAttribute('style', 'position:absolute; width:100px; height:100px; top:49px');
+        node.setAttribute('style', 'position:absolute; top:49px');
       } else {
         assert.equal(isVisible, false, 'Component has moved out of offset area');
         done();
@@ -172,7 +182,9 @@ describe('VisibilitySensor', function () {
     }
 
     var element = (
-      <VisibilitySensor onChange={onChange} offset={{top:50}} intervalDelay={10} />
+      <VisibilitySensor onChange={onChange} offset={{top:50}} intervalDelay={10} >
+        <div style={{ height: '10px', width: '10px'}} />
+      </VisibilitySensor>
     );
 
     ReactDOM.render(element, node);
@@ -180,12 +192,12 @@ describe('VisibilitySensor', function () {
 
   it('should be backwards-compatible with old offset config', function (done) {
     var firstTime = true;
-    node.setAttribute('style', 'position:absolute; width:100px; height:100px; top:51px');
+    node.setAttribute('style', 'position:absolute; top:51px');
     var onChange = function (isVisible) {
       if(firstTime) {
         firstTime = false;
         assert.equal(isVisible, true, 'Component starts out visible');
-        node.setAttribute('style', 'position:absolute; width:100px; height:100px; top:49px');
+        node.setAttribute('style', 'position:absolute; top:49px');
       } else {
         assert.equal(isVisible, false, 'Component has moved out of offset area');
         done();
@@ -193,7 +205,9 @@ describe('VisibilitySensor', function () {
     }
 
     var element = (
-      <VisibilitySensor onChange={onChange} offset={{direction: 'top', value: 50}} intervalDelay={10} />
+      <VisibilitySensor onChange={onChange} offset={{direction: 'top', value: 50}} intervalDelay={10} >
+        <div style={{ height: '10px', width: '10px'}} />
+      </VisibilitySensor>
     );
 
     ReactDOM.render(element, node);
@@ -201,12 +215,12 @@ describe('VisibilitySensor', function () {
 
   it('should work when using offset prop and moving to inside of offset area', function (done) {
     var firstTime = true;
-    node.setAttribute('style', 'position:absolute; width:100px; height:100px; top:49px');
+    node.setAttribute('style', 'position:absolute; top:49px');
     var onChange = function (isVisible) {
       if(firstTime) {
         firstTime = false;
         assert.equal(isVisible, false, 'Component starts out invisible');
-        node.setAttribute('style', 'position:absolute; width:100px; height:100px; top:51px');
+        node.setAttribute('style', 'position:absolute; top:51px');
       } else {
         assert.equal(isVisible, true, 'Component has moved inside of offset area');
         done();
@@ -214,7 +228,9 @@ describe('VisibilitySensor', function () {
     }
 
     var element = (
-      <VisibilitySensor onChange={onChange} offset={{top:50}} intervalDelay={10} />
+      <VisibilitySensor onChange={onChange} offset={{top:50}} intervalDelay={10} >
+        <div style={{ height: '10px', width: '10px'}} />
+      </VisibilitySensor>
     );
 
     ReactDOM.render(element, node);
@@ -222,12 +238,12 @@ describe('VisibilitySensor', function () {
 
   it('should work when using negative offset prop and moving to outside of viewport', function (done) {
     var firstTime = true;
-    node.setAttribute('style', 'position:absolute; width:100px; height:100px; top:-49px');
+    node.setAttribute('style', 'position:absolute; top:-49px');
     var onChange = function (isVisible) {
       if(firstTime) {
         firstTime = false;
         assert.equal(isVisible, true, 'Component starts out visible');
-        node.setAttribute('style', 'position:absolute; width:100px; height:100px; top:-51px');
+        node.setAttribute('style', 'position:absolute; top:-51px');
       } else {
         assert.equal(isVisible, false, 'Component has moved outside of viewport and visible area');
         done();
@@ -235,7 +251,9 @@ describe('VisibilitySensor', function () {
     }
 
     var element = (
-      <VisibilitySensor onChange={onChange} offset={{top:-50}} intervalDelay={10} />
+      <VisibilitySensor onChange={onChange} offset={{top:-50}} intervalDelay={10} >
+        <div style={{ height: '10px', width: '10px'}} />
+      </VisibilitySensor>
     );
 
     ReactDOM.render(element, node);
@@ -257,6 +275,44 @@ describe('VisibilitySensor', function () {
 
     var element = (
       <VisibilitySensor>{children}</VisibilitySensor>
+    );
+
+    ReactDOM.render(element, node);
+  });
+
+  it('should not return visible if it has no size', function (done) {
+    var firstTime = true;
+    var onChange = function (isVisible) {
+      if (firstTime) {
+        assert.equal(isVisible, false, 'Component is not visible');
+        done();
+      }
+    };
+
+    var element = (
+      <VisibilitySensor onChange={onChange} >
+        <div style={{ height: '0px', width: '0px' }} />
+      </VisibilitySensor>
+    );
+
+    ReactDOM.render(element, node);
+  });
+
+  it('should not return visible if the sensor is hidden', function (done) {
+    var firstTime = true;
+    var onChange = function (isVisible) {
+      if (firstTime) {
+        assert.equal(isVisible, false, 'Component is not visible');
+        done();
+      }
+    };
+
+    var element = (
+      <div style={{ display: 'none'}} >
+        <VisibilitySensor onChange={onChange} >
+          <div style={{ height: '10px', width: '10px'}} />
+        </VisibilitySensor>
+      </div>
     );
 
     ReactDOM.render(element, node);
