@@ -3,7 +3,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var PropTypes = require('prop-types');
-var createReactClass = require('create-react-class');
 var isVisibleWithOffset = require('./lib/is-visible-with-offset')
 
 var containmentPropType = PropTypes.any;
@@ -12,36 +11,24 @@ if (typeof window !== 'undefined') {
   containmentPropType = PropTypes.instanceOf(window.Element);
 }
 
-function throttle (callback, limit) {
-    var wait = false;
-    return function () {
-        if (!wait) {
-            wait = true;
-            setTimeout(function () {
-                callback();
-                wait = false;
-            }, limit);
-        }
-    }
-}
+class VisibilitySensor extends React.Component {
+  displayName = 'VisibilitySensor';
 
-function debounce(func, wait) {
-  var timeout;
-  return function() {
-    var context = this, args = arguments;
-    var later = function() {
-      timeout = null;
-      func.apply(context, args);
+  constructor(props) {
+    super(props);
+    this.state = {
+      isVisible: null,
+      visibilityRect: {}
     };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}
 
-module.exports = createReactClass({
-  displayName: 'VisibilitySensor',
+    this.getContainer = this.getContainer.bind(this);
+    this.addEventListener = this.addEventListener.bind(this);
+    this.startWatching = this.startWatching.bind(this);
+    this.stopWatching = this.stopWatching.bind(this);
+    this.check = this.check.bind(this);
+  }
 
-  propTypes: {
+  static propTypes = {
     onChange: PropTypes.func,
     active: PropTypes.bool,
     partialVisibility: PropTypes.oneOfType([
@@ -76,60 +63,51 @@ module.exports = createReactClass({
       PropTypes.func,
     ]),
     minTopValue: PropTypes.number,
-  },
+  }
 
-  getDefaultProps: function () {
-    return {
-      active: true,
-      partialVisibility: false,
-      minTopValue: 0,
-      scrollCheck: false,
-      scrollDelay: 250,
-      scrollThrottle: -1,
-      resizeCheck: false,
-      resizeDelay: 250,
-      resizeThrottle: -1,
-      intervalCheck: true,
-      intervalDelay: 100,
-      delayedCall: false,
-      offset: {},
-      containment: null,
-      children: React.createElement('span')
-    };
-  },
+  static defaultProps = {
+    active: true,
+    partialVisibility: false,
+    minTopValue: 0,
+    scrollCheck: false,
+    scrollDelay: 250,
+    scrollThrottle: -1,
+    resizeCheck: false,
+    resizeDelay: 250,
+    resizeThrottle: -1,
+    intervalCheck: true,
+    intervalDelay: 100,
+    delayedCall: false,
+    offset: {},
+    containment: null,
+    children: React.createElement('span')
+  }
 
-  getInitialState: function () {
-    return {
-      isVisible: null,
-      visibilityRect: {}
-    };
-  },
-
-  componentDidMount: function () {
+  componentDidMount() {
     this.node = ReactDOM.findDOMNode(this);
     if (this.props.active) {
       this.startWatching();
     }
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     this.stopWatching();
-  },
+  }
 
-  componentWillReceiveProps: function (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.active && !this.props.active) {
       this.setState(this.getInitialState());
       this.startWatching();
     } else if (!nextProps.active) {
       this.stopWatching();
     }
-  },
+  }
 
-  getContainer: function () {
+  getContainer() {
     return this.props.containment || window;
-  },
+  }
 
-  addEventListener: function (target, event, delay, throttle) {
+  addEventListener(target, event, delay, throttle) {
     if (!this.debounceCheck) {
       this.debounceCheck = {};
     }
@@ -165,9 +143,9 @@ module.exports = createReactClass({
 
     target.addEventListener(event, info.fn);
     this.debounceCheck[event] = info;
-  },
+  }
 
-  startWatching: function () {
+  startWatching() {
     if (this.debounceCheck || this.interval) { return; }
 
     if (this.props.intervalCheck) {
@@ -194,9 +172,9 @@ module.exports = createReactClass({
 
     // if dont need delayed call, check on load ( before the first interval fires )
     !this.props.delayedCall && this.check();
-  },
+  }
 
-  stopWatching: function () {
+  stopWatching() {
     if (this.debounceCheck) {
       // clean up event listeners and their debounce callers
       for (var debounceEvent in this.debounceCheck) {
@@ -215,12 +193,12 @@ module.exports = createReactClass({
     this.debounceCheck = null;
 
     if (this.interval) { this.interval = clearInterval(this.interval); }
-  },
+  }
 
   /**
    * Check if the element is within the visible viewport
    */
-  check: function () {
+  check () {
     var el = this.node;
     var rect;
     var containmentRect;
@@ -275,8 +253,8 @@ module.exports = createReactClass({
     // check for partial visibility
     if (this.props.partialVisibility) {
       var partialVisible =
-          rect.top <= containmentRect.bottom && rect.bottom >= containmentRect.top &&
-          rect.left <= containmentRect.right && rect.right >= containmentRect.left;
+        rect.top <= containmentRect.bottom && rect.bottom >= containmentRect.top &&
+        rect.left <= containmentRect.right && rect.right >= containmentRect.left;
 
       // account for partial visibility on a single edge
       if (typeof this.props.partialVisibility === 'string') {
@@ -292,7 +270,7 @@ module.exports = createReactClass({
 
     // Deprecated options for calculating offset.
     if (typeof offset.direction === 'string' &&
-        typeof offset.value === 'number') {
+      typeof offset.value === 'number') {
       console.warn('[notice] offset.direction and offset.value have been deprecated. They still work for now, but will be removed in next major version. Please upgrade to the new syntax: { %s: %d }', offset.direction, offset.value)
 
       isVisible = isVisibleWithOffset(offset, rect, containmentRect);
@@ -306,13 +284,13 @@ module.exports = createReactClass({
         visibilityRect: visibilityRect
       };
       this.setState(state);
-      if (this.props.onChange) this.props.onChange(isVisible, visibilityRect);
+      if (this.props.onChange) this.props.onChange(isVisible);
     }
 
     return state;
-  },
+  }
 
-  render: function () {
+  render() {
     if (this.props.children instanceof Function) {
       return this.props.children({
         isVisible: this.state.isVisible,
@@ -321,4 +299,6 @@ module.exports = createReactClass({
     }
     return React.Children.only(this.props.children);
   }
-});
+}
+
+module.exports = VisibilitySensor

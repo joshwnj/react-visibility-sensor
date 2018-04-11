@@ -2,23 +2,25 @@
 
 var React = require('react');
 var ReactDOM = require('react-dom')
-var createReactClass = require('create-react-class')
 var VisibilitySensor = require('../');
 
-var Example = createReactClass({
-  getInitialState: function () {
-    return { msg: '' };
-  },
+class Example extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      msg: ''
+    };
 
-  onChange: function (isVisible) {
+    this.onChange = this.onChange.bind(this);
+  }
+
+  onChange(isVisible) {
     this.setState({
       msg: 'Element is now ' + (isVisible ? 'visible' : 'hidden')
     });
-  },
+  }
 
-  render: function () {
-    var self = this;
-
+  render() {
     return (
       <div>
         <p className='msg'>{this.state.msg}</p>
@@ -36,9 +38,9 @@ var Example = createReactClass({
         </VisibilitySensor>
         <div className='after'></div>
       </div>
-    );
+    )
   }
-});
+}
 
 ReactDOM.render(React.createElement(Example), document.getElementById('example'));
 

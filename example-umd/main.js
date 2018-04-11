@@ -1,36 +1,39 @@
 'use strict';
 
-var Example = React.createClass({
-  getInitialState: function () {
-    return { msg: '' };
-  },
+class Example extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      msg: ''
+    };
 
-  onChange: function (isVisible) {
+    this.onChange = this.onChange.bind(this);
+  }
+
+  onChange(isVisible) {
     this.setState({
       msg: 'Element is now ' + (isVisible ? 'visible' : 'hidden')
     });
-  },
+  }
 
-  render: function () {
-    var self = this;
-
+  render() {
     return (
       React.createElement("div", null,
         React.createElement("p", {className: "msg"}, this.state.msg),
         React.createElement("div", {className: "before"}),
         React.createElement(VisibilitySensor, {
-          containment: this.props.containment,
-          onChange: this.onChange,
-          minTopValue: this.props.minTopValue,
-          partialVisibility: this.props.partialVisibility
-        },
+            containment: this.props.containment,
+            onChange: this.onChange,
+            minTopValue: this.props.minTopValue,
+            partialVisibility: this.props.partialVisibility
+          },
           React.createElement("div", {className: "sensor"})
         ),
         React.createElement("div", {className: "after"})
       )
-    );
+    )
   }
-});
+}
 
 ReactDOM.render(React.createElement(Example), document.getElementById('example'));
 
