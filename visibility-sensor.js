@@ -233,11 +233,15 @@ module.exports = createReactClass({
 
     if (this.props.containment) {
       var containmentDOMRect = this.props.containment.getBoundingClientRect();
+      // gets the absolute top/left coordinates of the containment element relative to the window   
+      const containerTop = containerDOMRect.top + window.scrollY;
+      const containerLeft = containerDOMRect.left + window.scrollX;
+      
       containmentRect = {
-        top: containmentDOMRect.top,
-        left: containmentDOMRect.left,
-        bottom: containmentDOMRect.bottom,
-        right: containmentDOMRect.right,
+        top: containerTop,
+        left: containerLeft,
+        bottom: containerTop + containmentDOMRect.height,
+        right: containerLeft + containmentDOMRect.width,
       }
     } else {
       containmentRect = {
