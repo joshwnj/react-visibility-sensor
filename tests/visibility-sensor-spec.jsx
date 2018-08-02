@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 require('es5-shim');
 
 var React = require('react');

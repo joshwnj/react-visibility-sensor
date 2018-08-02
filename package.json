@@ -1,18 +1,16 @@
 {
   "name": "react-visibility-sensor",
-  "version": "3.11.1",
+  "version": "3.12.0",
   "description": "Sensor component for React that notifies you when it goes in or out of the window viewport.",
   "main": "visibility-sensor.js",
   "scripts": {
     "clean": "rm -rf dist && mkdir dist",
     "prebuild": "npm run clean",
-    "build-umd": "browserify -u react -u react-dom -t browserify-shim --standalone VisibilitySensor -o dist/visibility-sensor.js visibility-sensor.js",
-    "build-minify": "uglifyjs -o dist/visibility-sensor.min.js dist/visibility-sensor.js",
-    "build": "npm run build-umd && npm run build-minify",
-    "build-example": "mkdir -p example/dist && browserify -t reactify -o example/dist/bundle.js example/main.js",
-    "build-test": "browserify -t reactify -o tests/bundle.js tests/visibility-sensor-spec.jsx",
+    "build": "webpack --env=production",
+    "build-example": "rm -rf example/dist && webpack --env=example",
+    "build-test": "webpack --env=test",
     "publish-gh-pages": "npm run build-example && ./bin/publish-gh-pages",
-    "test": "npm run build-test && ./node_modules/karma/bin/karma start --single-run",
+    "test": "npm run build-test && karma start --single-run",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
@@ -23,34 +21,35 @@
   "author": "joshwnj",
   "license": "MIT",
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0 || ^16.0.0",
-    "react-dom": "^0.14.0 || ^15.0.0 || ^16.0.0"
+    "react": ">=16.0.0",
+    "react-dom": ">=16.0.0"
   },
   "devDependencies": {
-    "browserify": "^5.11.2",
-    "browserify-shim": "^3.8.12",
-    "es5-shim": "^4.1.0",
-    "gh-pages": "^0.2.0",
-    "karma": "^0.12.31",
-    "karma-chrome-launcher": "^0.1.4",
-    "karma-mocha": "^0.1.9",
-    "karma-phantomjs-launcher": "^0.1.4",
-    "mocha": "^1.21.4",
-    "react": "^0.14.0 || ^15.0.0",
-    "react-dom": "^0.14.0 || ^15.0.0",
-    "reactify": "^1.1.1",
-    "uglify-js": "^3.0.15"
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "es5-shim": "^4.5.10",
+    "gh-pages": "^1.2.0",
+    "karma": "^2.0.5",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-mocha": "^1.3.0",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "mocha": "^5.2.0",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "uglify-js": "^3.4.6",
+    "uglifyjs-webpack-plugin": "^1.2.7",
+    "webpack": "^4.16.4",
+    "webpack-cli": "^3.1.0"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/joshwnj/react-visibility-sensor.git"
   },
-  "browserify-shim": {
-    "react": "global:React",
-    "react-dom": "global:ReactDOM"
-  },
   "dependencies": {
-    "create-react-class": "^15.5.1",
-    "prop-types": "^15.5.4"
+    "create-react-class": "^15.6.3",
+    "prop-types": "^15.6.2"
   }
 }
