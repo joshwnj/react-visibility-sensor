@@ -45,6 +45,9 @@ module.exports = env => {
       path: path.resolve(__dirname, 'tests'),
       filename: '[name].js'
     };
+
+    // we want React, ReactDOM included in the test bundle
+    externals = {};
   }
 
   if (env === 'example') {

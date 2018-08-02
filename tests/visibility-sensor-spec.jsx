@@ -1,11 +1,10 @@
-require('es5-shim');
-
-var React = require('react');
-var ReactDOM = require('react-dom');
-var assert = require('assert');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import assert from 'assert';
+import VisibilitySensor from '../visibility-sensor';
 
 describe('VisibilitySensor', function () {
-  var node;
+  let node;
 
   beforeEach(function () {
     node = document.createElement('div');
@@ -17,11 +16,10 @@ describe('VisibilitySensor', function () {
     document.body.removeChild(node);
   });
 
-  var VisibilitySensor = require('../visibility-sensor.js');
-
   it('should notify of changes to visibility when parent moves', function (done) {
-    var firstTime = true;
-    var onChange = function (isVisible) {
+    let firstTime = true;
+    
+    const onChange = (isVisible) => {
       // by default we expect the sensor to be visible
       if (firstTime) {
         firstTime = false;
@@ -35,16 +33,15 @@ describe('VisibilitySensor', function () {
       }
     };
 
-    var element = (
-      <VisibilitySensor onChange={onChange} intervalDelay={10} />
-    );
-
+    const element = <VisibilitySensor onChange={onChange} intervalDelay={10} />;
+    
     ReactDOM.render(element, node);
   });
 
   it('should notify of changes to visibility when user scrolls', function (done) {
-    var firstTime = true;
-    var onChange = function (isVisible) {
+    let firstTime = true;
+    
+    const onChange = (isVisible) => {
       // by default we expect the sensor to be visible
       if (firstTime) {
         firstTime = false;
@@ -59,7 +56,7 @@ describe('VisibilitySensor', function () {
       }
     };
 
-    var element = (
+    const element = (
       <div style={{height: '5000px'}}>
         <VisibilitySensor scrollCheck scrollDelay={10} onChange={onChange} intervalCheck={false} />
       </div>
