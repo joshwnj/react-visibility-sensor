@@ -99,11 +99,11 @@ export default class VisibilitySensor extends React.Component {
     }
   }
   
-  getContainer() {
+  getContainer = () => {
     return this.props.containment || window;
   }
 
-  addEventListener(target, event, delay, throttle) {
+  addEventListener = (target, event, delay, throttle) => {
     if (!this.debounceCheck) {
       this.debounceCheck = {};
     }
@@ -141,7 +141,7 @@ export default class VisibilitySensor extends React.Component {
     this.debounceCheck[event] = info;
   }
 
-  startWatching() {
+  startWatching = () => {
     if (this.debounceCheck || this.interval) { return; }
 
     if (this.props.intervalCheck) {
@@ -170,7 +170,7 @@ export default class VisibilitySensor extends React.Component {
     !this.props.delayedCall && this.check();
   }
 
-  stopWatching() {
+  stopWatching = () => {
     if (this.debounceCheck) {
       // clean up event listeners and their debounce callers
       for (let debounceEvent in this.debounceCheck) {
@@ -191,7 +191,7 @@ export default class VisibilitySensor extends React.Component {
     if (this.interval) { this.interval = clearInterval(this.interval); }
   }
 
-  check() {
+  check= () => {
     const el = this.node;
     let rect;
     let containmentRect;
@@ -222,6 +222,7 @@ export default class VisibilitySensor extends React.Component {
     // Check if visibility is wanted via offset?
     const offset = this.props.offset || {};
     const hasValidOffset = typeof offset === 'object';
+    
     if (hasValidOffset) {
       containmentRect.top += offset.top || 0;
       containmentRect.left += offset.left || 0;

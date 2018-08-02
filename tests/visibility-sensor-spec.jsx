@@ -4,7 +4,7 @@ import assert from 'assert';
 import VisibilitySensor from '../visibility-sensor';
 
 describe('VisibilitySensor', function () {
-  let node;
+  var node;
 
   beforeEach(function () {
     node = document.createElement('div');
@@ -17,9 +17,8 @@ describe('VisibilitySensor', function () {
   });
 
   it('should notify of changes to visibility when parent moves', function (done) {
-    let firstTime = true;
-    
-    const onChange = (isVisible) => {
+    var firstTime = true;
+    var onChange = function (isVisible) {
       // by default we expect the sensor to be visible
       if (firstTime) {
         firstTime = false;
@@ -33,15 +32,16 @@ describe('VisibilitySensor', function () {
       }
     };
 
-    const element = <VisibilitySensor onChange={onChange} intervalDelay={10} />;
-    
+    var element = (
+      <VisibilitySensor onChange={onChange} intervalDelay={10} />
+    );
+
     ReactDOM.render(element, node);
   });
 
   it('should notify of changes to visibility when user scrolls', function (done) {
-    let firstTime = true;
-    
-    const onChange = (isVisible) => {
+    var firstTime = true;
+    var onChange = function (isVisible) {
       // by default we expect the sensor to be visible
       if (firstTime) {
         firstTime = false;
@@ -56,7 +56,7 @@ describe('VisibilitySensor', function () {
       }
     };
 
-    const element = (
+    var element = (
       <div style={{height: '5000px'}}>
         <VisibilitySensor scrollCheck scrollDelay={10} onChange={onChange} intervalCheck={false} />
       </div>
