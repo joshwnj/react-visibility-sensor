@@ -5,6 +5,8 @@ React Visibility Sensor
 
 Sensor component for React that notifies you when it goes in or out of the window viewport.
 
+Sponsored by [X-Team](https://x-team.com)
+
 Install
 ----
 
