@@ -241,6 +241,32 @@ describe('VisibilitySensor', function () {
     ReactDOM.render(element, node);
   });
 
+  it('with the stayVisible prop it stays visible once it has been seen once', function (done) {
+    var firstTime = true;
+    let callCount = 0;
+    node.setAttribute('style', 'position:absolute; width:100px; height:100px; top:-49px');
+
+    var onChange = function (isVisible) {
+      callCount++;
+      assert.equal(isVisible, true, 'Component starts out visible');
+      node.setAttribute('style', 'position:absolute; width:100px; height:100px; top:-51px');
+      setTimeout(function () {
+        assert.equal(
+          callCount,
+          1,
+          'Component is out of the viewport but stays visible and onChange is not called again'
+        );
+        done();
+      }, 200)
+    }
+
+    var element = (
+      <VisibilitySensor onChange={onChange} offset={{top:-50}} intervalDelay={10} stayVisible={true} />
+    );
+
+    ReactDOM.render(element, node);
+  });
+
   it('should call child function with state', function (done) {
     var wasChildrenCalled = false;
     var children = function (props) {

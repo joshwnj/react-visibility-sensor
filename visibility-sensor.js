@@ -48,6 +48,7 @@ module.exports = createReactClass({
       PropTypes.bool,
       PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
     ]),
+    stayVisible: PropTypes.bool,
     delayedCall: PropTypes.bool,
     offset: PropTypes.oneOfType([
       PropTypes.shape({
@@ -82,6 +83,7 @@ module.exports = createReactClass({
     return {
       active: true,
       partialVisibility: false,
+      stayVisible: false,
       minTopValue: 0,
       scrollCheck: false,
       scrollDelay: 250,
@@ -228,6 +230,11 @@ module.exports = createReactClass({
     if (!el) {
       return this.state;
     }
+
+    if (this.state.isVisible === true && this.props.stayVisible === true) {
+      this.stopWatching()
+      return this.state;
+    };
 
     rect = el.getBoundingClientRect();
 
