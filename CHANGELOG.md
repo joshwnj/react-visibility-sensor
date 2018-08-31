@@ -1,6 +1,10 @@
 Changelog
 ====
 
+## 3.12.0
+
+- round down viewport values ([#116](https://github.com/joshwnj/react-visibility-sensor/pull/116))
+
 ## 3.11.0
 
 - add react 16 as a peer dep ([#94](https://github.com/joshwnj/react-visibility-sensor/pull/94))
