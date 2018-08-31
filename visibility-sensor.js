@@ -38,6 +38,18 @@ function debounce(func, wait) {
   };
 }
 
+function normalizeRect (rect) {
+  if (rect.width === undefined) {
+    rect.width = rect.right - rect.left;
+  }
+
+  if (rect.height === undefined) {
+    rect.height = rect.bottom - rect.top;
+  }
+
+  return rect;
+}
+
 module.exports = createReactClass({
   displayName: 'VisibilitySensor',
 
@@ -238,7 +250,7 @@ module.exports = createReactClass({
       return this.state;
     }
 
-    rect = this.roundRectDown(el.getBoundingClientRect());
+    rect = normalizeRect(this.roundRectDown(el.getBoundingClientRect()));
 
     if (this.props.containment) {
       var containmentDOMRect = this.props.containment.getBoundingClientRect();
