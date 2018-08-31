@@ -1,6 +1,10 @@
 Changelog
 ====
 
+## 3.14.0
+
+- re-register node in componentDidUpdate if children diffs ([#103](https://github.com/joshwnj/react-visibility-sensor/pull/103))
+
 ## 3.13.0
 
 - Check if the component has size and is not hidden ([#114](https://github.com/joshwnj/react-visibility-sensor/pull/114))
