@@ -217,6 +217,15 @@ module.exports = createReactClass({
     if (this.interval) { this.interval = clearInterval(this.interval); }
   },
 
+  roundRectDown: function (rect) {
+    return {
+      top: Math.floor(rect.top),
+      left: Math.floor(rect.left),
+      bottom: Math.floor(rect.bottom),
+      right: Math.floor(rect.right),
+    };
+  },
+
   /**
    * Check if the element is within the visible viewport
    */
@@ -229,7 +238,7 @@ module.exports = createReactClass({
       return this.state;
     }
 
-    rect = el.getBoundingClientRect();
+    rect = this.roundRectDown(el.getBoundingClientRect());
 
     if (this.props.containment) {
       var containmentDOMRect = this.props.containment.getBoundingClientRect();
