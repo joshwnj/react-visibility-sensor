@@ -1,6 +1,10 @@
 Changelog
 ====
 
+## 3.13.0
+
+- Check if the component has size and is not hidden ([#114](https://github.com/joshwnj/react-visibility-sensor/pull/114))
+
 ## 3.12.0
 
 - round down viewport values ([#116](https://github.com/joshwnj/react-visibility-sensor/pull/116))
