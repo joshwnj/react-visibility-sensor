@@ -129,16 +129,15 @@ module.exports = createReactClass({
   },
 
   componentDidUpdate: function(prevProps) {
+    // re-register node in componentDidUpdate if children diffs [#103]
+    this.node = ReactDOM.findDOMNode(this);
+
     if (this.props.active && !prevProps.active) {
       this.setState(this.getInitialState());
       this.startWatching();
     } else if (!this.props.active) {
       this.stopWatching();
     }
-  },
-
-  componentDidUpdate: function (prevProps) {
-    this.node = ReactDOM.findDOMNode(this);
   },
 
   getContainer: function () {
