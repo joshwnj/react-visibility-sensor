@@ -1,6 +1,10 @@
 Changelog
 ====
 
+## 4.0.0
+
+- Upgrade outdated deps and node version ([#127](https://github.com/joshwnj/react-visibility-sensor/pull/127))
+
 ## 3.14.0
 
 - re-register node in componentDidUpdate if children diffs ([#103](https://github.com/joshwnj/react-visibility-sensor/pull/103))
