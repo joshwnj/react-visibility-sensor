@@ -1,6 +1,10 @@
 Changelog
 ====
 
+## 4.1.0
+
+- Update lifecycle method for React 16.3 ([#119](https://github.com/joshwnj/react-visibility-sensor/pull/119))
+
 ## 4.0.0
 
 - Upgrade outdated deps and node version ([#127](https://github.com/joshwnj/react-visibility-sensor/pull/127))
