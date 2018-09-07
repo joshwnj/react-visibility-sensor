@@ -26,6 +26,10 @@ Take a look at the [umd example](./example-umd/) to see this in action
 Example
 ----
 
+[View an example on codesandbox](https://codesandbox.io/s/p73kyx9zpm)
+
+Or if you'd like to try building an example yourself locally, here's another:
+
 [View the example](https://joshwnj.github.io/react-visibility-sensor/)
 
 To run the example locally:
