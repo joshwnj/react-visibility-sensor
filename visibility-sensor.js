@@ -147,7 +147,7 @@ module.exports = createReactClass({
   },
 
   getScrollContainer: function () {
-      return this.props.scrollContainment || window;
+      return this.props.scrollContainment || this.getContainer();
   },
 
   addEventListener: function (target, event, delay, throttle) {
