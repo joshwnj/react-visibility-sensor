@@ -82,6 +82,7 @@ Props
 - `resizeDelay`: (default: `250`) is the debounce rate at which the check is triggered. Ex: 250ms after the user stopped resizing.
 - `resizeThrottle`: (default: `-1`) by specifying a value > -1, you are enabling throttle instead of the delay to trigger checks on resize event. Throttle supercedes delay.
 - `containment`: (optional) element to use as a viewport when checking visibility. Default behaviour is to use the browser window as viewport.
+- `scrollContainment`: (optional) element to use as a viewport when checking visibility when containment has overflow-y. Only needed when `containment` is not enough to catch visibility change.
 - `delayedCall`: (default `false`) if is set to true, wont execute on page load ( prevents react apps triggering elements as visible before styles are loaded )
 - `children`: can be a React element or a function.  If you provide a function, it will be called with 1 argument `{isVisible: ?boolean, visibilityRect: Object}`
 
