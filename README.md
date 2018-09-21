@@ -40,15 +40,17 @@ To run the example locally:
 General usage goes something like:
 
 ```js
-function render () {
-  var VisibilitySensor = require('react-visibility-sensor');
+const VisibilitySensor = require('react-visibility-sensor');
 
-  var onChange = function (isVisible) {
-    console.log('Element is now %s', isVisible ? 'visible' : 'hidden');
-  };
+function onChange (isVisible) {
+  console.log('Element is now %s', isVisible ? 'visible' : 'hidden');
+}
 
+function MyComponent (props) {
   return (
-    <VisibilitySensor onChange={onChange} />
+    <VisibilitySensor onChange={onChange}>
+      <div>...content goes here...</div>
+    </VisibilitySensor>
   );
 }
 ```
@@ -56,13 +58,15 @@ function render () {
 You can also pass a child function, which can be convenient if you don't need to store the visibility anywhere:
 
 ```js
-return (
-  <VisibilitySensor>
-    {({isVisible}) =>
-      <div>I am {isVisible ? 'visible' : 'invisible'}</div>
-    }
-  </VisibilitySensor>
-);
+function MyComponent (props) {
+  return (
+    <VisibilitySensor>
+      {({isVisible}) =>
+        <div>I am {isVisible ? 'visible' : 'invisible'}</div>
+      }
+    </VisibilitySensor>
+  );
+}
 ```
 
 Props
