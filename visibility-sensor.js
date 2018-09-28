@@ -6,12 +6,6 @@ var PropTypes = require('prop-types');
 var createReactClass = require('create-react-class');
 var isVisibleWithOffset = require('./lib/is-visible-with-offset')
 
-var containmentPropType = PropTypes.any;
-
-if (typeof window !== 'undefined') {
-  containmentPropType = PropTypes.instanceOf(window.Element);
-}
-
 function throttle (callback, limit) {
     var wait = false;
     return function () {
@@ -82,7 +76,7 @@ module.exports = createReactClass({
     resizeThrottle: PropTypes.number,
     intervalCheck: PropTypes.bool,
     intervalDelay: PropTypes.number,
-    containment: containmentPropType,
+    containment: typeof window !== 'undefined' ? PropTypes.instanceOf(window.Element) : PropTypes.any,
     children: PropTypes.oneOfType([
       PropTypes.element,
       PropTypes.func,
