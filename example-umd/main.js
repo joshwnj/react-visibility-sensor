@@ -12,8 +12,6 @@ var Example = React.createClass({
   },
 
   render: function () {
-    var self = this;
-
     return (
       React.createElement("div", null,
         React.createElement("p", {className: "msg"}, this.state.msg),

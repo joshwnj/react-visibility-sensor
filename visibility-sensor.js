@@ -6,32 +6,6 @@ var PropTypes = require('prop-types');
 var createReactClass = require('create-react-class');
 var isVisibleWithOffset = require('./lib/is-visible-with-offset')
 
-function throttle (callback, limit) {
-    var wait = false;
-    return function () {
-        if (!wait) {
-            wait = true;
-            setTimeout(function () {
-                callback();
-                wait = false;
-            }, limit);
-        }
-    }
-}
-
-function debounce(func, wait) {
-  var timeout;
-  return function() {
-    var context = this, args = arguments;
-    var later = function() {
-      timeout = null;
-      func.apply(context, args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}
-
 function normalizeRect (rect) {
   if (rect.width === undefined) {
     rect.width = rect.right - rect.left;
