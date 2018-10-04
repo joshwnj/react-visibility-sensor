@@ -301,7 +301,7 @@ module.exports = createReactClass({
         visibilityRect: visibilityRect
       };
       this.setState(state);
-      if (this.props.onChange) this.props.onChange(isVisible, visibilityRect);
+      if (this.props.onChange) this.props.onChange(isVisible, visibilityRect, el);
     }
 
     return state;
