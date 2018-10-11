@@ -1,10 +1,10 @@
 // karma.conf.js
 module.exports = function(config) {
   config.set({
-    frameworks: ['mocha'],
+    frameworks: ["mocha"],
     preprocessors: {
-      '**/*.jsx': ['jsx']
+      "**/*.jsx": ["jsx"]
     },
-    browsers: ['Chrome']
+    browsers: ["Chrome"]
   });
 };
