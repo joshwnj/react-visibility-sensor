@@ -20,8 +20,6 @@ function normalizeRect (rect) {
 //let containmentPropType = typeof window !== 'undefined' ? PropTypes.instanceOf(window.Element) : PropTypes.any;
 
 export default class VisibilitySensor extends React.Component {
-  displayName = 'VisibilitySensor';
-
   static defaultProps = {
     active: true,
     partialVisibility: false,
