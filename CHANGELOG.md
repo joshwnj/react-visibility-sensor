@@ -1,6 +1,11 @@
 Changelog
 ====
 
+## 5.0.0
+
+- Update to ES6 style React and replaced Browserify with Webpack ([#123](https://github.com/joshwnj/react-visibility-sensor/pull/123))
+- Update code to the latest version of react, remove useless params/function ([#115](https://github.com/joshwnj/react-visibility-sensor/pull/115))
+
 ## 4.1.0
 
 - Update lifecycle method for React 16.3 ([#119](https://github.com/joshwnj/react-visibility-sensor/pull/119))

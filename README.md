@@ -18,8 +18,8 @@ Useful if you want to use with bower, or in a plain old `<script>` tag.
 
 In this case, make sure that `React` and `ReactDOM` are already loaded and globally accessible.
 
-- Plain: <https://unpkg.com/react-visibility-sensor@3.4.0/dist/visibility-sensor.js>
-- Minified <https://unpkg.com/react-visibility-sensor@3.4.0/dist/visibility-sensor.min.js>
+- Plain: <https://unpkg.com/react-visibility-sensor@5.0.0/dist/visibility-sensor.js>
+- Minified <https://unpkg.com/react-visibility-sensor@5.0.0/dist/visibility-sensor.min.js>
 
 Take a look at the [umd example](./example-umd/) to see this in action
 
@@ -94,28 +94,7 @@ It's possible to use both `intervalCheck` and `scrollCheck` together. This means
 Thanks
 ----
 
-Special thanks to contributors:
-
-- Andrew Hong
-- Oleg Slobodskoi
-- EugeneHlushko
-- Stefan B
-- Radu-Sebastian Amarie
-- Roope Merikukka
-- Christian Davis
-- Anton Fedchenko
-- Mateusz Burzyński
-- Zak Linder
-- Andarist
-- Andy Edwards
-- Bram Schulting
-- Dan Abramov
-- Daniel Stefanovic
-- Eric Bower
-- Julien Bachmann
-- Neehar Venugopal
-- Rubens Mariuzzo
-- Tim Tyrrell
+Special thanks to [contributors](https://github.com/joshwnj/react-visibility-sensor/graphs/contributors)
 
 License
 ----
