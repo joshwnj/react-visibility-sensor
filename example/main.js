@@ -1,20 +1,20 @@
 'use strict';
 
-var React = require('react');
-var ReactDOM = require('react-dom')
-var VisibilitySensor = require('../');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import VisibilitySensor from '../visibility-sensor';
 
 class Example extends React.Component {
+
   constructor(props) {
     super(props);
+
     this.state = {
       msg: ''
     };
-
-    this.onChange = this.onChange.bind(this);
   }
 
-  onChange(isVisible) {
+  onChange = (isVisible) => {
     this.setState({
       msg: 'Element is now ' + (isVisible ? 'visible' : 'hidden')
     });
@@ -46,8 +46,10 @@ ReactDOM.render(React.createElement(Example), document.getElementById('example')
 
 var container = document.getElementById('example-container');
 var elem = container.querySelector('.inner');
+
 container.scrollTop = 320;
 container.scrollLeft = 320;
+
 ReactDOM.render(React.createElement(Example, {
   containment: container,
   minTopValue: 10,

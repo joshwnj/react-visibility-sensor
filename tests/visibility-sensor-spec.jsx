@@ -1,10 +1,7 @@
-/** @jsx React.DOM */
-
-require('es5-shim');
-
-var React = require('react');
-var ReactDOM = require('react-dom');
-var assert = require('assert');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import assert from 'assert';
+import VisibilitySensor from '../visibility-sensor';
 
 describe('VisibilitySensor', function () {
   var node;
@@ -18,8 +15,6 @@ describe('VisibilitySensor', function () {
     ReactDOM.unmountComponentAtNode(node);
     document.body.removeChild(node);
   });
-
-  var VisibilitySensor = require('../visibility-sensor.js');
 
   it('should notify of changes to visibility when parent moves', function (done) {
     var firstTime = true;
@@ -85,7 +80,7 @@ describe('VisibilitySensor', function () {
       if (firstTime) {
         firstTime = false;
         assert.equal(isVisible, true, 'Component starts out visible');
-        style = {
+        const style = {
           position: 'absolute',
           width: 100,
           left: -101
