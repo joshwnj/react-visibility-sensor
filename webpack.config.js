@@ -30,7 +30,8 @@ module.exports = env => {
       path: path.resolve(__dirname, "dist"),
       filename: "[name].js",
       library: "react-visibility-sensor",
-      libraryTarget: "umd"
+      libraryTarget: "umd",
+      globalObject: "this"
     };
   }
 
