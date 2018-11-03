@@ -61,7 +61,7 @@ You can also pass a child function, which can be convenient if you don't need to
 function MyComponent (props) {
   return (
     <VisibilitySensor>
-      {({isVisible}) =>
+      {({ sensorRef, isVisible }) =>
         <div>I am {isVisible ? 'visible' : 'invisible'}</div>
       }
     </VisibilitySensor>
