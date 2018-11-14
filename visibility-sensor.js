@@ -32,6 +32,7 @@ export default class VisibilitySensor extends React.Component {
     intervalDelay: 100,
     delayedCall: false,
     offset: {},
+    once: false,
     containment: null,
     children: <span />
   };
@@ -57,6 +58,7 @@ export default class VisibilitySensor extends React.Component {
         value: PropTypes.number
       })
     ]),
+    once: PropTypes.bool,
     scrollCheck: PropTypes.bool,
     scrollDelay: PropTypes.number,
     scrollThrottle: PropTypes.number,
@@ -319,6 +321,11 @@ export default class VisibilitySensor extends React.Component {
       };
       this.setState(state);
       if (this.props.onChange) this.props.onChange(isVisible);
+    }
+
+    // if once is enabled, disable the sensor once its visible.
+    if (this.props.once && this.state.isVisible) {
+      this.stopWatching();
     }
 
     return state;
