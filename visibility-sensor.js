@@ -277,7 +277,7 @@ export default class VisibilitySensor extends React.Component {
             onChange(entry.isIntersecting, shape);
         });
       };
-      console.log(containment);
+
       var options = {
         threshold: partialVisibility ? 0 : 1,
         root: containment,
