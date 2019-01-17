@@ -2,7 +2,7 @@
 
 import React from "react";
 import ReactDOM from "react-dom";
-import VisibilitySensor from "../visibility-sensor";
+import VisibilitySensor from "../dist/visibility-sensor.es";
 
 class Example extends React.Component {
   constructor(props) {

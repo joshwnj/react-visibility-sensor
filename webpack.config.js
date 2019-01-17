@@ -20,21 +20,6 @@ module.exports = env => {
     }
   };
 
-  if (env === "production") {
-    entry = {
-      "visibility-sensor": "./visibility-sensor.js",
-      "visibility-sensor.min": "./visibility-sensor.js"
-    };
-
-    output = {
-      path: path.resolve(__dirname, "dist"),
-      filename: "[name].js",
-      library: "react-visibility-sensor",
-      libraryTarget: "umd",
-      globalObject: "this"
-    };
-  }
-
   if (env === "test") {
     entry = {
       bundle: "./tests/visibility-sensor-spec.jsx"

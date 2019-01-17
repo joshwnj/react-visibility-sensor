@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import assert from "assert";
-import VisibilitySensor from "../visibility-sensor";
+import VisibilitySensor from "../dist/visibility-sensor.es";
 
 describe("VisibilitySensor", function() {
   var node;
