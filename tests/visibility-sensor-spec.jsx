@@ -390,4 +390,108 @@ describe("VisibilitySensor", function() {
 
     ReactDOM.render(element, node);
   });
+
+  it("should return visible if a minimum top is visible", function(done) {
+    var firstTime = true;
+    var onChange = function(isVisible) {
+      if (firstTime) {
+        assert.equal(isVisible, true, "Component is visible");
+        done();
+      }
+    };
+
+    const style = {
+      position: "absolute",
+      top: "100%",
+      marginTop: "-8px",
+      width: "10px",
+      height: "10px"
+    };
+
+    var element = (
+      <VisibilitySensor minTopValue={8} onChange={onChange} partialVisibility>
+        <div style={style} />
+      </VisibilitySensor>
+    );
+
+    ReactDOM.render(element, node);
+  });
+
+  it("should not return visible if a minimum top is not visible", function(done) {
+    var firstTime = true;
+    var onChange = function(isVisible) {
+      if (firstTime) {
+        assert.equal(isVisible, false, "Component is not visible");
+        done();
+      }
+    };
+
+    const style = {
+      position: "absolute",
+      top: "100%",
+      marginTop: "-7px",
+      width: "10px",
+      height: "10px"
+    };
+
+    var element = (
+      <VisibilitySensor minTopValue={8} onChange={onChange} partialVisibility>
+        <div style={style} />
+      </VisibilitySensor>
+    );
+
+    ReactDOM.render(element, node);
+  });
+
+  it("should return visible if a minimum percentage is visible", function(done) {
+    var firstTime = true;
+    var onChange = function(isVisible) {
+      if (firstTime) {
+        assert.equal(isVisible, true, "Component is visible");
+        done();
+      }
+    };
+
+    const style = {
+      position: "absolute",
+      top: "100%",
+      marginTop: "-8px",
+      width: "10px",
+      height: "10px"
+    };
+
+    var element = (
+      <VisibilitySensor minTopPercent={0.8} onChange={onChange} partialVisibility>
+        <div style={style} />
+      </VisibilitySensor>
+    );
+
+    ReactDOM.render(element, node);
+  });
+
+  it("should not return visible if a minimum percentage is not visible", function(done) {
+    var firstTime = true;
+    var onChange = function(isVisible) {
+      if (firstTime) {
+        assert.equal(isVisible, false, "Component is not visible");
+        done();
+      }
+    };
+
+    const style = {
+      position: "absolute",
+      top: "100%",
+      marginTop: "-7px",
+      width: "10px",
+      height: "10px"
+    };
+
+    var element = (
+      <VisibilitySensor minTopPercent={0.8} onChange={onChange} partialVisibility>
+        <div style={style} />
+      </VisibilitySensor>
+    );
+
+    ReactDOM.render(element, node);
+  });
 });
