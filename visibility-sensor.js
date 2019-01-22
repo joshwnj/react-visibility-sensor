@@ -293,11 +293,14 @@ export default class VisibilitySensor extends React.Component {
       // if we have minimum top visibility set by props, lets check, if it meets the passed value
       // so if for instance element is at least 200px in viewport, then show it.
       if (this.props.minTopValue) {
-        isVisible = rect.top <= containmentRect.bottom - this.props.minTopValue;
+        isVisible =
+          partialVisible &&
+          rect.top <= containmentRect.bottom - this.props.minTopValue;
       } else if (this.props.minTopPercent) {
         const height = rect.bottom - rect.top;
         const minTopValue = height * this.props.minTopPercent;
-        isVisible = rect.top <= containmentRect.bottom - minTopValue;
+        isVisible =
+          partialVisible && rect.top <= containmentRect.bottom - minTopValue;
       } else {
         isVisible = partialVisible;
       }

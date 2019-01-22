@@ -433,6 +433,32 @@ describe("VisibilitySensor", function() {
     ReactDOM.render(element, node);
   });
 
+  it("should not return visible if a minimum top value is set and the component is rendered off the top of the page", function(done) {
+    var firstTime = true;
+    var onChange = function(isVisible) {
+      if (firstTime) {
+        assert.equal(isVisible, false, "Component is not visible");
+        done();
+      }
+    };
+
+    const style = {
+      position: "absolute",
+      top: "0",
+      marginTop: "-11px",
+      width: "10px",
+      height: "10px"
+    };
+
+    var element = (
+      <VisibilitySensor minTopValue={8} onChange={onChange} partialVisibility>
+        <div style={style} />
+      </VisibilitySensor>
+    );
+
+    ReactDOM.render(element, node);
+  });
+
   it("should return visible if a minimum percentage is visible", function(done) {
     var firstTime = true;
     var onChange = function(isVisible) {
@@ -476,6 +502,36 @@ describe("VisibilitySensor", function() {
       position: "absolute",
       top: "100%",
       marginTop: "-7px",
+      width: "10px",
+      height: "10px"
+    };
+
+    var element = (
+      <VisibilitySensor
+        minTopPercent={0.8}
+        onChange={onChange}
+        partialVisibility
+      >
+        <div style={style} />
+      </VisibilitySensor>
+    );
+
+    ReactDOM.render(element, node);
+  });
+
+  it("should not return visible if a minimum percentage is set and the component is rendered off the top of the page", function(done) {
+    var firstTime = true;
+    var onChange = function(isVisible) {
+      if (firstTime) {
+        assert.equal(isVisible, false, "Component is not visible");
+        done();
+      }
+    };
+
+    const style = {
+      position: "absolute",
+      top: "0",
+      marginTop: "-11px",
       width: "10px",
       height: "10px"
     };
