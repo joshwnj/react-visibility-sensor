@@ -461,7 +461,11 @@ describe("VisibilitySensor", function() {
     };
 
     var element = (
-      <VisibilitySensor minTopPercent={0.8} onChange={onChange} partialVisibility>
+      <VisibilitySensor
+        minTopPercent={0.8}
+        onChange={onChange}
+        partialVisibility
+      >
         <div style={style} />
       </VisibilitySensor>
     );
@@ -487,7 +491,11 @@ describe("VisibilitySensor", function() {
     };
 
     var element = (
-      <VisibilitySensor minTopPercent={0.8} onChange={onChange} partialVisibility>
+      <VisibilitySensor
+        minTopPercent={0.8}
+        onChange={onChange}
+        partialVisibility
+      >
         <div style={style} />
       </VisibilitySensor>
     );
