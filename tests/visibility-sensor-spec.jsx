@@ -16,9 +16,7 @@ describe("VisibilitySensor", function() {
     document.body.removeChild(node);
   });
 
-  it("should notify of changes to visibility when parent moves", function(
-    done
-  ) {
+  it("should notify of changes to visibility when parent moves", function(done) {
     var firstTime = true;
     var onChange = function(isVisible) {
       // by default we expect the sensor to be visible
@@ -49,9 +47,7 @@ describe("VisibilitySensor", function() {
     ReactDOM.render(element, node);
   });
 
-  it("should notify of changes to visibility when user scrolls", function(
-    done
-  ) {
+  it("should notify of changes to visibility when user scrolls", function(done) {
     var firstTime = true;
     var onChange = function(isVisible) {
       // by default we expect the sensor to be visible
@@ -198,9 +194,7 @@ describe("VisibilitySensor", function() {
     assert(!component2.debounceCheck, "debounceCheck should not be set");
   });
 
-  it("should work when using offset prop and moving to outside of offset area", function(
-    done
-  ) {
+  it("should work when using offset prop and moving to outside of offset area", function(done) {
     var firstTime = true;
     node.setAttribute("style", "position:absolute; top:51px");
     var onChange = function(isVisible) {
@@ -262,9 +256,7 @@ describe("VisibilitySensor", function() {
     ReactDOM.render(element, node);
   });
 
-  it("should work when using offset prop and moving to inside of offset area", function(
-    done
-  ) {
+  it("should work when using offset prop and moving to inside of offset area", function(done) {
     var firstTime = true;
     node.setAttribute("style", "position:absolute; top:49px");
     var onChange = function(isVisible) {
@@ -295,9 +287,7 @@ describe("VisibilitySensor", function() {
     ReactDOM.render(element, node);
   });
 
-  it("should work when using negative offset prop and moving to outside of viewport", function(
-    done
-  ) {
+  it("should work when using negative offset prop and moving to outside of viewport", function(done) {
     var firstTime = true;
     node.setAttribute("style", "position:absolute; top:-49px");
     var onChange = function(isVisible) {
