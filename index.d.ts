@@ -24,9 +24,11 @@ declare module "react-visibility-sensor" {
     resizeThrottle?: number;
     containment?: any;
     delayedCall?: boolean;
-    children?: (
-      args: { isVisible: boolean; visibilityRect?: Shape }
-    ) => React.ReactNode;
+    children?:
+      | React.ReactNode
+      | ((
+          args: { isVisible: boolean; visibilityRect?: Shape }
+        ) => React.ReactNode);
   }
 
   const ReactVisibilitySensor: React.StatelessComponent<Props>;
