@@ -1,5 +1,8 @@
-Changelog
-====
+# Changelog
+
+## 5.1.0
+
+- Add TypeScript definition ([#153](https://github.com/joshwnj/react-visibility-sensor/pull/153))
 
 ## 5.0.0
 
@@ -111,7 +114,7 @@ Changelog
 
 If you're not setting a `className` or `style`, no change is required.
 
-Otherwise add your own element as a child and move the `className` or `style` there.  Eg:
+Otherwise add your own element as a child and move the `className` or `style` there. Eg:
 
 - before: `<VisibilitySensor className='something' />`
 - after: `<VisibilitySensor><div className='something' /></VisibilitySensor>`
