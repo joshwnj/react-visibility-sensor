@@ -42,7 +42,7 @@ describe("VisibilitySensor", function() {
 
     var element = (
       <VisibilitySensor onChange={onChange} intervalDelay={10}>
-        <div style={{ height: "10px", width: "10px" }} />
+        { ({ getRef }) => <div ref={getRef()} style={{ height: "10px", width: "10px" }} /> }
       </VisibilitySensor>
     );
 
@@ -78,9 +78,9 @@ describe("VisibilitySensor", function() {
           scrollDelay={10}
           onChange={onChange}
           intervalCheck={false}
-        >
+        >{ () => (
           <div style={{ height: "10px", width: "10px" }} />
-        </VisibilitySensor>
+        )}</VisibilitySensor>
       </div>
     );
 
@@ -119,7 +119,7 @@ describe("VisibilitySensor", function() {
     function getElement(style) {
       return (
         <VisibilitySensor onChange={onChange} intervalDelay={10}>
-          <div style={style} />
+          { () => <div style={style} /> }
         </VisibilitySensor>
       );
     }
@@ -135,7 +135,7 @@ describe("VisibilitySensor", function() {
 
     var element = (
       <VisibilitySensor onChange={onChange}>
-        <div style={{ height: "10px", width: "10px" }} />
+        { () => <div style={{ height: "10px", width: "10px" }} /> }
       </VisibilitySensor>
     );
 
@@ -224,7 +224,7 @@ describe("VisibilitySensor", function() {
         offset={{ top: 50 }}
         intervalDelay={10}
       >
-        <div style={{ height: "10px", width: "10px" }} />
+        { ({ getRef }) => <div ref={getRef()} style={{ height: "10px", width: "10px" }} /> }
       </VisibilitySensor>
     );
 
@@ -255,7 +255,7 @@ describe("VisibilitySensor", function() {
         offset={{ direction: "top", value: 50 }}
         intervalDelay={10}
       >
-        <div style={{ height: "10px", width: "10px" }} />
+        { () => <div style={{ height: "10px", width: "10px" }} /> }
       </VisibilitySensor>
     );
 
@@ -288,7 +288,7 @@ describe("VisibilitySensor", function() {
         offset={{ top: 50 }}
         intervalDelay={10}
       >
-        <div style={{ height: "10px", width: "10px" }} />
+        { () => <div style={{ height: "10px", width: "10px" }} /> }
       </VisibilitySensor>
     );
 
@@ -321,7 +321,7 @@ describe("VisibilitySensor", function() {
         offset={{ top: -50 }}
         intervalDelay={10}
       >
-        <div style={{ height: "10px", width: "10px" }} />
+        { () => <div style={{ height: "10px", width: "10px" }} /> }
       </VisibilitySensor>
     );
 
@@ -339,6 +339,10 @@ describe("VisibilitySensor", function() {
       assert(
         "visibilityRect" in props,
         "children should be called with visibilityRect prop"
+      );
+      assert(
+        "getRef" in props,
+        "children should be called with getRef prop"
       );
       return <div />;
     };
@@ -364,7 +368,7 @@ describe("VisibilitySensor", function() {
 
     var element = (
       <VisibilitySensor onChange={onChange}>
-        <div style={{ height: "0px", width: "0px" }} />
+        { () => <div style={{ height: "0px", width: "0px" }} /> }
       </VisibilitySensor>
     );
 
@@ -383,10 +387,93 @@ describe("VisibilitySensor", function() {
     var element = (
       <div style={{ display: "none" }}>
         <VisibilitySensor onChange={onChange}>
-          <div style={{ height: "10px", width: "10px" }} />
+          { () => <div style={{ height: "10px", width: "10px" }} /> }
         </VisibilitySensor>
       </div>
     );
+
+    ReactDOM.render(element, node);
+  });
+});
+
+
+describe("VisibilitySensor with Container", function() {
+  var node;
+  var container;
+
+  beforeEach(function() {
+    node = document.createElement("div");
+    document.body.appendChild(node);
+
+    container = document.createElement('div');
+    document.body.appendChild(container);
+  });
+
+  afterEach(function() {
+    ReactDOM.unmountComponentAtNode(node);
+    document.body.removeChild(node);
+    document.body.removeChild(container);
+  });
+
+
+  it("should detect an absolutely positioned element inside the visible part of a container", function(done) {
+    var firstTime = true;
+    var onChange = function(isVisible) {
+      if (firstTime) {
+        assert.equal(isVisible, true, "Component is visible");
+        done();
+      }
+    };
+
+    container.style.width = 300
+    container.style.height = 300
+    container.style.position = 'relative'
+    container.style.overflow = 'hidden'
+
+    var element = <VisibilitySensor
+      onChange={onChange}
+      containment={container}
+      partialVisibility={true}
+    >{( { getRef } ) => (
+      <div ref={getRef()} style={{
+        position: "absolute",
+        left: "1px",
+        top: "1px",
+        height: "10px",
+        width: "10px",
+      }} />
+    )}</VisibilitySensor>
+
+    ReactDOM.render(element, node);
+  });
+
+  it("should not detect an absolutely positioned element outside the visible part of a container", function(done) {
+    var firstTime = true;
+    var onChange = function(isVisible) {
+      if (firstTime) {
+        assert.equal(isVisible, false, "Component is not visible");
+        done();
+      }
+    };
+
+    container.style.width = 300
+    container.style.height = 300
+    container.style.position = 'relative'
+    container.style.overflow = 'hidden'
+
+    var element = <VisibilitySensor
+      onChange={onChange}
+      containment={container}
+      partialVisibility={true}
+    >{( { getRef } ) => (
+      <div ref={getRef()} style={{
+        position: "absolute",
+        left: "400px",
+        top: "400px",
+        height: "10px",
+        width: "10px",
+      }} />
+    )}</VisibilitySensor>
 
     ReactDOM.render(element, node);
   });

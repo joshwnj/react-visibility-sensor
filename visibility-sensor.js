@@ -322,17 +322,36 @@ export default class VisibilitySensor extends React.Component {
     return state;
   };
 
-  renderChildren = () => {
-    if (this.props.children instanceof Function) {
-      return this.props.children({
-        isVisible: this.state.isVisible,
-        visibilityRect: this.state.visibilityRect
-      });
-    }
-    return React.Children.only(this.props.children)
-  }
-
   render() {
-    return <div ref={this.node}>{this.renderChildren()}</div>;
+    const { children } = this.props;
+    const isFunction = children instanceof Function;
+
+    if (isFunction) {
+      let didAskForRef = false;
+      const getRef = () => {
+        didAskForRef = true;
+        return this.node;
+      };
+
+      const output = children({
+        isVisible: this.state.isVisible,
+        visibilityRect: this.state.visibilityRect,
+        getRef: getRef
+      });
+
+      // if the consumer doesn't use our getRef function, we'll wrap
+      // it in a node and apply the ref ourselves.
+      return didAskForRef ? output : <div ref={this.node}>{output}</div>;
+    }
+
+    if (!React.Children.count(children)) {
+      return <div ref={this.node} />;
+    }
+
+    console.warn(`[notice] passing children directly into the VisibilitySensor has been deprecated, and will be removed in the next major version.
+
+Please upgrade to the Child Function syntax instead: https://github.com/joshwnj/react-visibility-sensor#child-function-syntax`);
+
+    return <div ref={this.node}>{children}</div>;
   }
 }
