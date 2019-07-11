@@ -1,49 +1,61 @@
 "use strict";
 
-import React from "react";
+import React, { useState, useCallback, useRef } from "react";
 import ReactDOM from "react-dom";
-import VisibilitySensor from "../visibility-sensor";
+import VisibilitySensor, { useVisibilitySensor } from "../visibility-sensor";
 
-class Example extends React.Component {
-  constructor(props) {
-    super(props);
+function RegularExample({ containment, minTopValue, partialVisibility }) {
+  const [msg, setMsg] = useState("");
+  const onChange = useCallback(isVisible => {
+    setMsg("Element is now " + (isVisible ? "visible" : "hidden"));
+  }, []);
 
-    this.state = {
-      msg: ""
-    };
-  }
+  return (
+    <div>
+      <p className="msg">{msg}</p>
+      <div className="before" />
+      <VisibilitySensor
+        scrollCheck={true}
+        scrollThrottle={100}
+        intervalDelay={8000}
+        onChange={onChange}
+      >
+        {() => <div className="sensor" />}
+      </VisibilitySensor>
+      <div className="after" />
+    </div>
+  );
+}
 
-  onChange = isVisible => {
-    this.setState({
-      msg: "Element is now " + (isVisible ? "visible" : "hidden")
-    });
-  };
+function HookExample({ containment, minTopValue, partialVisibility }) {
+  const sensorRef = useRef();
+  const [msg, setMsg] = useState("");
+  const onChange = useCallback(isVisible => {
+    setMsg("Element is now " + (isVisible ? "visible" : "hidden"));
+  }, []);
 
-  render() {
-    return (
-      <div>
-        <p className="msg">{this.state.msg}</p>
-        <div className="before" />
-        <VisibilitySensor
-          scrollCheck
-          scrollThrottle={100}
-          intervalDelay={8000}
-          containment={this.props.containment}
-          onChange={this.onChange}
-          minTopValue={this.props.minTopValue}
-          partialVisibility={this.props.partialVisibility}
-          offset={this.props.offset}
-        >
-          {({ getRef }) => <div ref={getRef()} className="sensor" />}
-        </VisibilitySensor>
-        <div className="after" />
-      </div>
-    );
-  }
+  useVisibilitySensor(sensorRef, {
+    scrollCheck: true,
+    scrollThrottle: 100,
+    intervalDelay: 8000,
+    containment,
+    minTopValue: 10,
+    partialVisibility: true,
+    onChange
+  });
+
+  return (
+    <div>
+      <p className="msg">{msg}</p>
+      <div className="before" />
+      <div ref={sensorRef} className="sensor" />
+      <div className="after" />
+    </div>
+  );
 }
 
 ReactDOM.render(
-  React.createElement(Example),
+  React.createElement(RegularExample),
   document.getElementById("example")
 );
 
@@ -54,10 +66,8 @@ container.scrollTop = 320;
 container.scrollLeft = 320;
 
 ReactDOM.render(
-  React.createElement(Example, {
-    containment: container,
-    minTopValue: 10,
-    partialVisibility: true
+  React.createElement(HookExample, {
+    containment: container
   }),
   elem
 );
