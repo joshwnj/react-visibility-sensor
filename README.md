@@ -1,5 +1,4 @@
-React Visibility Sensor
-====
+# React Visibility Sensor
 
 [![Build Status](https://secure.travis-ci.org/joshwnj/react-visibility-sensor.png)](http://travis-ci.org/joshwnj/react-visibility-sensor)
 
@@ -7,8 +6,7 @@ Sensor component for React that notifies you when it goes in or out of the windo
 
 Sponsored by [X-Team](https://x-team.com)
 
-Install
-----
+## Install
 
 `npm install react-visibility-sensor`
 
@@ -23,8 +21,7 @@ In this case, make sure that `React` and `ReactDOM` are already loaded and globa
 
 Take a look at the [umd example](./example-umd/) to see this in action
 
-Example
-----
+## Example
 
 [View an example on codesandbox](https://codesandbox.io/s/p73kyx9zpm)
 
@@ -40,13 +37,13 @@ To run the example locally:
 General usage goes something like:
 
 ```js
-const VisibilitySensor = require('react-visibility-sensor');
+const VisibilitySensor = require("react-visibility-sensor");
 
-function onChange (isVisible) {
-  console.log('Element is now %s', isVisible ? 'visible' : 'hidden');
+function onChange(isVisible) {
+  console.log("Element is now %s", isVisible ? "visible" : "hidden");
 }
 
-function MyComponent (props) {
+function MyComponent(props) {
   return (
     <VisibilitySensor onChange={onChange}>
       <div>...content goes here...</div>
@@ -55,25 +52,43 @@ function MyComponent (props) {
 }
 ```
 
+### Child Function syntax
+
 You can also pass a child function, which can be convenient if you don't need to store the visibility anywhere:
 
 ```js
-function MyComponent (props) {
+function MyComponent(props) {
   return (
     <VisibilitySensor>
-      {({isVisible}) =>
-        <div>I am {isVisible ? 'visible' : 'invisible'}</div>
-      }
+      {({ isVisible, visibilityRect, getRef }) => (
+        <div ref={getRef()}>I am {isVisible ? "visible" : "invisible"}</div>
+      )}
     </VisibilitySensor>
   );
 }
 ```
 
-Props
-----
+The child function must return an element. The 3 arguments that you can access from the child function are:
+
+- `isVisible`: Boolean
+- `getRef`: a Function allowing you to specify which element should be used for calculating visibility. This is useful when you have something absolutely-positioned. Using `getRef` is optional, and if it is not called a wrapper `<div>` will be created with the ref.
+- `visibilityRect`: an Object indicating which sides of the element are visible, in the shape of:
+
+```
+{
+  top: Boolean,
+  bottom: Boolean,
+  left: Boolean,
+  right: Boolean
+}
+```
+
+---
+
+## Props
 
 - `onChange`: callback for whenever the element changes from being within the window viewport or not. Function is called with 1 argument `(isVisible: boolean)`
-- `active`: (default `true`) boolean flag for enabling / disabling the sensor.  When `active !== true` the sensor will not fire the `onChange` callback.
+- `active`: (default `true`) boolean flag for enabling / disabling the sensor. When `active !== true` the sensor will not fire the `onChange` callback.
 - `partialVisibility`: (default `false`) consider element visible if only part of it is visible. Also possible values are - 'top', 'right', 'bottom', 'left' - in case it's needed to detect when one of these become visible explicitly.
 - `offset`: (default `{}`) with offset you can define amount of px from one side when the visibility should already change. So in example setting `offset={{top:10}}` means that the visibility changes hidden when there is less than 10px to top of the viewport. Offset works along with `partialVisibility`
 - `minTopValue`: (default `0`) consider element visible if only part of it is visible and a minimum amount of pixels could be set, so if at least 100px are in viewport, we mark element as visible.
@@ -87,16 +102,14 @@ Props
 - `resizeThrottle`: (default: `-1`) by specifying a value > -1, you are enabling throttle instead of the delay to trigger checks on resize event. Throttle supercedes delay.
 - `containment`: (optional) element to use as a viewport when checking visibility. Default behaviour is to use the browser window as viewport.
 - `delayedCall`: (default `false`) if is set to true, wont execute on page load ( prevents react apps triggering elements as visible before styles are loaded )
-- `children`: can be a React element or a function.  If you provide a function, it will be called with 1 argument `{isVisible: ?boolean, visibilityRect: Object}`
+- `children`: can be a React element or a function. If you provide a function, it will be called with 1 argument `{isVisible: ?boolean, visibilityRect: Object}`
 
 It's possible to use both `intervalCheck` and `scrollCheck` together. This means you can detect most visibility changes quickly with `scrollCheck`, and an `intervalCheck` with a higher `intervalDelay` will act as a fallback for other visibility events, such as resize of a container.
 
-Thanks
-----
+## Thanks
 
 Special thanks to [contributors](https://github.com/joshwnj/react-visibility-sensor/graphs/contributors)
 
-License
-----
+## License
 
 MIT

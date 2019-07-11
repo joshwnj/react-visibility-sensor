@@ -34,7 +34,7 @@ class Example extends React.Component {
           partialVisibility={this.props.partialVisibility}
           offset={this.props.offset}
         >
-          <div className="sensor" />
+          {({ getRef }) => <div ref={getRef()} className="sensor" />}
         </VisibilitySensor>
         <div className="after" />
       </div>
