@@ -76,6 +76,8 @@ export default class VisibilitySensor extends React.Component {
   constructor(props) {
     super(props);
 
+    this.node = React.createRef();
+
     this.state = {
       isVisible: null,
       visibilityRect: {}
@@ -83,7 +85,6 @@ export default class VisibilitySensor extends React.Component {
   }
 
   componentDidMount() {
-    this.node = ReactDOM.findDOMNode(this);
     if (this.props.active) {
       this.startWatching();
     }
@@ -94,9 +95,6 @@ export default class VisibilitySensor extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    // re-register node in componentDidUpdate if children diffs [#103]
-    this.node = ReactDOM.findDOMNode(this);
-
     if (this.props.active && !prevProps.active) {
       this.setState({
         isVisible: null,
@@ -219,7 +217,7 @@ export default class VisibilitySensor extends React.Component {
    * Check if the element is within the visible viewport
    */
   check = () => {
-    const el = this.node;
+    const el = this.node && this.node.current;
     let rect;
     let containmentRect;
 
@@ -325,12 +323,35 @@ export default class VisibilitySensor extends React.Component {
   };
 
   render() {
-    if (this.props.children instanceof Function) {
-      return this.props.children({
+    const { children } = this.props;
+    const isFunction = children instanceof Function;
+
+    if (isFunction) {
+      let didAskForRef = false;
+      const getRef = () => {
+        didAskForRef = true;
+        return this.node;
+      };
+
+      const output = children({
         isVisible: this.state.isVisible,
-        visibilityRect: this.state.visibilityRect
+        visibilityRect: this.state.visibilityRect,
+        getRef: getRef
       });
+
+      // if the consumer doesn't use our getRef function, we'll wrap
+      // it in a node and apply the ref ourselves.
+      return didAskForRef ? output : <div ref={this.node}>{output}</div>;
     }
-    return React.Children.only(this.props.children);
+
+    if (!React.Children.count(children)) {
+      return <div ref={this.node} />;
+    }
+
+    console.warn(`[notice] passing children directly into the VisibilitySensor has been deprecated, and will be removed in the next major version.
+
+Please upgrade to the Child Function syntax instead: https://github.com/joshwnj/react-visibility-sensor#child-function-syntax`);
+
+    return <div ref={this.node}>{children}</div>;
   }
 }
