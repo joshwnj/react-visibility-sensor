@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.1.1
+
+- Upgrade outdated dependencies to resolve vulnerabilities ([#162](https://github.com/joshwnj/react-visibility-sensor/pull/162))
+
 ## 5.1.0
 
 - Add TypeScript definition ([#153](https://github.com/joshwnj/react-visibility-sensor/pull/153))
