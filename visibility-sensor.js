@@ -17,6 +17,31 @@ function normalizeRect(rect) {
   return rect;
 }
 
+function isIntersectionObserverSupported() {
+  if (
+    "IntersectionObserver" in window &&
+    "IntersectionObserverEntry" in window &&
+    "intersectionRatio" in window.IntersectionObserverEntry.prototype
+  ) {
+    // Minimal polyfill for Edge 15's lack of `isIntersecting`
+    // See: https://github.com/w3c/IntersectionObserver/issues/211
+    if (!("isIntersecting" in window.IntersectionObserverEntry.prototype)) {
+      Object.defineProperty(
+        window.IntersectionObserverEntry.prototype,
+        "isIntersecting",
+        {
+          get: function() {
+            return this.intersectionRatio > 0;
+          }
+        }
+      );
+    }
+    return true;
+  } else {
+    return false;
+  }
+}
+
 export default class VisibilitySensor extends React.Component {
   static defaultProps = {
     active: true,
@@ -75,7 +100,6 @@ export default class VisibilitySensor extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       isVisible: null,
       visibilityRect: {}
@@ -152,6 +176,17 @@ export default class VisibilitySensor extends React.Component {
   };
 
   startWatching = () => {
+    if (isIntersectionObserverSupported()) {
+      this.observer = this.createIntersectionObserver(
+        this.props.onChange,
+        this.props.partialVisibility,
+        this.props.offset,
+        this.props.containment
+      );
+      this.observer.observe(this.node);
+      return;
+    }
+
     if (this.debounceCheck || this.interval) {
       return;
     }
@@ -183,6 +218,11 @@ export default class VisibilitySensor extends React.Component {
   };
 
   stopWatching = () => {
+    if (this.observer) {
+      this.observer.unobserve(this.node);
+      this.observer.disconnect();
+      return;
+    }
     if (this.debounceCheck) {
       // clean up event listeners and their debounce callers
       for (let debounceEvent in this.debounceCheck) {
@@ -214,6 +254,43 @@ export default class VisibilitySensor extends React.Component {
       right: Math.floor(rect.right)
     };
   }
+
+  createIntersectionObserver = (
+    onChange,
+    partialVisibility,
+    offset,
+    containment
+  ) => {
+    if (isIntersectionObserverSupported()) {
+      var callback = function(entries) {
+        entries.forEach(entry => {
+          var shape = entry.isIntersecting
+            ? {
+                top: entry.intersectionRect.top,
+                bottom: entry.intersectionRect.bottom,
+                left: entry.intersectionRect.left,
+                right: entry.intersectionRect.right
+              }
+            : undefined;
+
+          typeof onChange === "function" &&
+            onChange(entry.isIntersecting, shape);
+        });
+      };
+
+      var options = {
+        threshold: partialVisibility ? 0 : 1,
+        root: containment,
+        rootMargin:
+          partialVisibility && typeof offset === "object"
+            ? `${offset.top}px ${offset.right}px ${offset.bottom}px ${
+                offset.left
+              }px`
+            : "0px"
+      };
+      return new IntersectionObserver(callback, options);
+    }
+  };
 
   /**
    * Check if the element is within the visible viewport
