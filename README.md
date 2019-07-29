@@ -37,7 +37,7 @@ To run the example locally:
 General usage goes something like:
 
 ```js
-const VisibilitySensor = require("react-visibility-sensor");
+import VisibilitySensor from "react-visibility-sensor";
 
 function onChange(isVisible) {
   console.log("Element is now %s", isVisible ? "visible" : "hidden");
@@ -57,11 +57,13 @@ function MyComponent(props) {
 You can also pass a child function, which can be convenient if you don't need to store the visibility anywhere:
 
 ```js
+import VisibilitySensor from "react-visibility-sensor";
+
 function MyComponent(props) {
   return (
     <VisibilitySensor>
-      {({ isVisible, visibilityRect, getRef }) => (
-        <div ref={getRef()}>I am {isVisible ? "visible" : "invisible"}</div>
+      {({ isVisible, visibilityRect }) => (
+        <div>I am {isVisible ? "visible" : "invisible"}</div>
       )}
     </VisibilitySensor>
   );
@@ -71,7 +73,6 @@ function MyComponent(props) {
 The child function must return an element. The 3 arguments that you can access from the child function are:
 
 - `isVisible`: Boolean
-- `getRef`: a Function allowing you to specify which element should be used for calculating visibility. This is useful when you have something absolutely-positioned. Using `getRef` is optional, and if it is not called a wrapper `<div>` will be created with the ref.
 - `visibilityRect`: an Object indicating which sides of the element are visible, in the shape of:
 
 ```
@@ -85,7 +86,42 @@ The child function must return an element. The 3 arguments that you can access f
 
 ---
 
+### React hook syntax
+
+For more control on the nodeRef, you can use the React hook directly and attach it to the element:
+
+```js
+import { useVisibilitySensor } from "react-visibility-sensor";
+
+function MyComponent(props) {
+  const onChange = useCallback(isVisible => {
+    console.log(`Visibility changed! ${isVisible ? "visible" : "invisible"}`);
+  }, []);
+  const { nodeRef, isVisible } = useVisibilitySensor({ onChange });
+  return <div ref={nodeRef}>I am {isVisible ? "visible" : "invisible"}</div>;
+}
+```
+
+The useVisibilitySensor hook returns an object containing:
+
+- `nodeRef`: Object, React ref instance to be attached to the element.
+- `isVisible`: Boolean
+- `visibilityRect`: Object, indicating which sides of the element are visible, in the shape of:
+
+```
+{
+  top: Boolean,
+  bottom: Boolean,
+  left: Boolean,
+  right: Boolean
+}
+```
+
+---
+
 ## Props
+
+Most of the properties can be used for both `VisibilitySensor` Component and `useVisibilitySensor` hook.
 
 - `onChange`: callback for whenever the element changes from being within the window viewport or not. Function is called with 1 argument `(isVisible: boolean)`
 - `active`: (default `true`) boolean flag for enabling / disabling the sensor. When `active !== true` the sensor will not fire the `onChange` callback.
@@ -102,7 +138,7 @@ The child function must return an element. The 3 arguments that you can access f
 - `resizeThrottle`: (default: `-1`) by specifying a value > -1, you are enabling throttle instead of the delay to trigger checks on resize event. Throttle supercedes delay.
 - `containment`: (optional) element to use as a viewport when checking visibility. Default behaviour is to use the browser window as viewport.
 - `delayedCall`: (default `false`) if is set to true, wont execute on page load ( prevents react apps triggering elements as visible before styles are loaded )
-- `children`: can be a React element or a function. If you provide a function, it will be called with 1 argument `{isVisible: ?boolean, visibilityRect: Object}`
+- `children`: **Only for `VisibilitySensor` Component** can be a React element or a function. If you provide a function, it will be called with 1 argument `{isVisible: ?boolean, visibilityRect: Object}`
 
 It's possible to use both `intervalCheck` and `scrollCheck` together. This means you can detect most visibility changes quickly with `scrollCheck`, and an `intervalCheck` with a higher `intervalDelay` will act as a fallback for other visibility events, such as resize of a container.
 
