@@ -1,6 +1,6 @@
 "use strict";
 
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback } from "react";
 import ReactDOM from "react-dom";
 import VisibilitySensor, { useVisibilitySensor } from "../visibility-sensor";
 
@@ -28,13 +28,12 @@ function RegularExample({ containment, minTopValue, partialVisibility }) {
 }
 
 function HookExample({ containment, minTopValue, partialVisibility }) {
-  const sensorRef = useRef();
   const [msg, setMsg] = useState("");
   const onChange = useCallback(isVisible => {
     setMsg("Element is now " + (isVisible ? "visible" : "hidden"));
   }, []);
 
-  useVisibilitySensor(sensorRef, {
+  const { nodeRef } = useVisibilitySensor({
     scrollCheck: true,
     scrollThrottle: 100,
     intervalDelay: 8000,
@@ -48,7 +47,7 @@ function HookExample({ containment, minTopValue, partialVisibility }) {
     <div>
       <p className="msg">{msg}</p>
       <div className="before" />
-      <div ref={sensorRef} className="sensor" />
+      <div ref={nodeRef} className="sensor" />
       <div className="after" />
     </div>
   );
