@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { act } from 'react-dom/test-utils';
 import assert from "assert";
-import VisibilitySensor from "../visibility-sensor";
+import VisibilitySensor, { useVisibilitySensor } from "../visibility-sensor";
 
 describe("VisibilitySensor", function() {
   var node;
@@ -25,10 +26,12 @@ describe("VisibilitySensor", function() {
       if (firstTime) {
         firstTime = false;
         assert.equal(isVisible, true, "Component starts out visible");
-        node.setAttribute(
-          "style",
-          "position:absolute; width:100px; left:-101px"
-        );
+        act(() => {
+          node.setAttribute(
+            "style",
+            "position:absolute; width:100px; left:-101px"
+          );
+        });
       } else {
         // after moving the sensor it should be not visible anymore
         assert.equal(
@@ -40,11 +43,17 @@ describe("VisibilitySensor", function() {
       }
     };
 
-    var element = (
-      <VisibilitySensor onChange={onChange} intervalDelay={10}>
-        { ({ getRef }) => <div ref={getRef()} style={{ height: "10px", width: "10px" }} /> }
-      </VisibilitySensor>
-    );
+    var element;
+    act(() => {
+      element = (
+        <VisibilitySensor
+            intervalDelay={10}
+            onChange={onChange}
+          >{() => (
+            <div style={{ height: "10px", width: "10px" }} />
+          )}</VisibilitySensor>
+      );
+    });
 
     ReactDOM.render(element, node);
   });
@@ -58,8 +67,9 @@ describe("VisibilitySensor", function() {
       if (firstTime) {
         firstTime = false;
         assert.equal(isVisible, true, "Component starts out visible");
-
-        window.scrollTo(0, 1000);
+        act(() => {
+          window.scrollTo(0, 1000);
+        });
       } else {
         // after moving the sensor it should be not visible anymore
         assert.equal(
@@ -71,18 +81,21 @@ describe("VisibilitySensor", function() {
       }
     };
 
-    var element = (
-      <div style={{ height: "5000px" }}>
-        <VisibilitySensor
-          scrollCheck
-          scrollDelay={10}
-          onChange={onChange}
-          intervalCheck={false}
-        >{ () => (
-          <div style={{ height: "10px", width: "10px" }} />
-        )}</VisibilitySensor>
-      </div>
-    );
+    var element;
+    act(() => {
+      element = (
+        <div style={{ height: "5000px" }}>
+          <VisibilitySensor
+            scrollCheck
+            scrollDelay={10}
+            onChange={onChange}
+            intervalCheck={false}
+          >{() => (
+            <div style={{ height: "10px", width: "10px" }} />
+          )}</VisibilitySensor>
+        </div>
+      );
+    });
 
     ReactDOM.render(element, node);
   });
@@ -163,23 +176,29 @@ describe("VisibilitySensor", function() {
   it("should clear interval and debounceCheck when deactivated", function() {
     var onChange = function() {};
 
-    var element1 = (
-      <VisibilitySensor
-        active={true}
-        onChange={onChange}
-        scrollCheck
-        resizeCheck
-      />
-    );
+    var element1;
+    var element2;
 
-    var element2 = (
-      <VisibilitySensor
-        active={false}
-        onChange={onChange}
-        scrollCheck
-        resizeCheck
-      />
-    );
+    act(() => {
+      element1 = (
+        <VisibilitySensor
+          active={true}
+          onChange={onChange}
+          scrollCheck
+          resizeCheck
+        />
+      );
+    });
+    act(() => {
+      element2 = (
+        <VisibilitySensor
+          active={false}
+          onChange={onChange}
+          scrollCheck
+          resizeCheck
+        />
+      );
+    });
 
     var component1 = ReactDOM.render(element1, node);
     assert(component1.interval, "interval should be set");
@@ -192,8 +211,10 @@ describe("VisibilitySensor", function() {
       component1.debounceCheck.resize,
       "debounceCheck.scroll should be set"
     );
-
-    var component2 = ReactDOM.render(element2, node);
+    var component2;
+    act(() => {
+      component2 = ReactDOM.render(element2, node);
+    });
     assert(!component2.interval, "interval should not be set");
     assert(!component2.debounceCheck, "debounceCheck should not be set");
   });
@@ -207,7 +228,9 @@ describe("VisibilitySensor", function() {
       if (firstTime) {
         firstTime = false;
         assert.equal(isVisible, true, "Component starts out visible");
-        node.setAttribute("style", "position:absolute; top:49px");
+        act(() => {
+          node.setAttribute("style", "position:absolute; top:49px");
+        });
       } else {
         assert.equal(
           isVisible,
@@ -218,46 +241,19 @@ describe("VisibilitySensor", function() {
       }
     };
 
-    var element = (
-      <VisibilitySensor
-        onChange={onChange}
-        offset={{ top: 50 }}
-        intervalDelay={10}
-      >
-        { ({ getRef }) => <div ref={getRef()} style={{ height: "10px", width: "10px" }} /> }
-      </VisibilitySensor>
-    );
+    var element;
 
-    ReactDOM.render(element, node);
-  });
-
-  it("should be backwards-compatible with old offset config", function(done) {
-    var firstTime = true;
-    node.setAttribute("style", "position:absolute; top:51px");
-    var onChange = function(isVisible) {
-      if (firstTime) {
-        firstTime = false;
-        assert.equal(isVisible, true, "Component starts out visible");
-        node.setAttribute("style", "position:absolute; top:49px");
-      } else {
-        assert.equal(
-          isVisible,
-          false,
-          "Component has moved out of offset area"
-        );
-        done();
-      }
-    };
-
-    var element = (
-      <VisibilitySensor
-        onChange={onChange}
-        offset={{ direction: "top", value: 50 }}
-        intervalDelay={10}
-      >
-        { () => <div style={{ height: "10px", width: "10px" }} /> }
-      </VisibilitySensor>
-    );
+    act(() => {
+      element = (
+        <VisibilitySensor
+          onChange={onChange}
+          offset={{ top: 50 }}
+          intervalDelay={10}
+        >
+          {() => <div style={{ height: "10px", width: "10px" }} />}
+        </VisibilitySensor>
+      );
+    });
 
     ReactDOM.render(element, node);
   });
@@ -271,7 +267,9 @@ describe("VisibilitySensor", function() {
       if (firstTime) {
         firstTime = false;
         assert.equal(isVisible, false, "Component starts out invisible");
-        node.setAttribute("style", "position:absolute; top:51px");
+        act(() => {
+          node.setAttribute("style", "position:absolute; top:51px");
+        });
       } else {
         assert.equal(
           isVisible,
@@ -282,15 +280,18 @@ describe("VisibilitySensor", function() {
       }
     };
 
-    var element = (
-      <VisibilitySensor
-        onChange={onChange}
-        offset={{ top: 50 }}
-        intervalDelay={10}
-      >
-        { () => <div style={{ height: "10px", width: "10px" }} /> }
-      </VisibilitySensor>
-    );
+    var element;
+    act(() => {
+      element = (
+        <VisibilitySensor
+          onChange={onChange}
+          offset={{ top: 50 }}
+          intervalDelay={10}
+        >
+          {() => <div style={{ height: "10px", width: "10px" }} />}
+        </VisibilitySensor>
+      );
+    });
 
     ReactDOM.render(element, node);
   });
@@ -304,7 +305,9 @@ describe("VisibilitySensor", function() {
       if (firstTime) {
         firstTime = false;
         assert.equal(isVisible, true, "Component starts out visible");
-        node.setAttribute("style", "position:absolute; top:-51px");
+        act(() => {
+          node.setAttribute("style", "position:absolute; top:-51px");
+        });
       } else {
         assert.equal(
           isVisible,
@@ -315,15 +318,18 @@ describe("VisibilitySensor", function() {
       }
     };
 
-    var element = (
-      <VisibilitySensor
-        onChange={onChange}
-        offset={{ top: -50 }}
-        intervalDelay={10}
-      >
-        { () => <div style={{ height: "10px", width: "10px" }} /> }
-      </VisibilitySensor>
-    );
+    var element;
+    act(() => {
+      element = (
+        <VisibilitySensor
+          onChange={onChange}
+          offset={{ top: -50 }}
+          intervalDelay={10}
+        >
+          { () => <div style={{ height: "10px", width: "10px" }} /> }
+        </VisibilitySensor>
+      );
+    });
 
     ReactDOM.render(element, node);
   });
@@ -339,10 +345,6 @@ describe("VisibilitySensor", function() {
       assert(
         "visibilityRect" in props,
         "children should be called with visibilityRect prop"
-      );
-      assert(
-        "getRef" in props,
-        "children should be called with getRef prop"
       );
       return <div />;
     };
@@ -365,12 +367,14 @@ describe("VisibilitySensor", function() {
         done();
       }
     };
-
-    var element = (
-      <VisibilitySensor onChange={onChange}>
-        { () => <div style={{ height: "0px", width: "0px" }} /> }
-      </VisibilitySensor>
-    );
+    var element;
+    act(() => {
+      element = (
+        <VisibilitySensor onChange={onChange}>
+          { () => <div style={{ height: "0px", width: "0px" }} /> }
+        </VisibilitySensor>
+      );
+    });
 
     ReactDOM.render(element, node);
   });
@@ -378,21 +382,28 @@ describe("VisibilitySensor", function() {
   it("should not return visible if the sensor is hidden", function(done) {
     var firstTime = true;
     var onChange = function(isVisible) {
+      // throw new Error(`LALALALALALALLA [${isVisible ? 'Bai' : 'Ez'}]`)
       if (firstTime) {
         assert.equal(isVisible, false, "Component is not visible");
         done();
       }
     };
+    var element;
+    act(() => {
+      element = (
+        <div style={{ display: "none" }}>
+          <VisibilitySensor onChange={onChange}>
+            {({ isVisible }) => {
+              // throw new Error(`MEMEMEMEMEMEMEMEMEMEM [${isVisible ? 'Bai' : 'Ez'}]`);
+            return <div style={{ height: "10px", width: "10px" }} /> }}
+          </VisibilitySensor>
+        </div>
+      );
+    });
 
-    var element = (
-      <div style={{ display: "none" }}>
-        <VisibilitySensor onChange={onChange}>
-          { () => <div style={{ height: "10px", width: "10px" }} /> }
-        </VisibilitySensor>
-      </div>
-    );
-
-    ReactDOM.render(element, node);
+    act(() => {
+      ReactDOM.render(element, node);
+    });
   });
 });
 
@@ -400,6 +411,12 @@ describe("VisibilitySensor", function() {
 describe("VisibilitySensor with Container", function() {
   var node;
   var container;
+
+  function WithStyleVisibilitySensor({ style, ...restProps }) {
+    const { nodeRef } = useVisibilitySensor(restProps);
+
+    return <div ref={nodeRef} style={style} />
+  }
 
   beforeEach(function() {
     node = document.createElement("div");
@@ -430,19 +447,21 @@ describe("VisibilitySensor with Container", function() {
     container.style.position = 'relative'
     container.style.overflow = 'hidden'
 
-    var element = <VisibilitySensor
-      onChange={onChange}
-      containment={container}
-      partialVisibility={true}
-    >{( { getRef } ) => (
-      <div ref={getRef()} style={{
-        position: "absolute",
-        left: "1px",
-        top: "1px",
-        height: "10px",
-        width: "10px",
-      }} />
-    )}</VisibilitySensor>
+    var element;
+    act(() => {
+      element = (
+        <WithStyleVisibilitySensor
+          onChange={onChange}
+          style={{
+            position: "absolute",
+            left: "1px",
+            top: "1px",
+            height: "10px",
+            width: "10px",
+          }}
+        />
+      );
+    });
 
     ReactDOM.render(element, node);
   });
@@ -461,19 +480,21 @@ describe("VisibilitySensor with Container", function() {
     container.style.position = 'relative'
     container.style.overflow = 'hidden'
 
-    var element = <VisibilitySensor
-      onChange={onChange}
-      containment={container}
-      partialVisibility={true}
-    >{( { getRef } ) => (
-      <div ref={getRef()} style={{
-        position: "absolute",
-        left: "400px",
-        top: "400px",
-        height: "10px",
-        width: "10px",
-      }} />
-    )}</VisibilitySensor>
+    var element;
+    act(() => {
+      element = (
+        <WithStyleVisibilitySensor
+          onChange={onChange}
+          style={{
+            position: "absolute",
+            left: "400px",
+            top: "400px",
+            height: "10px",
+            width: "10px",
+          }}
+        />
+      );
+    });
 
     ReactDOM.render(element, node);
   });
