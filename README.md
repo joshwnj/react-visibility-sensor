@@ -124,7 +124,7 @@ The useVisibilitySensor hook returns an object containing:
 Most of the properties can be used for both `VisibilitySensor` Component and `useVisibilitySensor` hook.
 
 - `onChange`: callback for whenever the element changes from being within the window viewport or not. Function is called with 1 argument `(isVisible: boolean)`
-- `active`: (default `true`) boolean flag for enabling / disabling the sensor. When `active !== true` the sensor will not fire the `onChange` callback.
+- `active`: (default `true`) boolean flag for enabling / disabling the sensor. When `active !== true` the sensor will not fire the `onChange` callback. **When using hooks create the onChange function using useCallback to avoid performance issues.**
 - `partialVisibility`: (default `false`) consider element visible if only part of it is visible. Also possible values are - 'top', 'right', 'bottom', 'left' - in case it's needed to detect when one of these become visible explicitly.
 - `offset`: (default `{}`) with offset you can define amount of px from one side when the visibility should already change. So in example setting `offset={{top:10}}` means that the visibility changes hidden when there is less than 10px to top of the viewport. Offset works along with `partialVisibility`
 - `minTopValue`: (default `0`) consider element visible if only part of it is visible and a minimum amount of pixels could be set, so if at least 100px are in viewport, we mark element as visible.
