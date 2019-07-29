@@ -1,6 +1,6 @@
 "use strict";
 
-import React, { useRef } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import useVisibilitySensor from "./lib/use-visibility-sensor";
@@ -25,8 +25,7 @@ export default function VisibilitySensor({
   offset,
   containment
 }) {
-  const nodeRef = useRef();
-  const { isVisible, visibilityRect } = useVisibilitySensor(nodeRef, {
+  const { nodeRef, isVisible, visibilityRect } = useVisibilitySensor({
     active,
     onChange,
     partialVisibility,
