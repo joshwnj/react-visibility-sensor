@@ -21,6 +21,7 @@ export default class VisibilitySensor extends React.Component {
   static defaultProps = {
     active: true,
     partialVisibility: false,
+    minTopPercent: 0,
     minTopValue: 0,
     scrollCheck: false,
     scrollDelay: 250,
@@ -70,6 +71,7 @@ export default class VisibilitySensor extends React.Component {
         ? PropTypes.instanceOf(window.Element)
         : PropTypes.any,
     children: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+    minTopPercent: PropTypes.number,
     minTopValue: PropTypes.number
   };
 
@@ -290,10 +292,18 @@ export default class VisibilitySensor extends React.Component {
 
       // if we have minimum top visibility set by props, lets check, if it meets the passed value
       // so if for instance element is at least 200px in viewport, then show it.
-      isVisible = this.props.minTopValue
-        ? partialVisible &&
-          rect.top <= containmentRect.bottom - this.props.minTopValue
-        : partialVisible;
+      if (this.props.minTopValue) {
+        isVisible =
+          partialVisible &&
+          rect.top <= containmentRect.bottom - this.props.minTopValue;
+      } else if (this.props.minTopPercent) {
+        const height = rect.bottom - rect.top;
+        const minTopValue = height * this.props.minTopPercent;
+        isVisible =
+          partialVisible && rect.top <= containmentRect.bottom - minTopValue;
+      } else {
+        isVisible = partialVisible;
+      }
     }
 
     // Deprecated options for calculating offset.
