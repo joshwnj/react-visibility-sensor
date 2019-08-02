@@ -83,7 +83,6 @@ export default class VisibilitySensor extends React.Component {
   }
 
   componentDidMount() {
-    this.node = ReactDOM.findDOMNode(this);
     if (this.props.active) {
       this.startWatching();
     }
@@ -94,9 +93,6 @@ export default class VisibilitySensor extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    // re-register node in componentDidUpdate if children diffs [#103]
-    this.node = ReactDOM.findDOMNode(this);
-
     if (this.props.active && !prevProps.active) {
       this.setState({
         isVisible: null,
@@ -325,12 +321,20 @@ export default class VisibilitySensor extends React.Component {
   };
 
   render() {
+    const sensorRef = nodeRef => {
+      this.node = nodeRef;
+    };
+
     if (this.props.children instanceof Function) {
       return this.props.children({
+        sensorRef,
         isVisible: this.state.isVisible,
         visibilityRect: this.state.visibilityRect
       });
     }
-    return React.Children.only(this.props.children);
+
+    return React.cloneElement(React.Children.only(this.props.children), {
+      ref: sensorRef
+    });
   }
 }
