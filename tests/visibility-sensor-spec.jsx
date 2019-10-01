@@ -371,6 +371,24 @@ describe("VisibilitySensor", function() {
     ReactDOM.render(element, node);
   });
 
+  it("should return visible if the sensor has no size but contents size is not required", function(done){
+    var firstTime = true;
+    var onChange = function(isVisible) {
+      if (firstTime) {
+        assert.equal(isVisible, true, "Component is visible");
+        done();
+      }
+    };
+
+    var element = (
+      <VisibilitySensor onChange={onChange} requireContentsSize={false}>
+        <div style={{ height: "0px", width: "0px" }} />
+      </VisibilitySensor>
+    );
+
+    ReactDOM.render(element, node);
+  });
+
   it("should not return visible if the sensor is hidden", function(done) {
     var firstTime = true;
     var onChange = function(isVisible) {
