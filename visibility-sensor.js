@@ -208,8 +208,8 @@ export default class VisibilitySensor extends React.Component {
 
   roundRectDown(rect) {
     return {
-      top: Math.floor(rect.top),
-      left: Math.floor(rect.left),
+      top: Math.ceil(rect.top),
+      left: Math.ceil(rect.left),
       bottom: Math.floor(rect.bottom),
       right: Math.floor(rect.right)
     };
