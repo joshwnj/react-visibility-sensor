@@ -38,6 +38,7 @@ export default class VisibilitySensor extends React.Component {
 
   static propTypes = {
     onChange: PropTypes.func,
+    onCheck: PropTypes.func,
     active: PropTypes.bool,
     partialVisibility: PropTypes.oneOfType([
       PropTypes.bool,
@@ -321,6 +322,7 @@ export default class VisibilitySensor extends React.Component {
       if (this.props.onChange) this.props.onChange(isVisible);
     }
 
+    if (this.props.onCheck) this.props.onCheck(isVisible);
     return state;
   };
 

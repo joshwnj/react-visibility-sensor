@@ -73,6 +73,7 @@ Props
 ----
 
 - `onChange`: callback for whenever the element changes from being within the window viewport or not. Function is called with 1 argument `(isVisible: boolean)`
+- `onCheck`: callback for whenever the element being checked if it is within the window viewport or not. Function is called with 1 argument `(isVisible: boolean)` after the check is done. - Same as `onChange` but called even if the visibility hasn't changed.
 - `active`: (default `true`) boolean flag for enabling / disabling the sensor.  When `active !== true` the sensor will not fire the `onChange` callback.
 - `partialVisibility`: (default `false`) consider element visible if only part of it is visible. Also possible values are - 'top', 'right', 'bottom', 'left' - in case it's needed to detect when one of these become visible explicitly.
 - `offset`: (default `{}`) with offset you can define amount of px from one side when the visibility should already change. So in example setting `offset={{top:10}}` means that the visibility changes hidden when there is less than 10px to top of the viewport. Offset works along with `partialVisibility`
