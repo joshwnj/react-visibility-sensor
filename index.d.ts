@@ -8,7 +8,7 @@ declare module "react-visibility-sensor" {
     right?: number;
   }
 
-  interface Props {
+  export interface ReactVisibilitySensorProps {
     onChange?: (isVisible: boolean) => void;
     active?: boolean;
     partialVisibility?: boolean;
@@ -31,7 +31,7 @@ declare module "react-visibility-sensor" {
         ) => React.ReactNode);
   }
 
-  const ReactVisibilitySensor: React.StatelessComponent<Props>;
+  const ReactVisibilitySensor: React.StatelessComponent<ReactVisibilitySensorProps>;
 
   export default ReactVisibilitySensor;
 }
