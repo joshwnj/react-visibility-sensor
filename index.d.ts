@@ -9,7 +9,7 @@ declare module "react-visibility-sensor" {
   }
 
   interface Props {
-    onChange?: (isVisible: boolean) => void;
+    onChange?: (isVisible: boolean, node: React.ReactNode) => void;
     active?: boolean;
     partialVisibility?: boolean;
     offset?: Shape;

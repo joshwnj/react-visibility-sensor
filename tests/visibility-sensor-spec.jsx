@@ -390,4 +390,25 @@ describe("VisibilitySensor", function() {
 
     ReactDOM.render(element, node);
   });
+
+  it("callback should have element as a second parameter", function(done) {
+    var firstTime = true;
+    var onChange = function(isVisible, element) {
+      assert.equal(element instanceof HTMLDivElement, true, "Second parameter is not an element");
+      if (firstTime) {
+        assert.equal(isVisible, false, "Component is not visible");
+        done();
+      }
+    };
+
+    var element = (
+      <div style={{ display: "none" }}>
+        <VisibilitySensor onChange={onChange}>
+          <div style={{ height: "10px", width: "10px" }} />
+        </VisibilitySensor>
+      </div>
+    );
+
+    ReactDOM.render(element, node);
+  });
 });

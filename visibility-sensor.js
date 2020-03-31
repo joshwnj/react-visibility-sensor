@@ -318,7 +318,7 @@ export default class VisibilitySensor extends React.Component {
         visibilityRect: visibilityRect
       };
       this.setState(state);
-      if (this.props.onChange) this.props.onChange(isVisible);
+      if (this.props.onChange) this.props.onChange(isVisible, el);
     }
 
     return state;
