@@ -11,7 +11,7 @@ declare module "react-visibility-sensor" {
   interface Props {
     onChange?: (isVisible: boolean) => void;
     active?: boolean;
-    partialVisibility?: boolean;
+    partialVisibility?: 'top' | 'bottom' | 'right' | 'left' | boolean;
     offset?: Shape;
     minTopValue?: number;
     intervalCheck?: boolean;
