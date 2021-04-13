@@ -33,7 +33,8 @@ export default class VisibilitySensor extends React.Component {
     delayedCall: false,
     offset: {},
     containment: null,
-    children: <span />
+    children: <span />,
+    requireContentsSize: true
   };
 
   static propTypes = {
@@ -70,7 +71,8 @@ export default class VisibilitySensor extends React.Component {
         ? PropTypes.instanceOf(window.Element)
         : PropTypes.any,
     children: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
-    minTopValue: PropTypes.number
+    minTopValue: PropTypes.number,
+    requireContentsSize: PropTypes.bool
   };
 
   constructor(props) {
@@ -268,15 +270,19 @@ export default class VisibilitySensor extends React.Component {
     // https://github.com/joshwnj/react-visibility-sensor/pull/114
     const hasSize = rect.height > 0 && rect.width > 0;
 
+    // Only register the rect as visible if it has size, unless requireContentsSize is false
+    const shouldDetectSize = hasSize || !this.props.requireContentsSize;
+
+
     let isVisible =
-      hasSize &&
+      shouldDetectSize  &&
       visibilityRect.top &&
       visibilityRect.left &&
       visibilityRect.bottom &&
       visibilityRect.right;
 
     // check for partial visibility
-    if (hasSize && this.props.partialVisibility) {
+    if (shouldDetectSize  && this.props.partialVisibility) {
       let partialVisible =
         rect.top <= containmentRect.bottom &&
         rect.bottom >= containmentRect.top &&
