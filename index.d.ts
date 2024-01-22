@@ -31,7 +31,7 @@ declare module "react-visibility-sensor" {
         ) => React.ReactNode);
   }
 
-  const ReactVisibilitySensor: React.StatelessComponent<Props>;
+  const ReactVisibilitySensor: React.FC<Props>;
 
   export default ReactVisibilitySensor;
 }
